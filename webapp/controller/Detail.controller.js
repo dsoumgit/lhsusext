@@ -16,6 +16,10 @@ sap.ui.define([
 		onBeforeRendering: function() {
 			// Get the Data model 
 			var mainModel = this.getOwnerComponent().getModel("Data");
+			// Get the ClientName name
+			var name = mainModel.getData().ClientName; 
+			// Set the title to the page 
+			this.getView().byId("idPage").setTitle(name + " oVo Sustainment");
 			// Get data 
 			var allData = mainModel.getData();
 			// Monthly method
@@ -41,7 +45,7 @@ sap.ui.define([
 			});
 
 			// Get all the data
-			var allData = arr.allData;
+			var allData = arr.AllData;
 			// Create new arrays
 			var countCreated = [];
 			var countClosed = [];
@@ -121,7 +125,7 @@ sap.ui.define([
 		// SLA Tracker 
 		SLATracker: function(arr) {
 			// Get all the data 
-			var allDataArr = arr.allData;
+			var allDataArr = arr.AllData;
 			// Get today's date
 			var today = new Date();
 			// Get current year
@@ -254,7 +258,7 @@ sap.ui.define([
 			// Get the main model 			
 		//	var mainModel = this.getView().getModel("Main");
 			// Get all the data
-			var allData = arr.allData;
+			var allData = arr.AllData;
 			// Create new arrays
 			var monthInno = [];
 			var monthNonInno = [];
@@ -301,18 +305,16 @@ sap.ui.define([
 			var dataModel = this.getView().getModel("Data");
 			// Get data 
 			var name = dataModel.getData();
-			// Set binding mode to One Way
-		//	globalModel.setDefaultBindingMode("OneWay");
 
 			// Check the client name and set SDM points accordingly 
 			var sdmPoints = "";
-			if (name["Client"] === "PLZ" || name["Client"] === "CAMPBELL") {
+			if (name["ClientName"] === "PLZ Aeroscience" || name["ClientName"] === "CAMPBELL") {
 				sdmPoints = 200;
-			} else if (name["Client"] === "SEM") {
+			} else if (name["ClientName"] === "SEMills") {
 				sdmPoints = 174;
-			} else if (name["Client"] === "DAISY") {
+			} else if (name["ClientName"] === "DAISY") {
 				sdmPoints = 39;
-			} else if (name["Client"] === "CIT") {
+			} else if (name["ClientName"] === "CIT") {
 				sdmPoints = 140;
 			}
 

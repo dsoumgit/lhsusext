@@ -32,8 +32,12 @@ sap.ui.define([
 
 			// Get the Data model 
 			var mainModel = this.getOwnerComponent().getModel("Data");
+			// Get the ClientName name
+			var name = mainModel.getData().ClientName; 
+			// Set the title to the page 
+			this.getView().byId("idPage").setTitle(name + " oVo Sustainment");
 			// Get data 
-			var allData = mainModel.getData().allData;
+			var allData = mainModel.getData().AllData;
 			// Create new arrays
 			var countCreated = [];
 			var countClose = [];

@@ -1,7 +1,7 @@
 <mvc:View controllerName="lhsusext.controller.FuncCurYear" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:com="sap.suite.ui.commons"
 	xmlns:viz.data="sap.viz.ui5.data" xmlns:viz="sap.viz.ui5.controls" xmlns:l="sap.ui.layout" xmlns:form="sap.ui.layout.form"
 	xmlns:mic="sap.suite.ui.microchart" xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds">
-	<Page title="oVo Sustainment" navButtonPress="onNavBack" showNavButton="false">
+	<Page id="idPage" navButtonPress="onNavBack" showNavButton="false">
 		<content>
 			<Panel width="auto" class="sapUiResponsiveMargin" visible="true">
 				<Panel height="auto" width="auto" class="sapUiResponsiveMargin">

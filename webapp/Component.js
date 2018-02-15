@@ -45,7 +45,7 @@ sap.ui.define([
 
 					// Access global file 
 					$.ajax({
-						url: "/cmis/" + repoId + "/root/SusLHGlobalConfig.json",
+						url: "/cmis/" + repoId + "/root/SustainLHGlobalConfig.json",
 						type: "GET",
 						async: false,
 						cache: false,

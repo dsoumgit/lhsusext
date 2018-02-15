@@ -2,7 +2,7 @@
 	xmlns:viz.data="sap.viz.ui5.data" xmlns:viz="sap.viz.ui5.controls" xmlns:l="sap.ui.layout" xmlns:form="sap.ui.layout.form"
 	xmlns:mic="sap.suite.ui.microchart" xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds" controllerName="lhsusext.controller.Detail"
 	xmlns:semantic="sap.m.semantic" xmlns:nav="sap.tnt" displayBlock="true">
-	<Page title="{i18n>title}" id="idDetailPage">
+	<Page id="idPage">
 		<content>
 			<l:VerticalLayout class="sapUiContentPadding" width="100%">
 				<l:content>
