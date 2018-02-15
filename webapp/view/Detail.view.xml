@@ -1,0 +1,126 @@
+<mvc:View height="100%" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:com="sap.suite.ui.commons"
+	xmlns:viz.data="sap.viz.ui5.data" xmlns:viz="sap.viz.ui5.controls" xmlns:l="sap.ui.layout" xmlns:form="sap.ui.layout.form"
+	xmlns:mic="sap.suite.ui.microchart" xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds" controllerName="lhsusext.controller.Detail"
+	xmlns:semantic="sap.m.semantic" xmlns:nav="sap.tnt" displayBlock="true">
+	<Page title="{i18n>title}" id="idDetailPage">
+		<content>
+			<l:VerticalLayout class="sapUiContentPadding" width="100%">
+				<l:content>
+					<Panel width="auto" class="sapUiResponsiveMargin" id="mainPanel" visible="true">
+						<Panel height="auto" width="90%" class="sapUiResponsiveMargin">
+							<headerToolbar>
+								<Toolbar height="3rem">
+									<Title text="Ticket Tracker - Created vs Closed"/>
+								</Toolbar>
+							</headerToolbar>
+							<content>
+								<com:ChartContainer showFullScreen="true" showPersonalization="false" autoAdjustHeight="false" showLegend="true" showZoom="true"
+									personalizationPress="attachPersonalizationPress" showLegendButton="true" contentChange="attachContentChange" visible="true">
+									<com:content>
+										<com:ChartContainerContent icon="sap-icon://vertical-bar-chart">
+											<com:content>
+												<viz:VizFrame id="ticketFrame" uiConfig="{applicationSet:'fiori'}" height='450px' width="100%" vizType='column'
+													vizProperties="{plotArea: {dataLabel: {visible: true} }}">
+													<viz:dataset>
+														<viz.data:FlattenedDataset data="{path: 'Monthly>/Collection'}">
+															<viz.data:dimensions>
+																<viz.data:DimensionDefinition name="{i18n>Month}" value="{Monthly>Month}"/>
+															</viz.data:dimensions>
+															<viz.data:measures>
+																<viz.data:MeasureDefinition name="{i18n>CreatedTickets}" value="{Monthly>CreatedTickets}"/>
+																<viz.data:MeasureDefinition name="{i18n>ClosedTickets}" value="{Monthly>ClosedTickets}"/>
+															</viz.data:measures>
+														</viz.data:FlattenedDataset>
+													</viz:dataset>
+													<viz:feeds>
+														<viz.feeds:FeedItem id='valueAxisFeed' uid="valueAxis" type="Measure" values="CreatedTickets"/>
+														<viz.feeds:FeedItem uid="valueAxis" type="Measure" values="ClosedTickets"/>
+														<viz.feeds:FeedItem id='categoryAxisFeed' uid="categoryAxis" type="Dimension" values="Month"/>
+													</viz:feeds>
+												</viz:VizFrame>
+											</com:content>
+										</com:ChartContainerContent>
+									</com:content>
+								</com:ChartContainer>
+							</content>
+						</Panel>
+						<Panel height="auto" width="auto" class="sapUiResponsiveMargin">
+							<headerToolbar>
+								<Toolbar height="3rem">
+									<Title text="SLA Tracker"/>
+								</Toolbar>
+							</headerToolbar>
+							<content>
+								<l:Grid defaultSpan="L4 M6 S6" class="sapUiSmallMarginTop">
+									<l:content>
+										<VBox alignContent="Center" alignItems="Center">
+											<Title text=""/>
+											<Text text="SEV 1" class="sapUiLargeMarginTop"/>
+											<mic:RadialMicroChart size="L" percentage="{path: 'SLA>/Sev1Per'}" press="press" class="sapUiSmallMargin"/>
+										</VBox>
+									</l:content>
+									<l:content>
+										<VBox alignContent="Center" alignItems="Center">
+											<Title text="{SLA>/Month}" class="boldTitle"/>
+											<Text text="SEV 2" class="sapUiLargeMarginTop"/>
+											<mic:RadialMicroChart size="L" percentage="{path: 'SLA>/Sev2Per'}" press="press" class="sapUiSmallMargin"/>
+										</VBox>
+									</l:content>
+									<l:content>
+										<VBox alignContent="Center" alignItems="Center">
+											<Title text=""/>
+											<Text text="SEV 3" class="sapUiLargeMarginTop"/>
+											<mic:RadialMicroChart size="L" percentage="{path: 'SLA>/Sev3Per'}" press="press" class="sapUiSmallMargin"/>
+										</VBox>
+									</l:content>
+								</l:Grid>
+							</content>
+						</Panel>
+						<Panel height="auto" width="auto" class="sapUiResponsiveMargin">
+							<headerToolbar>
+								<Toolbar height="3rem">
+									<Title text="Points Tracker"/>
+								</Toolbar>
+							</headerToolbar>
+							<content>
+								<com:ChartContainer showFullScreen="true" showPersonalization="false" autoAdjustHeight="false" showLegend="true" showZoom="true"
+									personalizationPress="attachPersonalizationPress" showLegendButton="true" contentChange="attachContentChange" visible="true">
+									<com:content>
+										<com:ChartContainerContent icon="sap-icon://vertical-bar-chart">
+											<com:content>
+												<viz:VizFrame id="pointFrame" uiConfig="{applicationSet:'fiori'}" height='200px' width="100%" vizType='stacked_bar'
+													vizProperties="{plotArea: {dataLabel: {visible: true} }}">
+													<viz:dataset>
+														<viz.data:FlattenedDataset 
+															data="{
+																path: 'PointModel>/Collection'
+															}">
+															<viz.data:dimensions>
+																<viz.data:DimensionDefinition name="{i18n>Month}" value="{PointModel>Month}"/>
+															</viz.data:dimensions>
+															<viz.data:measures>
+																<viz.data:MeasureDefinition name="{i18n>SDM}" value="{PointModel>SDM}"/>
+																<viz.data:MeasureDefinition name="{i18n>ClosedTickets}" value="{PointModel>ClosedTickets}"/>
+																<viz.data:MeasureDefinition name="{i18n>Innovation}" value="{PointModel>Innovation}"/>
+															</viz.data:measures>
+														</viz.data:FlattenedDataset>
+													</viz:dataset>
+													<viz:feeds>
+														<viz.feeds:FeedItem uid="valueAxis" type="Measure" values="ClosedTickets"/>
+														<viz.feeds:FeedItem uid="valueAxis" type="Measure" values="SDM"/>
+														<viz.feeds:FeedItem uid="valueAxis" type="Measure" values="Innovation"/>
+														<viz.feeds:FeedItem uid="categoryAxis" type="Dimension" values="Month"/>
+													</viz:feeds>
+												</viz:VizFrame>
+											</com:content>
+										</com:ChartContainerContent>
+									</com:content>
+								</com:ChartContainer>
+							</content>
+						</Panel>
+					</Panel>
+				</l:content>
+			</l:VerticalLayout>
+		</content>
+	</Page>
+</mvc:View>

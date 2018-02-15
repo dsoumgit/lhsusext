@@ -1,0 +1,69 @@
+<mvc:View
+	height="100%"
+	controllerName="lhsusext.controller.TicketMonthly"
+	xmlns:core="sap.ui.core"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:com="sap.suite.ui.commons"
+	xmlns:viz.data="sap.viz.ui5.data"
+	xmlns:viz="sap.viz.ui5.controls"
+	xmlns:l="sap.ui.layout" 
+	xmlns:form="sap.ui.layout.form"
+	xmlns:mic="sap.suite.ui.microchart" 
+	xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds"
+	xmlns="sap.m">
+	<Page title="oVo Sustainment" navButtonPress="onNavBack" showNavButton="false">
+		<content>
+			<Panel width="auto" class="sapUiResponsiveMargin" visible="true">
+				<Panel height="auto" width="auto" class="sapUiResponsiveMargin">
+					<headerToolbar>
+						<Toolbar height="3rem">
+							<Title text="Overview of Open vs Closed Tickets by Month"/>
+							<ToolbarSpacer/>
+							<Button icon="sap-icon://home" text="Home" type="Emphasized" press="onHomePress"/>
+						</Toolbar>
+					</headerToolbar>
+					<content>
+						<com:ChartContainer id="idChartContainer" showFullScreen="true" showPersonalization="false" autoAdjustHeight="false" showLegend="true"
+							showZoom="true" personalizationPress="attachPersonalizationPress" showLegendButton="true" contentChange="attachContentChange" visible="true">
+							<com:content>
+								<com:ChartContainerContent icon="sap-icon://vertical-bar-chart">
+									<com:content>
+										<viz:VizFrame id="idVizFrame" uiConfig="{applicationSet:'fiori'}" height='450px' width="100%" vizType='line'
+											vizProperties="{plotArea: {dataLabel: {visible: true} }}">
+											<viz:dataset>
+												<viz.data:FlattenedDataset data="{path: '/Collection/'}">
+													<viz.data:dimensions>
+														<viz.data:DimensionDefinition name="Month" value="{Month}"/>
+													</viz.data:dimensions>
+													<viz.data:measures>
+														<viz.data:MeasureDefinition name="CreatedTickets" value="{CreatedTickets}"/>
+														<viz.data:MeasureDefinition name="ClosedTickets" value="{ClosedTickets}"/>
+													</viz.data:measures>
+												</viz.data:FlattenedDataset>
+											</viz:dataset>
+											<viz:feeds>
+												<viz.feeds:FeedItem id='valueAxisFeed' uid="valueAxis" type="Measure" values="CreatedTickets"/>
+												<viz.feeds:FeedItem uid="valueAxis" type="Measure" values="ClosedTickets"/>
+												<viz.feeds:FeedItem id='categoryAxisFeed' uid="categoryAxis" type="Dimension" values="Month"/>
+											</viz:feeds>
+										</viz:VizFrame>
+									</com:content>
+								</com:ChartContainerContent>
+							</com:content>
+						</com:ChartContainer>
+					</content>
+				</Panel>
+			</Panel>	
+			<!--<VBox>
+				<Select id="idQuarter" change="handleChangeQuarter" selectedKey="2017">
+					<items>
+						<core:Item key="2014" text="2014"/>
+						<core:Item key="2015" text="2015"/>
+						<core:Item key="2016" text="2016"/>
+						<core:Item key="2017" text="2017"/>
+					</items>
+				</Select>
+			</VBox>-->
+		</content>
+	</Page>
+</mvc:View>

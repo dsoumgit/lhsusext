@@ -1,0 +1,159 @@
+{
+	"_version": "1.7.0",
+	"sap.app": {
+		"id": "lhsusext",
+		"type": "application",
+		"i18n": "i18n/i18n.properties",
+		"applicationVersion": {
+			"version": "1.0.0"
+		},
+		"title": "{{appTitle}}",
+		"description": "{{appDescription}}",
+		"sourceTemplate": {
+			"id": "ui5template.basicSAPUI5ApplicationProject",
+			"version": "1.40.12"
+		}
+	},
+	
+	"sap.ui": {
+		"technology": "UI5",
+		"icons": {
+			"icon": "",
+			"favIcon": "",
+			"phone": "",
+			"phone@2": "",
+			"tablet": "",
+			"tablet@2": ""
+		},
+		"deviceTypes": {
+			"desktop": true,
+			"tablet": true,
+			"phone": true
+		},
+		"supportedThemes": [
+			"sap_hcb",
+			"sap_belize"
+
+		]
+	},
+
+	"sap.ui5": {
+		"rootView": {
+			"viewName": "lhsusext.view.App",
+			"type": "XML"
+		},
+		"dependencies": {
+			"minUI5Version": "1.30.0",
+			"libs": {
+				"sap.ui.core": {},
+				"sap.m": {},
+				"sap.ui.layout": {},
+				"sap.ushell": {},
+				"sap.collaboration": {},
+				"sap.ui.comp": {},
+				"sap.uxap": {}
+			}
+		},
+		"contentDensities": {
+			"compact": true,
+			"cozy": true
+		},
+		"models": {
+			"i18n": {
+				"type": "sap.ui.model.resource.ResourceModel",
+				"settings": {
+					"bundleName": "lhsusext.i18n.i18n"
+				}
+			}
+		},
+		"routing": {
+			"config": {
+				"routerClass": "sap.m.routing.Router",
+				"viewType": "XML",
+				"viewPath": "lhsusext.view",
+				"transition": "slide",
+				"controlAggregation": "detailPages",
+				"controlId": "rootSusext"
+			},
+
+			"routes": [{
+				"pattern": "",
+				"name": "master",
+				"target": [
+					"detail",
+					"master"
+				]
+			}, {
+				"pattern": "detail/{entity}",
+				"name": "detail",
+				"target": "detail"
+			}, {
+				"pattern": "ticketQuarterly/{entity}",
+				"name": "ticketQuarterly",
+				"target": "ticketQuarterly"
+			}, {
+				"pattern": "ticketMonthly/{entity}",
+				"name": "ticketMonthly",
+				"target": "ticketMonthly"
+			}, {
+				"pattern": "ticketWeekly/{entity}",
+				"name": "ticketWeekly",
+				"target": "ticketWeekly"
+			}, {
+				"pattern": "pointQuarterly/{entity}",
+				"name": "pointQuarterly",
+				"target": "pointQuarterly"
+			}, {
+				"pattern": "pointMonthly/{entity}",
+				"name": "pointMonthly",
+				"target": "pointMonthly"
+			}, {
+				"pattern": "funcCurYear/{entity}",
+				"name": "funcCurYear",
+				"target": "funcCurYear"
+			}],
+
+			"targets": {
+				"master": {
+					"viewName": "Master",
+					"viewLevel": 1,
+					"viewId": "master",
+					"controlAggregation": "masterPages"
+				},
+				"detail": {
+					"viewName": "Detail",
+					"viewLevel": 1
+				},
+				"ticketQuarterly": {
+					"viewName": "TicketQuarterly",
+					"viewLevel": 2
+				},
+				"ticketMonthly": {
+					"viewName": "TicketMonthly",
+					"viewLevel": 2
+				},
+				"ticketWeekly": {
+					"viewName": "TicketWeekly",
+					"viewLevel": 2
+				},
+				"pointQuarterly": {
+					"viewName": "PointQuarterly",
+					"viewLevel": 2
+				},
+				"pointMonthly": {
+					"viewName": "PointMonthly",
+					"viewLevel": 2
+				},
+				"funcCurYear": {
+					"viewName": "FuncCurYear",
+					"viewLevel": 2
+				}
+			}
+		},
+		"resources": {
+			"css": [{
+				"uri": "css/style.css"
+			}]
+		}
+	}
+}

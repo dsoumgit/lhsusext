@@ -1,0 +1,70 @@
+<mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc"
+       	xmlns:m="sap.m" xmlns="sap.tnt"
+		controllerName="lhsusext.controller.Master" xmlns:html="http://www.w3.org/1999/xhtml">
+	<m:Page
+		id="app"
+		title="Menu"
+		showHeader="true" >
+		<m:subHeader>
+			<!--<m:Toolbar>
+				<m:SearchField width="100%" />
+			</m:Toolbar>-->
+		</m:subHeader>
+		<m:content>
+			<m:Panel expandable="true" expanded="true" width="auto" class="sapUiResponsiveMargin">
+				<m:headerToolbar>
+					<m:Toolbar height="3rem">
+						<m:Title text="Created vs Closed Tickets"/>
+					</m:Toolbar>
+				</m:headerToolbar>
+				<m:content>
+					<m:List
+						items="{
+							path: 'MenuList>/Tickets'
+						}">
+						<m:items>
+							<m:StandardListItem
+								title="{MenuList>title}" type="Navigation" press="onItemPress" />
+						</m:items>
+					</m:List>
+				</m:content>
+			</m:Panel>
+			<m:Panel expandable="true" expanded="true" width="auto" class="sapUiResponsiveMargin">
+				<m:headerToolbar>
+					<m:Toolbar height="3rem">
+						<m:Title text="Points Consumption"/>
+					</m:Toolbar>
+				</m:headerToolbar>
+				<m:content>
+					<m:List
+						items="{
+							path: 'MenuList>/PointConsump'
+						}">
+						<m:items>
+							<m:StandardListItem
+								title="{MenuList>title}" type="Navigation" press="onItemPress" />
+						</m:items>
+					</m:List>
+				</m:content>
+			</m:Panel>
+			<m:Panel expandable="true" expanded="true" width="auto" class="sapUiResponsiveMargin">
+				<m:headerToolbar>
+					<m:Toolbar height="3rem">
+						<m:Title text="Functional Area Analysis"/>
+					</m:Toolbar>
+				</m:headerToolbar>
+				<m:content>
+					<m:List
+						items="{
+							path: 'MenuList>/Functional'
+						}">
+						<m:items>
+							<m:StandardListItem
+								title="{MenuList>title}" type="Navigation" press="onItemPress" />
+						</m:items>
+					</m:List>
+				</m:content>
+			</m:Panel>
+		</m:content>
+	</m:Page>
+</mvc:View>

@@ -1,0 +1,5 @@
+<mvc:View controllerName="lhsusext.controller.App" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+	xmlns="sap.m" xmlns:semantic="sap.m.semantic">
+	<SplitApp id="rootSusext" mode="HideMode" afterMasterNavigate="onAfterMasterNavigate" afterDetailNavigate="onAfterDetailNavigate">
+	</SplitApp>	
+</mvc:View>

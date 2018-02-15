@@ -1,0 +1,33 @@
+<mvc:View controllerName="lhsusext.controller.FuncCurYear" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:com="sap.suite.ui.commons"
+	xmlns:viz.data="sap.viz.ui5.data" xmlns:viz="sap.viz.ui5.controls" xmlns:l="sap.ui.layout" xmlns:form="sap.ui.layout.form"
+	xmlns:mic="sap.suite.ui.microchart" xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds">
+	<Page title="oVo Sustainment" navButtonPress="onNavBack" showNavButton="false">
+		<content>
+			<Panel width="auto" class="sapUiResponsiveMargin" visible="true">
+				<Panel height="auto" width="auto" class="sapUiResponsiveMargin">
+					<headerToolbar>
+						<Toolbar height="3rem">
+							<Title text="Functional Area - Created Tickets"/>
+							<ToolbarSpacer/>
+							<Button icon="sap-icon://home" text="Home" type="Emphasized" press="onHomePress"/>
+						</Toolbar>
+					</headerToolbar>
+					<content>
+						<com:ChartContainer id="idChartContainer" showFullScreen="true" showPersonalization="false" autoAdjustHeight="false" showLegend="true"
+							showZoom="true" personalizationPress="attachPersonalizationPress" showLegendButton="true" contentChange="attachContentChange" visible="true">
+							<com:content>
+								<com:ChartContainerContent icon="sap-icon://vertical-bar-chart">
+									<com:content>
+										<viz:VizFrame id="idVizFrame" uiConfig="{applicationSet:'fiori'}" height='590px' width="100%" vizType='stacked_bar'
+											vizProperties="{plotArea: {dataLabel: {visible: true} }}">
+										</viz:VizFrame>
+									</com:content>
+								</com:ChartContainerContent>
+							</com:content>
+						</com:ChartContainer>
+					</content>
+				</Panel>
+			</Panel>
+		</content>
+	</Page>
+</mvc:View>
