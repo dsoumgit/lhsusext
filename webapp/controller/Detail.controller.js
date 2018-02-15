@@ -297,22 +297,22 @@ sap.ui.define([
 			// Set binding mode
 			oModel.setDefaultBindingMode("OneWay");
 
-			// Get the global model 			
-			var globalModel = this.getView().getModel("Global");
+			// Get the Data model 			
+			var dataModel = this.getView().getModel("Data");
 			// Get data 
-			var globalData = globalModel.getData();
+			var name = dataModel.getData();
 			// Set binding mode to One Way
 		//	globalModel.setDefaultBindingMode("OneWay");
 
 			// Check the client name and set SDM points accordingly 
 			var sdmPoints = "";
-			if (globalData["Client"] === "PLZ" || globalData["Client"] === "CAMPBELL") {
+			if (name["Client"] === "PLZ" || name["Client"] === "CAMPBELL") {
 				sdmPoints = 200;
-			} else if (globalData["Client"] === "SEM") {
+			} else if (name["Client"] === "SEM") {
 				sdmPoints = 174;
-			} else if (globalData["Client"] === "DAISY") {
+			} else if (name["Client"] === "DAISY") {
 				sdmPoints = 39;
-			} else if (globalData["Client"] === "CIT") {
+			} else if (name["Client"] === "CIT") {
 				sdmPoints = 140;
 			}
 
