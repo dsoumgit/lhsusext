@@ -2,7 +2,7 @@
 	xmlns:viz.data="sap.viz.ui5.data" xmlns:viz="sap.viz.ui5.controls" xmlns:l="sap.ui.layout" xmlns:form="sap.ui.layout.form"
 	xmlns:mic="sap.suite.ui.microchart" xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds" controllerName="lhsusext.controller.Detail"
 	xmlns:semantic="sap.m.semantic" xmlns:nav="sap.tnt" displayBlock="true">
-	<Page id="idPage">
+	<Page id="idPage" navButtonPress="onNavBack" showNavButton="false">
 		<content>
 			<l:VerticalLayout class="sapUiContentPadding" width="100%">
 				<l:content>
@@ -24,11 +24,11 @@
 													<viz:dataset>
 														<viz.data:FlattenedDataset data="{path: 'Monthly>/Collection'}">
 															<viz.data:dimensions>
-																<viz.data:DimensionDefinition name="{i18n>Month}" value="{Monthly>Month}"/>
+																<viz.data:DimensionDefinition name="{i18n>Month}" value="{i18n>Month}"/>
 															</viz.data:dimensions>
 															<viz.data:measures>
-																<viz.data:MeasureDefinition name="{i18n>CreatedTickets}" value="{Monthly>CreatedTickets}"/>
-																<viz.data:MeasureDefinition name="{i18n>ClosedTickets}" value="{Monthly>ClosedTickets}"/>
+																<viz.data:MeasureDefinition name="{i18n>CreatedTickets}" value="{i18n>CreatedTickets}"/>
+																<viz.data:MeasureDefinition name="{i18n>ClosedTickets}" value="{i18n>ClosedTickets}"/>
 															</viz.data:measures>
 														</viz.data:FlattenedDataset>
 													</viz:dataset>

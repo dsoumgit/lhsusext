@@ -109,7 +109,7 @@ sap.ui.define([
 			// Create a new json model
 			var oModel = new sap.ui.model.json.JSONModel();
 			// Set binding mode to One Way
-			oModel.setDefaultBindingMode("OneWay");
+		//	oModel.setDefaultBindingMode("OneWay");
 			// Set data to the model
 			oModel.setData(obj);
 			// Set the model to the view 

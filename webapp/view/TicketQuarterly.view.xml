@@ -1,16 +1,6 @@
-<mvc:View
-	height="100%"
-	controllerName="lhsusext.controller.TicketQuarterly"
-	xmlns:core="sap.ui.core"
-	xmlns:mvc="sap.ui.core.mvc"
-	xmlns:com="sap.suite.ui.commons"
-	xmlns:viz.data="sap.viz.ui5.data"
-	xmlns:viz="sap.viz.ui5.controls"
-	xmlns:l="sap.ui.layout" 
-	xmlns:form="sap.ui.layout.form"
-	xmlns:mic="sap.suite.ui.microchart" 
-	xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds"
-	xmlns="sap.m">
+<mvc:View height="100%" controllerName="lhsusext.controller.TicketQuarterly" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc"
+	xmlns:com="sap.suite.ui.commons" xmlns:viz.data="sap.viz.ui5.data" xmlns:viz="sap.viz.ui5.controls" xmlns:l="sap.ui.layout"
+	xmlns:form="sap.ui.layout.form" xmlns:mic="sap.suite.ui.microchart" xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds" xmlns="sap.m">
 	<Page id="idPage" navButtonPress="onNavBack" showNavButton="false">
 		<content>
 			<Panel width="auto" class="sapUiResponsiveMargin" visible="true">
@@ -54,16 +44,6 @@
 					</content>
 				</Panel>
 			</Panel>	
-			<!--<VBox>
-				<Select id="idQuarter" change="handleChangeQuarter" selectedKey="2017">
-					<items>
-						<core:Item key="2014" text="2014"/>
-						<core:Item key="2015" text="2015"/>
-						<core:Item key="2016" text="2016"/>
-						<core:Item key="2017" text="2017"/>
-					</items>
-				</Select>
-			</VBox>-->
 		</content>
 	</Page>
 </mvc:View>

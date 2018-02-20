@@ -115,7 +115,7 @@ sap.ui.define([
 			// Create a model
 			var oModel = new sap.ui.model.json.JSONModel();
 			// Set binding mode
-			oModel.setDefaultBindingMode("OneWay");
+		//	oModel.setDefaultBindingMode("OneWay");
 			// Set collection to the model
 			oModel.setData(obj);
 			// Set model to the view
@@ -299,7 +299,7 @@ sap.ui.define([
 			// Create a model
 			var oModel = new sap.ui.model.json.JSONModel();
 			// Set binding mode
-			oModel.setDefaultBindingMode("OneWay");
+		//	oModel.setDefaultBindingMode("OneWay");
 
 			// Get the Data model 			
 			var dataModel = this.getView().getModel("Data");

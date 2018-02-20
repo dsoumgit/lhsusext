@@ -40,6 +40,8 @@ sap.ui.define([
 	
 	
 		setData: function () {
+			// Get today's year
+			var year = new Date().getFullYear();
 			// Construct data json
 			var data = {
 				"Tickets": [{
@@ -65,8 +67,8 @@ sap.ui.define([
 					"id": 2
 				}],
 				"Functional": [{
-					"title": "2017 Analysis",
-					"name": "2017 Functional",
+					"title": year + " Analysis",
+					"name": year + " Functional",
 					"id": 1
 				}]
 			};
@@ -78,7 +80,7 @@ sap.ui.define([
 		setCollection: function (channelId, eventId, data) {
 			var oModel = new sap.ui.model.json.JSONModel();
 			// Set default binding to One Way
-			oModel.setDefaultBindingMode("OneWay");
+		//	oModel.setDefaultBindingMode("OneWay");
 			// Set data to model
 			oModel.setData(data);
 			this.getView().setModel(oModel, "MenuList");	
@@ -88,6 +90,9 @@ sap.ui.define([
 			// Get object 
 			var obj = oEvent.getSource().getBindingContext("MenuList").getObject();
 			var objId = obj.id; 
+			
+			// Get today's year 
+			var year = new Date().getFullYear();
 			
 			// Route based on each view condition 
 			if (obj.name === "Quarterly Tickets") {
@@ -101,7 +106,7 @@ sap.ui.define([
 				this.getObj("pointQuarterly", objId);
 			} else if (obj.name === "Monthly Point") {	
 				this.getObj("pointMonthly", objId);
-			} else if (obj.name === "2017 Functional") {	
+			} else if (obj.name === year + " Functional") {	
 				this.getObj("funcCurYear", objId);
 			}
 		},
