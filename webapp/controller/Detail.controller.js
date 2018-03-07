@@ -1,3 +1,4 @@
+jQuery.sap.require("sap.m.MessageBox");
 jQuery.sap.require("lhsusext.util.formatter");
 
 sap.ui.define([
@@ -14,23 +15,28 @@ sap.ui.define([
 		},
 
 		onBeforeRendering: function() {
-			// Get the Data model 
-			var mainModel = this.getOwnerComponent().getModel("Data");
-			// Get the ClientName name
-			var name = mainModel.getData().ClientName; 
-			// Set the title to the page 
-			this.getView().byId("idPage").setTitle(name + " oVo Sustainment");
-			// Get data 
-			var allData = mainModel.getData();
-			// Monthly method
-			this.setTicketMonthly(allData);
-			// SLA Tracker chart
-			this.SLATracker(allData);
-			// Point consumption
-			this.pointConsump(allData);
+			try {
+				// Get the Data model 
+				var mainModel = this.getOwnerComponent().getModel("Data");
+				// Get the ClientName name
+				var name = mainModel.getData().ClientName;
+				// Set the title to the page 
+				this.getView().byId("idPage").setTitle(name + " oVo Sustainment");
+				// Get data 
+				var allData = mainModel.getData();
+				// Monthly method
+				this.setTicketMonthly(allData);
+				// SLA Tracker chart
+				this.SLATracker(allData);
+				// Point consumption
+				this.pointConsump(allData);
+			} catch (ex) {
+				sap.m.MessageBox.alert("Global file is not found");
+				return false;
+			}
 		},
 
-		setTicketMonthly: function (arr) {
+		setTicketMonthly: function(arr) {
 			// Get today's year
 			var today = new Date();
 			var curYear = today.getFullYear();
@@ -115,7 +121,7 @@ sap.ui.define([
 			// Create a model
 			var oModel = new sap.ui.model.json.JSONModel();
 			// Set binding mode
-		//	oModel.setDefaultBindingMode("OneWay");
+			//	oModel.setDefaultBindingMode("OneWay");
 			// Set collection to the model
 			oModel.setData(obj);
 			// Set model to the view
@@ -148,17 +154,17 @@ sap.ui.define([
 				var yearInt = date.getFullYear();
 				// Get month
 				var monthInt = date.getMonth();
-				
+
 				/****** Severity 1  *******/
 				if (yearInt === curYear && monthInt === curMonth && priority === "1. Severity-1 (High)") {
 					sev1Arr.push(obj);
 				}
-				
+
 				/****** Severity 2  *******/
 				if (yearInt === curYear && monthInt === curMonth && priority === "2. Severity-2 (Medium)") {
 					sev2Arr.push(obj);
 				}
-				
+
 				/****** Severity 3  *******/
 				if (yearInt === curYear && monthInt === curMonth && priority === "3. Severity-3 (Normal)") {
 					sev3Arr.push(obj);
@@ -209,7 +215,7 @@ sap.ui.define([
 			mappedResult["Sev1Per"] = this.getSevTotal(sev1Arr, sev1TimeArr);
 			mappedResult["Sev2Per"] = this.getSevTotal(sev2Arr, sev2TimeArr);
 			mappedResult["Sev3Per"] = this.getSevTotal(sev3Arr, sev3TimeArr);
-			
+
 			// Create json model
 			var oModel = new sap.ui.model.json.JSONModel();
 			// Set data 
@@ -218,7 +224,7 @@ sap.ui.define([
 			this.getView().setModel(oModel, "SLA");
 		},
 
-		getSevTotal: function (sevArr, sevTimeArr) {
+		getSevTotal: function(sevArr, sevTimeArr) {
 			// Total Severity
 			var sevTotal = sevArr.length;
 			// Count Sev 
@@ -233,12 +239,12 @@ sap.ui.define([
 			if (isNaN(serPerInt) || serPerInt === 0) {
 				serPerInt = 100;
 			}
-			
-			return serPerInt; 
+
+			return serPerInt;
 		},
-		
+
 		// Point Consumption
-		pointConsump: function (arr) {
+		pointConsump: function(arr) {
 			// Get today's year
 			var today = new Date();
 			// Current year
@@ -256,7 +262,7 @@ sap.ui.define([
 			});
 
 			// Get the main model 			
-		//	var mainModel = this.getView().getModel("Main");
+			//	var mainModel = this.getView().getModel("Main");
 			// Get all the data
 			var allData = arr.AllData;
 			// Create new arrays
@@ -299,7 +305,7 @@ sap.ui.define([
 			// Create a model
 			var oModel = new sap.ui.model.json.JSONModel();
 			// Set binding mode
-		//	oModel.setDefaultBindingMode("OneWay");
+			//	oModel.setDefaultBindingMode("OneWay");
 
 			// Get the Data model 			
 			var dataModel = this.getView().getModel("Data");
@@ -339,7 +345,7 @@ sap.ui.define([
 				var nonInnoArray = monthNonInno.filter(function(v) {
 					return v !== "";
 				});
-				
+
 				// Sum the Innovation points
 				var sumInnoPoints = innoArray.reduce(function(sum, num) {
 					// Return the total
@@ -351,7 +357,7 @@ sap.ui.define([
 					// Return the total
 					return sum + num;
 				});
-				
+
 				// Create a collection
 				obj.Collection = [{
 					Month: monthNames[today.getMonth()],
@@ -359,7 +365,7 @@ sap.ui.define([
 					Innovation: sumInnoPoints,
 					ClosedTickets: sumNonInnoPoints
 				}];
-				
+
 				// Set collection to the model
 				oModel.setData(obj);
 			}

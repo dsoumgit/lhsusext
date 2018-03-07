@@ -1,10 +1,11 @@
 jQuery.sap.require("sap.m.MessageBox");
-
+/* global moment:true */
 sap.ui.define([
 	"sap/ui/core/UIComponent",
 	"sap/ui/Device",
-	"lhsusext/model/models"
-], function(UIComponent, Device, models) {
+	"lhsusext/model/models",
+	"lhsusext/libs/moment"
+], function(UIComponent, Device, models, momentjs) {
 	"use strict";
 
 	return UIComponent.extend("lhsusext.Component", {
@@ -28,7 +29,7 @@ sap.ui.define([
 			var globalModel = new sap.ui.model.json.JSONModel();
 			// Create a model for data file 
 			var dataModel = new sap.ui.model.json.JSONModel();
-			
+
 			// Get private key 
 			$.ajax({
 				url: "/repoid/CMISProxyBridge/cmis/json",
@@ -36,7 +37,7 @@ sap.ui.define([
 				async: false,
 				cache: false,
 				error: function(error) {
-					sap.m.MessageBox.alert("Private key is not found"); 
+					sap.m.MessageBox.alert("Private key is not found");
 				},
 				success: function(response) {
 					// Get json object 
@@ -59,7 +60,7 @@ sap.ui.define([
 
 							// Get file name 
 							var fileName = response.DataFileName;
-							
+
 							// Get data file 
 							$.ajax({
 								url: "/cmis/" + repoId + "/root/" + fileName,
@@ -67,31 +68,34 @@ sap.ui.define([
 								async: false,
 								cache: false,
 								success: function(response) {
-									
+
 									// Set the binding mode
 									dataModel.setDefaultBindingMode("OneWay");
 									// Set model to data 
 									dataModel.setData(response);
 									// Set data to the view 
 									that.setModel(dataModel, "Data");
+
+									// set the device model
+									that.setModel(models.createDeviceModel(), "device");
+
+									// Initialize the router
+									that.getRouter().initialize();
 								},
 								error: function(err) {
 									sap.m.MessageToast.show("Data file is not found");
+
+									return false;
 								}
 							});
 						},
 						error: function(err) {
-							sap.m.MessageBox.alert("Global file is not found");
+							sap.m.MessageBox.alert("Global file is not found.");
+							return false;
 						}
 					});
 				}
 			});
-
-			// set the device model
-			this.setModel(models.createDeviceModel(), "device");
-
-			// Initialize the router
-			this.getRouter().initialize();
 		},
 
 		createContent: function() {
