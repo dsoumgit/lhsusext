@@ -30,7 +30,7 @@ sap.ui.define([
 			// Get the Data model 
 			var mainModel = this.getOwnerComponent().getModel("Data");
 			// Get the ClientName name
-			var name = mainModel.getData().ClientName; 
+			var name = mainModel.getData().ClientName;
 			// Set the title to the page 
 			this.getView().byId("idPage").setTitle(name + " oVo Sustainment");
 			// Get data 
@@ -84,7 +84,7 @@ sap.ui.define([
 			// Get weekly data for each date			
 			var weeklyCreated = this.getWeeklyDates(this, arrCreated);
 			var weeklyClosed = this.getWeeklyDates(this, arrClosed);
-
+		
 			// Create a new array 
 			var mappedResult = [];
 
@@ -103,15 +103,17 @@ sap.ui.define([
 					ClosedTickets: weeklyClosed[closedKey].length
 				});
 			}
-
+			
+			var output = mappedResult.sort(function (a, b) {
+				return a.Week < b.Week; 
+			});
 			// Create an object
 			var obj = {};
-			obj.Collection = mappedResult;
-
+			obj.Collection = output;
 			// Create a model
 			var oModel = new sap.ui.model.json.JSONModel();
 			// Set binding mode
-		//	oModel.setDefaultBindingMode("OneWay");
+			//	oModel.setDefaultBindingMode("OneWay");
 			// Set collection to the model
 			oModel.setData(obj);
 			// Set model to the view

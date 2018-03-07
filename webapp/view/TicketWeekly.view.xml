@@ -31,7 +31,7 @@
 										<viz:VizFrame id="idVizFrame" uiConfig="{applicationSet:'fiori'}" height='550px' width="100%" vizType='line'
 											vizProperties="{plotArea: {dataLabel: {visible: true} }}">
 											<viz:dataset>
-												<viz.data:FlattenedDataset data="{path: '/Collection'}">
+												<viz.data:FlattenedDataset data="{path: '/Collection', sorter: {path: 'week', ascending: true} }">
 													<viz.data:dimensions>
 														<viz.data:DimensionDefinition name="{i18n>Week}" value="{Week}"/>
 													</viz.data:dimensions>
