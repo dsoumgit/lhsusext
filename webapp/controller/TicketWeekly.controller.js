@@ -87,29 +87,69 @@ sap.ui.define([
 			// Get weekly data for each date			
 			var weeklyCreated = this.getWeeklyDates(this, arrCreated);
 			var weeklyClosed = this.getWeeklyDates(this, arrClosed);
-		
-			// Create a new array 
-			var mappedResult = [];
 
+			// Create a new array 
+			var createdResult = [];
 			// Created object properties and store their length
 			for (var createdKey in weeklyCreated) {
-				mappedResult.push({
+				createdResult.push({
 					Week: createdKey,
 					CreatedTickets: weeklyCreated[createdKey].length
 				});
 			}
 
+			// Create a new array 
+			var closedResult = [];
 			// Created object properties and store their length
 			for (var closedKey in weeklyClosed) {
-				mappedResult.push({
+				closedResult.push({
 					Week: closedKey,
 					ClosedTickets: weeklyClosed[closedKey].length
 				});
 			}
-			
-			var output = mappedResult.sort(function (a, b) {
-				return a.Week < b.Week; 
+
+			// first lets make a copy of createdResult
+			var output = createdResult.slice();
+
+			// now loop closedResult, and see if exists in ouput or not
+			closedResult.forEach(function(item) {
+				//lets find in arr1
+				var f = output.find(function(i) {
+					return item.Week === i.Week;
+				});
+				
+				// if found 
+				if (f) {
+					//ok found lets update
+					f.ClosedTickets = item.ClosedTickets;
+				} else {
+					//not found lets add
+					output.push(item);
+				}
 			});
+
+			//ok if we want 0, for OpenTickets and ClosedTickets if none found
+			output.forEach(function(item) {
+				item.ClosedTickets = item.ClosedTickets | 0;
+				item.CreatedTickets = item.CreatedTickets | 0;
+			});
+
+			//finally lets's sort
+			//one gotcha, sorting by WK1,WK2,WK10 etc in string sort would give
+			//WK1, WK10, WK2.. so we will use regex to extract just the wk part
+			//convert to integer and then sort
+
+			var regexnum = /\d+/;
+
+			var numWk = function (s) {
+				return parseInt(regexnum.exec(s.Week)[0], 10);
+			};
+			
+			// sort 
+			output.sort(function(a, b) {
+				return numWk(a) - numWk(b);
+			});
+
 			// Create an object
 			var obj = {};
 			obj.Collection = output;
