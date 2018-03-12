@@ -19,16 +19,15 @@
 									<com:content>
 										<com:ChartContainerContent icon="sap-icon://vertical-bar-chart">
 											<com:content>
-												<viz:VizFrame id="ticketFrame" uiConfig="{applicationSet:'fiori'}" height='450px' width="100%" vizType='column'
-													vizProperties="{plotArea: {dataLabel: {visible: true} }}">
+												<viz:VizFrame id="ticketFrame" uiConfig="{applicationSet:'fiori'}" height='450px' width="100%" vizType='column'>
 													<viz:dataset>
-														<viz.data:FlattenedDataset data="{path: 'Monthly>/Collection'}">
+														<viz.data:FlattenedDataset data="{path: '/Collection'}">
 															<viz.data:dimensions>
-																<viz.data:DimensionDefinition name="{i18n>Month}" value="{i18n>Month}"/>
+																<viz.data:DimensionDefinition name="Month" value="{Month}"/>
 															</viz.data:dimensions>
 															<viz.data:measures>
-																<viz.data:MeasureDefinition name="{i18n>CreatedTickets}" value="{i18n>CreatedTickets}"/>
-																<viz.data:MeasureDefinition name="{i18n>ClosedTickets}" value="{i18n>ClosedTickets}"/>
+																<viz.data:MeasureDefinition name="CreatedTickets" value="{CreatedTickets}"/>
+																<viz.data:MeasureDefinition name="ClosedTickets" value="{ClosedTickets}"/>
 															</viz.data:measures>
 														</viz.data:FlattenedDataset>
 													</viz:dataset>

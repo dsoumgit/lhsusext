@@ -15,7 +15,7 @@ sap.ui.define([
 		},
 
 		onBeforeRendering: function() {
-			try {
+		//	try {
 				// Get the Data model 
 				var mainModel = this.getOwnerComponent().getModel("Data");
 				// Get the ClientName name
@@ -30,10 +30,10 @@ sap.ui.define([
 				this.SLATracker(allData);
 				// Point consumption
 				this.pointConsump(allData);
-			} catch (ex) {
+			/*} catch (ex) {
 				sap.m.MessageBox.alert("Global file is not found");
 				return false;
-			}
+			}*/
 		},
 
 		setTicketMonthly: function(arr) {
@@ -45,6 +45,12 @@ sap.ui.define([
 			var ticketFrame = this.getView().byId("ticketFrame");
 			// Set title to the chart 
 			ticketFrame.setVizProperties({
+				plotArea: {
+					dataLabel: {
+						formatString: "####",
+						visible: true
+					}	
+				},
 				title: {
 					text: curYear
 				}
@@ -125,7 +131,7 @@ sap.ui.define([
 			// Set collection to the model
 			oModel.setData(obj);
 			// Set model to the view
-			this.getView().setModel(oModel, "Monthly");
+			this.getView().setModel(oModel);
 		},
 
 		// SLA Tracker 

@@ -25,8 +25,29 @@ sap.ui.define([
 			var idVizFrame = this.getView().byId("idVizFrame");
 			// Set title to the chart 
 			idVizFrame.setVizProperties({
+				toolTip: {
+					visible: true
+				},
+				plotArea: {			// blue, pink
+				//	colorPalette: ['#0000ff', '#FF7373']
+					dataLabel: {
+						formatString: "####",
+						visible: true
+					}
+				},
 				title: {
 					text: curYear
+				},
+				/*yAxis: {
+					scale: {
+						fixedRange: true,
+						minValue: -1
+					}
+				},*/
+				categoryAxis: {
+					axisLine: {
+						visible: false
+					}
 				}
 			});
 
@@ -117,7 +138,7 @@ sap.ui.define([
 				var f = output.find(function(i) {
 					return item.Week === i.Week;
 				});
-				
+
 				// if found 
 				if (f) {
 					//ok found lets update
@@ -141,10 +162,10 @@ sap.ui.define([
 
 			var regexnum = /\d+/;
 
-			var numWk = function (s) {
+			var numWk = function(s) {
 				return parseInt(regexnum.exec(s.Week)[0], 10);
 			};
-			
+
 			// sort 
 			output.sort(function(a, b) {
 				return numWk(a) - numWk(b);
