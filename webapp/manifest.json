@@ -5,7 +5,7 @@
 		"type": "application",
 		"i18n": "i18n/i18n.properties",
 		"applicationVersion": {
-			"version": "1.0.0"
+			"version": "4.1.1"
 		},
 		"title": "{{appTitle}}",
 		"description": "{{appDescription}}",
@@ -14,7 +14,6 @@
 			"version": "1.40.12"
 		}
 	},
-	
 	"sap.ui": {
 		"technology": "UI5",
 		"icons": {
@@ -27,16 +26,11 @@
 		},
 		"deviceTypes": {
 			"desktop": true,
-			"tablet": true,
-			"phone": true
+			"tablet": false,
+			"phone": false
 		},
-		"supportedThemes": [
-			"sap_hcb",
-			"sap_belize"
-
-		]
+		"supportedThemes": ["sap_hcb", "sap_belize"]
 	},
-
 	"sap.ui5": {
 		"rootView": {
 			"viewName": "lhsusext.view.App",
@@ -75,14 +69,10 @@
 				"controlAggregation": "detailPages",
 				"controlId": "rootSusext"
 			},
-
 			"routes": [{
 				"pattern": "",
 				"name": "master",
-				"target": [
-					"detail",
-					"master"
-				]
+				"target": ["detail", "master"]
 			}, {
 				"pattern": "detail/{entity}",
 				"name": "detail",
@@ -112,7 +102,6 @@
 				"name": "funcCurYear",
 				"target": "funcCurYear"
 			}],
-
 			"targets": {
 				"master": {
 					"viewName": "Master",
