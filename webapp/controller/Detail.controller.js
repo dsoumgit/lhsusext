@@ -314,7 +314,7 @@ sap.ui.define([
 			//	oModel.setDefaultBindingMode("OneWay");
 
 			// Get the SDM Points  			
-			var sdmPoints = this.getView().getModel("Data").getData().SDMPoints;
+			var sdmPoints = this.getView().getModel("Global").getData().SDMPoints;
 			// Get data 
 		//	var name = dataModel.getData();
 
