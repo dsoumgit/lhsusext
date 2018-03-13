@@ -313,14 +313,14 @@ sap.ui.define([
 			// Set binding mode
 			//	oModel.setDefaultBindingMode("OneWay");
 
-			// Get the Data model 			
-			var dataModel = this.getView().getModel("Data");
+			// Get the SDM Points  			
+			var sdmPoints = this.getView().getModel("Data").getData().SDMPoints;
 			// Get data 
-			var name = dataModel.getData();
+		//	var name = dataModel.getData();
 
 			// Check the client name and set SDM points accordingly 
-			var sdmPoints = "";
-			if (name["ClientName"] === "PLZ Aeroscience" || name["ClientName"] === "CAMPBELL") {
+		//	var sdmPoints = "";
+			/*if (name["ClientName"] === "PLZ Aeroscience" || name["ClientName"] === "CAMPBELL") {
 				sdmPoints = 200;
 			} else if (name["ClientName"] === "SEMills") {
 				sdmPoints = 174;
@@ -328,7 +328,7 @@ sap.ui.define([
 				sdmPoints = 39;
 			} else if (name["ClientName"] === "CIT") {
 				sdmPoints = 140;
-			}
+			}*/
 
 			// Check each month 
 			if (monthInno.length === 0 || monthNonInno.length === 0) {
