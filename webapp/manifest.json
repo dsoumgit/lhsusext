@@ -29,7 +29,7 @@
 			"tablet": false,
 			"phone": false
 		},
-		"supportedThemes": ["sap_hcb", "sap_belize"]
+		"supportedThemes": ["sap_belize"]
 	},
 	"sap.ui5": {
 		"rootView": {
