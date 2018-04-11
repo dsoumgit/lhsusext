@@ -20,6 +20,34 @@
 									<com:content>
 										<viz:VizFrame id="idVizFrame" uiConfig="{applicationSet:'fiori'}" height='590px' width="100%" vizType='stacked_bar'
 											vizProperties="{plotArea: {dataLabel: {visible: true} }}">
+											<!--<viz:dataset>
+												<viz.data:FlattenedDataset data="{path: '/Collection'}">
+													<viz.data:dimensions>
+														<viz.data:DimensionDefinition name="Month" value="{Month}"/>
+													</viz.data:dimensions>
+													<viz.data:measures>
+														<viz.data:MeasureDefinition name="ABAP" value="{ABAP}" visible="false"  />
+														<viz.data:MeasureDefinition name="SD" value="{SD}"/>
+														<viz.data:MeasureDefinition name="MM" value="{MM}"/>
+														<viz.data:MeasureDefinition name="WM" value="{WM}"/>
+														<viz.data:MeasureDefinition name="EDI" value="{EDI}"/>
+														<viz.data:MeasureDefinition name="PP" value="{PP}"/>
+														<viz.data:MeasureDefinition name="BASIS" value="{BASIS}"/>
+														<viz.data:MeasureDefinition name="FICO" value="{FICO}"/>
+													</viz.data:measures>
+												</viz.data:FlattenedDataset>
+											</viz:dataset>
+											<viz:feeds>
+												<viz.feeds:FeedItem uid="valueAxis" type="Measure" values="ABAP" />
+												<viz.feeds:FeedItem uid="valueAxis" type="Measure" values="SD"/>
+												<viz.feeds:FeedItem uid="valueAxis" type="Measure" values="MM"/>
+												<viz.feeds:FeedItem uid="valueAxis" type="Measure" values="WM"/>
+												<viz.feeds:FeedItem uid="valueAxis" type="Measure" values="EDI"/>
+												<viz.feeds:FeedItem uid="valueAxis" type="Measure" values="PP"/>
+												<viz.feeds:FeedItem uid="valueAxis" type="Measure" values="BASIS"/>
+												<viz.feeds:FeedItem uid="valueAxis" type="Measure" values="FICO"/>
+												<viz.feeds:FeedItem uid="categoryAxis" type="Dimension" values="Month"/>
+											</viz:feeds>-->
 										</viz:VizFrame>
 									</com:content>
 								</com:ChartContainerContent>

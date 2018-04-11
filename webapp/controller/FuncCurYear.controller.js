@@ -1,3 +1,5 @@
+jQuery.sap.require("lhsusext.util.formatter");
+
 sap.ui.define([
 	"lhsusext/controller/BaseController"
 ], function(BaseController) {
@@ -31,13 +33,14 @@ sap.ui.define([
 
 			// Get the Data model 
 			var mainModel = this.getOwnerComponent().getModel("Data");
+	 	
 			// Get the ClientName name
 			var name = mainModel.getData().ClientName; 
 			// Set the title to the page 
 			this.getView().byId("idPage").setTitle(name + " oVo Sustainment");
 			// Get data 
 			var allData = mainModel.getData().AllData;
-
+					
 			// Create new arrays
 			var arrCreated = [];
 
@@ -89,27 +92,56 @@ sap.ui.define([
 				if (result[fullDate] === undefined) {
 					result[fullDate] = [inputQueues[data["Queue"]]];
 				} else {
-					result[fullDate].push(inputQueues[data["Queue"]]);
+					result[fullDate].push(inputQueues[data["Queue"]]);	
 				}
 			});
-
+		
+			// New array to store queue data 
+			var queueArr = [];
+			
 			// Create an array to store each month
 			var mappedResult = [];
 			// Array of months 
 			var monthName = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
 			for (var key in result) {
+				// Create dynamic queue 
+				result[key].forEach(function (obj) {
+					queueArr.push(obj); 
+				});
+				
 				var groups = that.groupBy(result[key]);
 				groups["Month"] = monthName[key];
-
+				
 				mappedResult.push(groups);
 			}
-
+			
+			// Create unique names
+			var uniqueNames = []; 
+			// Remove duplicate elements 
+			$.each(queueArr, function(i, ele) {
+				// Check the element if it is not in array
+				if ($.inArray(ele, uniqueNames) === -1 || $.inArray(ele, uniqueNames) === "") {
+					// Add to the new array
+					uniqueNames.push(ele);
+				}
+			});
+			
+			// Create a new array to store data of Measures 
+			var measureArr = [];
+			// Add name property 
+			for (var key in uniqueNames) {
+				measureArr.push({
+					"name": uniqueNames[key],
+					"value": "{" + uniqueNames[key] + "}"
+				});
+			}
+			
+			// Create an object
 			var obj = {};
 			obj.Collection = mappedResult;
+	
 			// Create a new json model
 			var oModel = new sap.ui.model.json.JSONModel();
-			// Set binding mode to One Way
-		//	oModel.setDefaultBindingMode("OneWay");
 			// Set data to the model
 			oModel.setData(obj);
 			// Set the model to the view 
@@ -117,8 +149,7 @@ sap.ui.define([
 
 			// Get viz frame id 
 			var oVizFrame = that.getView().byId("idVizFrame");
-			// Get array from Measures 
-			var measureArr = global.Queue;
+			
 			// Create dataset
 			var oDataset = new sap.viz.ui5.data.FlattenedDataset({
 				dimensions: [{
@@ -133,18 +164,10 @@ sap.ui.define([
 
 			oVizFrame.setDataset(oDataset);
 
-			// Create a new array
-			var nameArr = [];
-			// Add name to a new array
-			global.Queue.forEach(function (obj) {
-				var name = obj.name;
-				nameArr.push(name);
-			});
-
 			var feedValueAxis = new sap.viz.ui5.controls.common.feeds.FeedItem({
 					"uid": "valueAxis",
 					"type": "Measure",
-					"values": nameArr
+					"values": uniqueNames
 				}),
 				feedCategoryAxis = new sap.viz.ui5.controls.common.feeds.FeedItem({
 					"uid": "categoryAxis",

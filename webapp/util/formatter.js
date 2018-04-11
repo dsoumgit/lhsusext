@@ -71,9 +71,5 @@ lhsusext.util.formatter = {
     	}
     	
     	return month; 
-    },
-    
-    testData: function (data) {
-    	console.log(data);
     }
 };
