@@ -14,7 +14,7 @@
 			<m:Panel expandable="true" expanded="true" width="auto" class="sapUiResponsiveMargin">
 				<m:headerToolbar>
 					<m:Toolbar height="3rem">
-						<m:Title text="Created vs Closed Tickets"/>
+						<m:Title text="Created vs Closed Sustainment Request"/>
 					</m:Toolbar>
 				</m:headerToolbar>
 				<m:content>

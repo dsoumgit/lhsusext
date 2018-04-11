@@ -7,7 +7,7 @@
 				<Panel height="auto" width="auto" class="sapUiResponsiveMargin">
 					<headerToolbar>
 						<Toolbar height="3rem">
-							<Title text="Overview of Open vs Closed Tickets by Quarter"/>
+							<Title text="Overview of Open vs Closed Sustainment Request by Quarter"/>
 							<ToolbarSpacer/>
 							<Button icon="sap-icon://home" text="Home" type="Emphasized" press="onHomePress"/>
 						</Toolbar>

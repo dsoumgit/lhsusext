@@ -10,7 +10,7 @@
 						<Panel height="auto" width="90%" class="sapUiResponsiveMargin">
 							<headerToolbar>
 								<Toolbar height="3rem">
-									<Title text="Ticket Tracker - Created vs Closed"/>
+									<Title text="Sustainment Request Tracker - Created vs Closed"/>
 								</Toolbar>
 							</headerToolbar>
 							<content>
