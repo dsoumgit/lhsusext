@@ -38,12 +38,6 @@ sap.ui.define([
 				title: {
 					text: curYear
 				},
-				/*yAxis: {
-					scale: {
-						fixedRange: true,
-						minValue: -1
-					}
-				},*/
 				categoryAxis: {
 					axisLine: {
 						visible: false
@@ -115,7 +109,7 @@ sap.ui.define([
 			for (var createdKey in weeklyCreated) {
 				createdResult.push({
 					Week: createdKey,
-					CreatedTickets: weeklyCreated[createdKey].length
+					CreatedRequests: weeklyCreated[createdKey].length
 				});
 			}
 
@@ -125,7 +119,7 @@ sap.ui.define([
 			for (var closedKey in weeklyClosed) {
 				closedResult.push({
 					Week: closedKey,
-					ClosedTickets: weeklyClosed[closedKey].length
+					ClosedRequests: weeklyClosed[closedKey].length
 				});
 			}
 
@@ -142,7 +136,7 @@ sap.ui.define([
 				// if found 
 				if (f) {
 					//ok found lets update
-					f.ClosedTickets = item.ClosedTickets;
+					f.ClosedRequests = item.ClosedRequests;
 				} else {
 					//not found lets add
 					output.push(item);
@@ -151,8 +145,8 @@ sap.ui.define([
 
 			//ok if we want 0, for OpenTickets and ClosedTickets if none found
 			output.forEach(function(item) {
-				item.ClosedTickets = item.ClosedTickets | 0;
-				item.CreatedTickets = item.CreatedTickets | 0;
+				item.ClosedRequests = item.ClosedRequests | 0;
+				item.CreatedRequests = item.CreatedRequests | 0;
 			});
 
 			//finally lets's sort
@@ -170,14 +164,12 @@ sap.ui.define([
 			output.sort(function(a, b) {
 				return numWk(a) - numWk(b);
 			});
-
+			
 			// Create an object
 			var obj = {};
 			obj.Collection = output;
 			// Create a model
 			var oModel = new sap.ui.model.json.JSONModel();
-			// Set binding mode
-			//	oModel.setDefaultBindingMode("OneWay");
 			// Set collection to the model
 			oModel.setData(obj);
 			// Set model to the view

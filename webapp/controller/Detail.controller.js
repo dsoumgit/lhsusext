@@ -15,25 +15,20 @@ sap.ui.define([
 		},
 
 		onBeforeRendering: function() {
-		//	try {
-				// Get the Data model 
-				var mainModel = this.getOwnerComponent().getModel("Data");
-				// Get the ClientName name
-				var name = mainModel.getData().ClientName;
-				// Set the title to the page 
-				this.getView().byId("idPage").setTitle(name + " oVo Sustainment");
-				// Get data 
-				var allData = mainModel.getData();
-				// Monthly method
-				this.setTicketMonthly(allData);
-				// SLA Tracker chart
-				this.SLATracker(allData);
-				// Point consumption
-				this.pointConsump(allData);
-			/*} catch (ex) {
-				sap.m.MessageBox.alert("Global file is not found");
-				return false;
-			}*/
+			// Get the Data model 
+			var mainModel = this.getOwnerComponent().getModel("Data");
+			// Get the ClientName name
+			var name = mainModel.getData().ClientName;
+			// Set the title to the page 
+			this.getView().byId("idPage").setTitle(name + " oVo Sustainment");
+			// Get data 
+			var allData = mainModel.getData();
+			// Monthly method
+			this.setTicketMonthly(allData);
+			// SLA Tracker chart
+			this.SLATracker(allData);
+			// Point consumption
+			this.pointConsump(allData);
 		},
 
 		setTicketMonthly: function(arr) {
@@ -49,7 +44,7 @@ sap.ui.define([
 					dataLabel: {
 						formatString: "####",
 						visible: true
-					}	
+					}
 				},
 				title: {
 					text: curYear
@@ -114,8 +109,8 @@ sap.ui.define([
 			for (var j = 0; j < countCreated.length; j++) {
 				mappedResult.push({
 					Month: monthName[j],
-					CreatedTickets: countCreated[j],
-					ClosedTickets: countClosed[j]
+					CreatedRequests: countCreated[j],
+					ClosedRequests: countClosed[j]
 				});
 			}
 
@@ -126,8 +121,6 @@ sap.ui.define([
 
 			// Create a model
 			var oModel = new sap.ui.model.json.JSONModel();
-			// Set binding mode
-			//	oModel.setDefaultBindingMode("OneWay");
 			// Set collection to the model
 			oModel.setData(obj);
 			// Set model to the view
@@ -310,25 +303,9 @@ sap.ui.define([
 			var monthNames = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
 			// Create a model
 			var oModel = new sap.ui.model.json.JSONModel();
-			// Set binding mode
-			//	oModel.setDefaultBindingMode("OneWay");
 
 			// Get the SDM Points  			
 			var sdmPoints = this.getView().getModel("Global").getData().SDMPoints;
-			// Get data 
-		//	var name = dataModel.getData();
-
-			// Check the client name and set SDM points accordingly 
-		//	var sdmPoints = "";
-			/*if (name["ClientName"] === "PLZ Aeroscience" || name["ClientName"] === "CAMPBELL") {
-				sdmPoints = 200;
-			} else if (name["ClientName"] === "SEMills") {
-				sdmPoints = 174;
-			} else if (name["ClientName"] === "DAISY") {
-				sdmPoints = 39;
-			} else if (name["ClientName"] === "CIT") {
-				sdmPoints = 140;
-			}*/
 
 			// Check each month 
 			if (monthInno.length === 0 || monthNonInno.length === 0) {
@@ -336,7 +313,7 @@ sap.ui.define([
 					Month: monthNames[today.getMonth()],
 					SDM: sdmPoints,
 					Innovation: monthInno.length,
-					ClosedTickets: monthNonInno.length
+					ClosedRequests: monthNonInno.length
 				}];
 
 				// Set collection to the model
@@ -369,7 +346,7 @@ sap.ui.define([
 					Month: monthNames[today.getMonth()],
 					SDM: sdmPoints,
 					Innovation: sumInnoPoints,
-					ClosedTickets: sumNonInnoPoints
+					ClosedRequests: sumNonInnoPoints
 				}];
 
 				// Set collection to the model

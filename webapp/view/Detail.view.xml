@@ -26,14 +26,14 @@
 																<viz.data:DimensionDefinition name="Month" value="{Month}"/>
 															</viz.data:dimensions>
 															<viz.data:measures>
-																<viz.data:MeasureDefinition name="CreatedTickets" value="{CreatedTickets}"/>
-																<viz.data:MeasureDefinition name="ClosedTickets" value="{ClosedTickets}"/>
+																<viz.data:MeasureDefinition name="CreatedRequests" value="{CreatedRequests}"/>
+																<viz.data:MeasureDefinition name="ClosedRequests" value="{ClosedRequests}"/>
 															</viz.data:measures>
 														</viz.data:FlattenedDataset>
 													</viz:dataset>
 													<viz:feeds>
-														<viz.feeds:FeedItem id='valueAxisFeed' uid="valueAxis" type="Measure" values="CreatedTickets"/>
-														<viz.feeds:FeedItem uid="valueAxis" type="Measure" values="ClosedTickets"/>
+														<viz.feeds:FeedItem id='valueAxisFeed' uid="valueAxis" type="Measure" values="CreatedRequests"/>
+														<viz.feeds:FeedItem uid="valueAxis" type="Measure" values="ClosedRequests"/>
 														<viz.feeds:FeedItem id='categoryAxisFeed' uid="categoryAxis" type="Dimension" values="Month"/>
 													</viz:feeds>
 												</viz:VizFrame>
@@ -99,13 +99,13 @@
 															</viz.data:dimensions>
 															<viz.data:measures>
 																<viz.data:MeasureDefinition name="{i18n>SDM}" value="{PointModel>SDM}"/>
-																<viz.data:MeasureDefinition name="{i18n>ClosedTickets}" value="{PointModel>ClosedTickets}"/>
+																<viz.data:MeasureDefinition name="{i18n>ClosedRequests}" value="{PointModel>ClosedRequests}"/>
 																<viz.data:MeasureDefinition name="{i18n>Innovation}" value="{PointModel>Innovation}"/>
 															</viz.data:measures>
 														</viz.data:FlattenedDataset>
 													</viz:dataset>
 													<viz:feeds>
-														<viz.feeds:FeedItem uid="valueAxis" type="Measure" values="ClosedTickets"/>
+														<viz.feeds:FeedItem uid="valueAxis" type="Measure" values="ClosedRequests"/>
 														<viz.feeds:FeedItem uid="valueAxis" type="Measure" values="SDM"/>
 														<viz.feeds:FeedItem uid="valueAxis" type="Measure" values="Innovation"/>
 														<viz.feeds:FeedItem uid="categoryAxis" type="Dimension" values="Month"/>

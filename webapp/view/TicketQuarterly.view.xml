@@ -26,14 +26,14 @@
 														<viz.data:DimensionDefinition name="{i18n>Quarter}" value="{Quarter}"/>
 													</viz.data:dimensions>
 													<viz.data:measures>
-														<viz.data:MeasureDefinition name="{i18n>CreatedTickets}" value="{CreatedTickets}"/>
-														<viz.data:MeasureDefinition name="{i18n>ClosedTickets}" value="{ClosedTickets}"/>
+														<viz.data:MeasureDefinition name="{i18n>CreatedRequests}" value="{CreatedRequests}"/>
+														<viz.data:MeasureDefinition name="{i18n>ClosedRequests}" value="{ClosedRequests}"/>
 													</viz.data:measures>
 												</viz.data:FlattenedDataset>
 											</viz:dataset>
 											<viz:feeds>
-												<viz.feeds:FeedItem id='valueAxisFeed' uid="valueAxis" type="Measure" values="CreatedTickets"/>
-												<viz.feeds:FeedItem uid="valueAxis" type="Measure" values="ClosedTickets"/>
+												<viz.feeds:FeedItem id='valueAxisFeed' uid="valueAxis" type="Measure" values="CreatedRequests"/>
+												<viz.feeds:FeedItem uid="valueAxis" type="Measure" values="ClosedRequests"/>
 												<viz.feeds:FeedItem id='categoryAxisFeed' uid="categoryAxis" type="Dimension" values="Quarter"/>
 											</viz:feeds>
 										</viz:VizFrame>

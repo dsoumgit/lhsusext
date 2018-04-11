@@ -91,8 +91,8 @@ sap.ui.define([
 			for (var key in arrCreated) {
 				output.push({
 					"Quarter": key,
-					"CreatedTickets": arrCreated[key],
-					"ClosedTickets": arrClosed[key]
+					"CreatedRequests": arrCreated[key],
+					"ClosedRequests": arrClosed[key]
 				});
 			}
 
@@ -149,7 +149,7 @@ sap.ui.define([
 			for (var key in result) {
 				output.push({
 					"Quarter": key,
-					"CreatedTickets": result[key]
+					"CreatedRequests": result[key]
 				});
 			}
 

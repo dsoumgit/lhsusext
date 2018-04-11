@@ -92,8 +92,8 @@ sap.ui.define([
 			for (var j = 0; j < countCreated.length; j++) {
 				mappedResult.push({
 					Month: monthName[j],
-					CreatedTickets: countCreated[j],
-					ClosedTickets: countClose[j]
+					CreatedRequests: countCreated[j],
+					ClosedRequests: countClose[j]
 				});
 			}
 
@@ -104,8 +104,6 @@ sap.ui.define([
 
 			// Create a model
 			var oModel = new sap.ui.model.json.JSONModel();
-			// Set binding mode
-		//	oModel.setDefaultBindingMode("OneWay");
 			// Set collection to the model
 			oModel.setData(obj);
 			// Set model to the view
