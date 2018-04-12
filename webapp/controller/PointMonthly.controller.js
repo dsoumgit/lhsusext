@@ -87,11 +87,13 @@ sap.ui.define([
 			var result = [];
 			// Array of months
 			var monthName = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+			// Get Monthly Points 
+			var monthlyPoints = this.getOwnerComponent().getModel("Global").getData().MonthlyPoints;
 			// Store a collection of Months and sum  
 			for (var key in newArr) {
 				result.push({
 					"Month": monthName[key],
-					"TotalPoints": newArr[key]
+					"TotalPoints": newArr[key] + monthlyPoints
 				});
 			}
 
@@ -102,8 +104,6 @@ sap.ui.define([
 
 			// Create a model
 			var oModel = new sap.ui.model.json.JSONModel();
-			// Set binding mode
-		//	oModel.setDefaultBindingMode("OneWay");
 			// Set collection to the model
 			oModel.setData(obj);
 			// Set model to the view

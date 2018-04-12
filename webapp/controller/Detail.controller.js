@@ -306,16 +306,37 @@ sap.ui.define([
 
 			// Get the SDM Points  			
 			var sdmPoints = this.getView().getModel("Global").getData().SDMPoints;
+			// Get the Total Monthly Points from global file 
+			var monthlyPoints = this.getView().getModel("Global").getData().MonthlyPoints;
+			// Create a total point variable 
+			var totalPoints, overage, rolloverPoints;
+			//	total points = SDM Points + Total Points of closed tickets
+			totalPoints = sdmPoints + monthNonInno.length;
+			// Check the value 
+			if (totalPoints > monthlyPoints) {
+				// Calculate the average by substracting the monthly points with total points
+				overage = monthlyPoints - totalPoints;
+			} 
+			
+			if (totalPoints < monthlyPoints) {
+				// Calculate the roll over points 
+				rolloverPoints = monthlyPoints - totalPoints;
+			}
 
 			// Check each month 
 			if (monthInno.length === 0 || monthNonInno.length === 0) {
+				
 				obj.Collection = [{
 					Month: monthNames[today.getMonth()],
 					SDM: sdmPoints,
+					MonthlyPoints: monthlyPoints, 
 					Innovation: monthInno.length,
-					ClosedRequests: monthNonInno.length
+					ClosedRequests: monthNonInno.length,
+					TotalPoints: totalPoints, 
+					Overage: overage,
+					RolloverPoints: rolloverPoints
 				}];
-
+				
 				// Set collection to the model
 				oModel.setData(obj);
 			} else {
@@ -345,8 +366,11 @@ sap.ui.define([
 				obj.Collection = [{
 					Month: monthNames[today.getMonth()],
 					SDM: sdmPoints,
+					MonthlyPoints: monthlyPoints, 
 					Innovation: sumInnoPoints,
-					ClosedRequests: sumNonInnoPoints
+					ClosedRequests: sumNonInnoPoints,
+					Overage: overage,
+					RolloverPoints: rolloverPoints
 				}];
 
 				// Set collection to the model

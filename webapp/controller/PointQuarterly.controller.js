@@ -133,10 +133,14 @@ sap.ui.define([
 			}
 
 			var output = [];
+			// Get the Total Monthly Points from global file 
+			var monthlyPoints = this.getView().getModel("Global").getData().MonthlyPoints;
+			// Calculate for each three months 
+			var eachQuarter = monthlyPoints * 3; 
 			for (var key in result) {
 				output.push({
 					"Quarter": key,
-					"TotalPoints": result[key]
+					"TotalPoints": result[key] + eachQuarter
 				});
 			}
 
