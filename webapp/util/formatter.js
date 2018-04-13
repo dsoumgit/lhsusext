@@ -127,12 +127,13 @@ lhsusext.util.formatter = {
 		var monthlyPoints = oPoint[0].MonthlyPoints;
 		// Create a total point variable 
 		var overage, rolloverPoints;
+	//	console.log(totalPoints);
 		// Check the value 
 		if (totalPoints > monthlyPoints) {
 			// Calculate the average by substracting the monthly points with total points
 			overage = monthlyPoints - totalPoints;
 
-			return "Critical";
+			return "Error";
 		}
 
 		if (totalPoints < monthlyPoints) {
@@ -141,5 +142,14 @@ lhsusext.util.formatter = {
 
 			return "Good"; 
 		}
+	},
+	
+	getResult: function (oPoint) {
+		// Get Total Points 
+		var totalPoints = oPoint[0].TotalPoints;
+		// Get Monthly Points 
+		var monthlyPoints = oPoint[0].MonthlyPoints;
+		
+		return Math.abs(totalPoints - monthlyPoints); 
 	}
 };
