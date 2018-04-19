@@ -30,14 +30,17 @@ sap.ui.define([
 				}
 			});
 
-			// Get the Data model 
-			var mainModel = this.getOwnerComponent().getModel("Data");
+			// Get Main model 
+			var mainModel = this.getOwnerComponent().getModel("Global");
 			// Get the ClientName name
 			var name = mainModel.getData().ClientName; 
 			// Set the title to the page 
 			this.getView().byId("idPage").setTitle(name + " oVo Sustainment");
+			
+			// Get Data model 
+			var dataModel = this.getOwnerComponent().getModel("Data");
 			// Get data 
-			var allData = mainModel.getData().AllData;
+			var allData = dataModel.getData().AllData;
 			// Create new arrays
 			var countCreated = [];
 			var countClose = [];
