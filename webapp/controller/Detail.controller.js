@@ -331,12 +331,12 @@ sap.ui.define([
 				obj.Collection = [{
 					Month: monthNames[today.getMonth()],
 					SDM: sdmPoints,
-					MonthlyPoints: monthlyPoints, 
+				//	MonthlyPoints: monthlyPoints, 
 					Innovation: monthInno.length,
-					ClosedRequests: monthNonInno.length,
-					TotalPoints: totalPoints, 
-					Overage: overage,
-					RolloverPoints: rolloverPoints
+					ClosedRequests: monthNonInno.length
+				//	TotalPoints: totalPoints, 
+				//	Overage: overage,
+				//	RolloverPoints: rolloverPoints
 				}];
 				
 				// Set collection to the model
@@ -368,11 +368,11 @@ sap.ui.define([
 				obj.Collection = [{
 					Month: monthNames[today.getMonth()],
 					SDM: sdmPoints,
-					MonthlyPoints: monthlyPoints, 
+				//	MonthlyPoints: monthlyPoints, 
 					Innovation: sumInnoPoints,
-					ClosedRequests: sumNonInnoPoints,
-					Overage: overage,
-					RolloverPoints: rolloverPoints
+					ClosedRequests: sumNonInnoPoints
+				//	Overage: overage,
+				//	RolloverPoints: rolloverPoints
 				}];
 
 				// Set collection to the model

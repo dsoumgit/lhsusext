@@ -82,7 +82,7 @@
 								</Toolbar>
 							</headerToolbar>
 							<content>
-								<l:Grid defaultSpan="L4 M6 S6" class="sapUiSmallMarginTop">
+								<!--<l:Grid defaultSpan="L4 M6 S6" class="sapUiSmallMarginTop">
 									<l:content>
 										<GenericTile header="SDM Points" frameType="OneByOne" press="press">
 											<tileContent>
@@ -150,19 +150,7 @@
 											</tileContent>
 										</GenericTile>
 									</l:content>
-									<!--<l:content>
-										<VBox alignContent="Center" alignItems="Center">
-											<Text text="Overage - Roll Over Points " class="sapUiLargeMarginTop"/>
-											<mic:RadialMicroChart size="L" percentage="{path: 'PointModel>/Collection', formatter: 'lhsusext.util.formatter.getTotalPoint'}"
-												valueColor="{path: 'PointModel>/Collection', formatter: 'lhsusext.util.formatter.getPointColor'}" press="press" class="sapUiSmallMargin"/>-->
-											<!--<mic:HarveyBallMicroChart size="M" total="" showTotal="true" showFractions="true" press="press">
-												<mic:items>
-													<mic:HarveyBallMicroChartItem fraction="{path: 'PointModel>/Collection', formatter: 'lhsusext.util.formatter.getTotalPoint' }" color="{path: 'PointModel>/Collection', formatter: 'lhsusext.util.formatter.getPointColor'}" />
-												</mic:items>
-											</mic:HarveyBallMicroChart>
-										</VBox>
-									</l:content>-->
-								</l:Grid>
+								</l:Grid>-->
 								<com:ChartContainer showFullScreen="true" showPersonalization="false" autoAdjustHeight="false" showLegend="true" showZoom="true"
 									personalizationPress="attachPersonalizationPress" showLegendButton="true" contentChange="attachContentChange" visible="true">
 									<com:content>
@@ -179,8 +167,6 @@
 																<viz.data:MeasureDefinition name="{i18n>SDM}" value="{PointModel>SDM}"/>
 																<viz.data:MeasureDefinition name="{i18n>ClosedRequests}" value="{PointModel>ClosedRequests}"/>
 																<viz.data:MeasureDefinition name="{i18n>Innovation}" value="{PointModel>Innovation}"/>
-																<viz.data:MeasureDefinition name="{i18n>Overage}" value="{PointModel>Overage}"/>
-																<viz.data:MeasureDefinition name="{i18n>RolloverPoints}" value="{PointModel>RolloverPoints}"/>
 															</viz.data:measures>
 														</viz.data:FlattenedDataset>
 													</viz:dataset>
@@ -188,8 +174,6 @@
 														<viz.feeds:FeedItem uid="valueAxis" type="Measure" values="ClosedRequests"/>
 														<viz.feeds:FeedItem uid="valueAxis" type="Measure" values="SDM"/>
 														<viz.feeds:FeedItem uid="valueAxis" type="Measure" values="Innovation"/>
-														<viz.feeds:FeedItem uid="valueAxis" type="Measure" values="Overage"/>
-														<viz.feeds:FeedItem uid="valueAxis" type="Measure" values="RolloverPoints"/>
 														<viz.feeds:FeedItem uid="categoryAxis" type="Dimension" values="Month"/>
 													</viz:feeds>
 												</viz:VizFrame>
