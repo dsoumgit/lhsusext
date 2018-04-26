@@ -117,6 +117,99 @@ sap.ui.define([
 			});		
 		},
 		
+		onContactPress: function() {
+			var contDialog = new sap.m.Dialog({
+				title: 'Contact Us',
+				icon: "sap-icon://contacts",
+				contentWidth: "auto",
+				contentHeight: "100px",
+				content: new sap.m.FlexBox({
+					height: "100px",
+					alignItems: "Center",
+					justifyContent: "Center",
+					items: new sap.ui.layout.VerticalLayout({
+						content: [
+							new sap.m.Text({
+								text: "Please contact us via:",
+								textAlign: "Center"
+							}),
+							new sap.m.Link({
+								text: "lighthouse@revealvalue.com",
+								href: "mailto:lighthouse@revealvalue.com?Subject=Lighthouse Support Request"
+									//	href: "mailto:lighthouse@revealvalue.com?Subject=Contact Us"
+							})
+						]
+					})
+				}),
+				beginButton: new sap.m.Button({
+					text: 'Close',
+					press: function() {
+						contDialog.close();
+					}
+				})
+			});
+
+			contDialog.open();
+		},
+
+		onInfoPress: function() {
+			// Access manifest file for sap.app
+			var manifest = this.getOwnerComponent().getManifestEntry("sap.app");
+			// Get app version 
+			var appVersion = manifest.applicationVersion.version;
+			// Get Global model
+			var globalModel = this.getOwnerComponent().getModel("Global");
+			// Get global data 
+			var globalData = globalModel.getData();
+			// Add trademark symbol
+			var tradeMark = "\u2122";
+			var space = " ";
+			var infoDialog = new sap.m.Dialog({
+				title: 'Information',
+				icon: "sap-icon://message-information",
+				contentWidth: "auto",
+				contentHeight: "auto",
+				content: new sap.m.FlexBox({
+					height: "100px",
+					alignItems: "Center",
+					justifyContent: "Center",
+					items: new sap.ui.layout.VerticalLayout({
+						content: [
+							new sap.m.Text({
+								text: "App Name: " + globalData.ClientName + " oVo Lighthouse" + tradeMark,
+								textAlign: "Center"
+							}),
+							new sap.m.Text({
+								text: "App Version: " + appVersion,
+								textAlign: "Center"
+							}),
+							new sap.ui.layout.HorizontalLayout({
+								content: [
+									new sap.m.Text({
+										text: "Contact Info: " + space,
+										textAlign: "Center"
+									}),
+									new sap.m.Link({
+										text: " lighthouse@revealvalue.com",
+										href: "mailto:lighthouse@revealvalue.com?Subject=Lighthouse Support Request"
+									})
+								]
+							})
+						]
+					})
+				}),
+				beginButton: new sap.m.Button({
+					text: 'Close',
+					press: function() {
+						infoDialog.close();
+					}
+				})
+			});
+
+			infoDialog.open();
+		},
+
+
 		getEventBus: function() {
 			return sap.ui.getCore().getEventBus();
 		},
