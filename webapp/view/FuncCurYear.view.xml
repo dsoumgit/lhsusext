@@ -7,7 +7,7 @@
 				<Panel height="auto" width="auto" class="sapUiResponsiveMargin">
 					<headerToolbar>
 						<Toolbar height="3rem">
-							<Title text="Functional Area - Created Sustainment Request"/>
+							<Title text="Sustainment Request Created by Functional Area"/>
 							<ToolbarSpacer/>
 							<Button icon="sap-icon://home" text="Home" type="Emphasized" press="onHomePress"/>
 						</Toolbar>
