@@ -44,7 +44,12 @@ sap.ui.define([
 
 			// Create new arrays
 			var countClosed = [];
-
+			// Get SDM Points from global file 
+			var smdPoints = this.getView().getModel("Global").getData().SDMPoints;
+			// Get Sustain Start Date 
+			var startDate = this.getView().getModel("Global").getData().SustainStartDate;
+			/** Note: The start date from the Global file is between 0 - 11
+			 */
 			// Iterate through array
 			for (var i = 0; i < allData.length; i++) {
 
@@ -60,15 +65,24 @@ sap.ui.define([
 				// Check the current year and State 
 				if (closeYear === curYear && state === "closed successful") {
 					// Get month 
-					var monthCreated = closeDate.getMonth();
-					// Store each element to Close Time array
-					countClosed.push({
-						date: monthCreated,
-						points: allData[i].Points
-					});
+					var monthClosed = closeDate.getMonth();
+					// Check the start date 
+					if (monthClosed >= startDate) {
+						// Store each element to Close Time array
+						countClosed.push({
+							date: monthClosed,
+							points: allData[i].Points + smdPoints
+						});	
+					} else {
+						// Store each element to Close Time array
+						countClosed.push({
+							date: monthClosed,
+							points: allData[i].Points
+						});
+					}
 				}
 			}
-
+			
 			// Create a new object to store each month and sum 
 			var newArr = [];
 			// Sum points and group by monthly 
@@ -136,17 +150,16 @@ sap.ui.define([
 			}
 
 			var output = [];
-			// Get the Total Monthly Points from global file 
-			var monthlyPoints = this.getView().getModel("Global").getData().MonthlyPoints;
+			
 			// Calculate for each three months 
-			var eachQuarter = monthlyPoints * 3; 
+		//	var eachQuarter = smdPoints * 3; 
 			for (var key in result) {
 				output.push({
 					"Quarter": key,
-					"TotalPoints": result[key] + eachQuarter
+					"TotalPoints": result[key]
 				});
 			}
-
+		console.log(output);
 			return output;
 		},
 

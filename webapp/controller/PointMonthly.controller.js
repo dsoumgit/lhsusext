@@ -35,17 +35,20 @@ sap.ui.define([
 			// Get Main model 
 			var mainModel = this.getOwnerComponent().getModel("Global");
 			// Get the ClientName name
-			var name = mainModel.getData().ClientName; 
+			var name = mainModel.getData().ClientName;
 			// Set the title to the page 
 			this.getView().byId("idPage").setTitle(name + " oVo Sustainment");
-			
-				// Get Data model 
+
+			// Get Data model 
 			var dataModel = this.getOwnerComponent().getModel("Data");
 			// Get data 
 			var allData = dataModel.getData().AllData;
 			// Create new arrays
 			var arrClosed = [];
-
+			// Get SDM Points from global file 
+			var smdPoints = this.getView().getModel("Global").getData().SDMPoints;
+			// Get Sustain Start Date 
+			var startDate = this.getView().getModel("Global").getData().SustainStartDate;
 			// Iterate through array
 			for (var i = 0; i < allData.length; i++) {
 
@@ -62,11 +65,20 @@ sap.ui.define([
 				if (closeYear === curYear && state === "closed successful") {
 					// Format the month 
 					var month = closeDate.getMonth();
-					// Store each element to Close Time array
-					arrClosed.push({
-						date: month,
-						points: allData[i].Points
-					});
+					// Check the start date 
+					if (month >= startDate) {
+						// Store each element to Close Time array
+						arrClosed.push({
+							date: month,
+							points: allData[i].Points + smdPoints
+						});
+					} else {
+						// Store each element to Close Time array
+						arrClosed.push({
+							date: month,
+							points: allData[i].Points
+						});
+					}
 				}
 			}
 
@@ -77,12 +89,12 @@ sap.ui.define([
 				if (newArr[element.date] === undefined) {
 					newArr[element.date] = 0;
 				}
-				
+
 				// Check if there is any empty or no value 
 				if (element.points === "" || element.points === null) {
-					element.points = 0; 	
+					element.points = 0;
 				}
-				
+
 				newArr[element.date] += element.points;
 			});
 
@@ -90,13 +102,12 @@ sap.ui.define([
 			var result = [];
 			// Array of months
 			var monthName = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
-			// Get Monthly Points 
-			var monthlyPoints = this.getOwnerComponent().getModel("Global").getData().MonthlyPoints;
 			// Store a collection of Months and sum  
 			for (var key in newArr) {
+				// Add SDM points after Sustainment start date 
 				result.push({
 					"Month": monthName[key],
-					"TotalPoints": newArr[key] + monthlyPoints
+					"TotalPoints": newArr[key]
 				});
 			}
 
