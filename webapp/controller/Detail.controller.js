@@ -58,7 +58,8 @@ sap.ui.define([
 			// Create new arrays
 			var countCreated = [];
 			var countClosed = [];
-
+			// Array of month names
+			var monthName = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
 			// Iterate through array
 			for (var i = 0; i < allData.length; i++) {
 				// Select Created dates
@@ -75,6 +76,7 @@ sap.ui.define([
 					var createdDate = allData[i].Created;
 					// Convert to date object 
 					var dateCreated = new Date(createdDate);
+					//	console.log(dateCreated);
 					// Get month
 					var monthCreated = dateCreated.getMonth();
 					// Count number of each month
@@ -103,12 +105,169 @@ sap.ui.define([
 				}
 			}
 
+			var mappedResult = [];
+			// Create object properties  
+			for (var j = 0; j < countCreated.length; j++) {
+				mappedResult.push({
+					Month: monthName[j],
+					CreatedRequests: countCreated[j],
+					ClosedRequests: countClosed[j]
+				});
+			}
+			
+			// Get the current month
+			var curMonth = today.getMonth();
+			// check if current month exists 
+			if (mappedResult[mappedResult.length - 1].Month !== monthName[curMonth]) {
+				// Set to current month and created and closed tickets are 0
+				mappedResult.push({
+					Month: monthName[curMonth],
+					CreatedRequests: 0,
+					ClosedRequests: 0
+				});
+			}
+			
+			// Create a new object
+			var obj = {};
+			// Store as a collection
+			obj.Collection = mappedResult;
+
+			// Create a model
+			var oModel = new sap.ui.model.json.JSONModel();
+			// Set collection to the model
+			oModel.setData(obj);
+			// Set model to the view
+			this.getView().setModel(oModel);
+		},
+
+		orisetTicketMonthly: function(arr) {
+			// Get today's year
+			var today = new Date();
+			var curYear = today.getFullYear();
+
+			// Get vizframe for Tickets
+			var ticketFrame = this.getView().byId("ticketFrame");
+			// Set title to the chart 
+			ticketFrame.setVizProperties({
+				plotArea: {
+					dataLabel: {
+						formatString: "####",
+						visible: true
+					}
+				},
+				title: {
+					text: curYear
+				}
+			});
+
+			// Get all the data
+			var allData = arr.AllData;
+			// Create new arrays
+			var countCreated = [];
+			var countClosed = [];
+
+			// Iterate through array
+			for (var i = 0; i < allData.length; i++) {
+				// Select Created dates
+				var createdObj = allData[i].Created;
+				// Convert to Date object
+				var createdDateObj = new Date(createdObj);
+				// Get year
+				var yearCreated = createdDateObj.getFullYear();
+				// Get year
+				if (yearCreated === curYear) {
+
+					/********** Created *************/
+					// Select each month
+					var createdDate = allData[i].Created;
+					// Convert to date object 
+					var dateCreated = new Date(createdDate);
+					console.log(dateCreated);
+
+					// Get month
+					var monthCreated = dateCreated.getMonth();
+					if (monthCreated !== today.getMonth()) {
+						countCreated[today.getMonth()] = 0;
+					} else {
+						// Count number of each month
+						countCreated[monthCreated] = (countCreated[monthCreated] || 0) + 1;
+					}
+				}
+
+				/********** Close Time *************/
+				// Select Close Time dates
+				var closeTime = allData[i]["Close Time"];
+				// Convert to date 
+				var closeDate = new Date(closeTime);
+				// Get year 
+				var closeYear = closeDate.getFullYear();
+				// Get State
+				var state = allData[i].State;
+
+				if (closeYear === curYear && state === "closed successful") {
+					// Select each month
+					var closedDate = allData[i]["Close Time"];
+					// Convert to date 
+					var dateClosed = new Date(closedDate);
+					// Get month
+					var monthClosed = dateClosed.getMonth();
+					if (monthClosed !== today.getMonth()) {
+						countClosed[today.getMonth()] = 0;
+					} else {
+						// Count number of each month
+						countClosed[monthClosed] = (countClosed[monthClosed] || 0) + 1;
+					}
+				}
+			}
+			console.log(countCreated);
 			// Create a new array to store the collection
 			var mappedResult = [];
 			// Array of month names
 			var monthName = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+			var curMonth = today.getMonth();
+			var test = [];
+			for (var m = 0; m < monthName.length; m++) {
+				if (m === 4) {
+					test.push(monthName[m]);
+				}
+
+			}
+
+			console.log(test);
+			//	console.log(countCreated);	
+			/*for (var created in countCreated) {
+				// Convert to int
+				var createdMonth = parseInt(created, 10);
+				// Check the month 
+				if (createdMonth !== curMonth) {
+					/*countCreated.forEach(function (obj) {
+						mappedResult.push({
+							CreatedRequests: obj
+						});
+					});
+					mappedResult.push({
+						Month: monthName[curMonth],
+						CreatedRequests: 0,
+						ClosedRequests: 0
+					});
+				}
+			}
+		console.log(mappedResult);	
+			for (var closed in countClosed) {
+				// Convert to int
+				var closedMonth = parseInt(closed, 10);
+				// Check the month 
+				if (closedMonth !== curMonth) {
+					mappedResult.push({
+						CreatedRequests: 0	
+					});
+				}
+			}
+	console.log(mappedResult);	 */
+
 			// Create object properties  
 			for (var j = 0; j < countCreated.length; j++) {
+				//	console.log()
 				mappedResult.push({
 					Month: monthName[j],
 					CreatedRequests: countCreated[j],
@@ -318,8 +477,8 @@ sap.ui.define([
 			if (totalPoints > monthlyPoints) {
 				// Calculate the average by substracting the monthly points with total points
 				overage = monthlyPoints - totalPoints;
-			} 
-			
+			}
+
 			if (totalPoints < monthlyPoints) {
 				// Calculate the roll over points 
 				rolloverPoints = monthlyPoints - totalPoints;
@@ -327,18 +486,18 @@ sap.ui.define([
 
 			// Check each month 
 			if (monthInno.length === 0 || monthNonInno.length === 0) {
-				
+
 				obj.Collection = [{
 					Month: monthNames[today.getMonth()],
 					SDM: sdmPoints,
-				//	MonthlyPoints: monthlyPoints, 
+					//	MonthlyPoints: monthlyPoints, 
 					Innovation: monthInno.length,
 					ClosedRequests: monthNonInno.length
-				//	TotalPoints: totalPoints, 
-				//	Overage: overage,
-				//	RolloverPoints: rolloverPoints
+						//	TotalPoints: totalPoints, 
+						//	Overage: overage,
+						//	RolloverPoints: rolloverPoints
 				}];
-				
+
 				// Set collection to the model
 				oModel.setData(obj);
 			} else {
@@ -368,11 +527,11 @@ sap.ui.define([
 				obj.Collection = [{
 					Month: monthNames[today.getMonth()],
 					SDM: sdmPoints,
-				//	MonthlyPoints: monthlyPoints, 
+					//	MonthlyPoints: monthlyPoints, 
 					Innovation: sumInnoPoints,
 					ClosedRequests: sumNonInnoPoints
-				//	Overage: overage,
-				//	RolloverPoints: rolloverPoints
+						//	Overage: overage,
+						//	RolloverPoints: rolloverPoints
 				}];
 
 				// Set collection to the model

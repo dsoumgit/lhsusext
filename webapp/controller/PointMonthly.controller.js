@@ -102,20 +102,32 @@ sap.ui.define([
 			var result = [];
 			// Array of months
 			var monthName = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+			var curMonth = today.getMonth();
 			// Store a collection of Months and sum  
 			for (var key in newArr) {
-				// Add SDM points after Sustainment start date 
-				result.push({
-					"Month": monthName[key],
-					"TotalPoints": newArr[key]
-				});
+				// Convert to int
+				var monthInt = parseInt(key, 10);
+				// Check the month
+				if (monthInt !== curMonth) {
+					// Add SDM points
+					result.push({
+						"Month": monthName[curMonth],
+						"TotalPoints": smdPoints
+					});
+				} else {
+					// Push an elem to an array
+					result.push({
+						"Month": monthName[key],
+						"TotalPoints": newArr[key]
+					});
+				}
 			}
 
 			// Create a new object
 			var obj = {};
 			// Store as a collection
 			obj.Collection = result;
-
+	
 			// Create a model
 			var oModel = new sap.ui.model.json.JSONModel();
 			// Set collection to the model

@@ -33,10 +33,10 @@ sap.ui.define([
 			// Get Main model 
 			var mainModel = this.getOwnerComponent().getModel("Global");
 			// Get the ClientName name
-			var name = mainModel.getData().ClientName; 
+			var name = mainModel.getData().ClientName;
 			// Set the title to the page 
 			this.getView().byId("idPage").setTitle(name + " oVo Sustainment");
-			
+
 			// Get Data model 
 			var dataModel = this.getOwnerComponent().getModel("Data");
 			// Get data 
@@ -44,6 +44,10 @@ sap.ui.define([
 
 			// Create new arrays
 			var countClosed = [];
+			// Today's date 
+			var date = new Date();
+			// Get month 
+			var month = date.getMonth();
 			// Get SDM Points from global file 
 			var smdPoints = this.getView().getModel("Global").getData().SDMPoints;
 			// Get Sustain Start Date 
@@ -66,7 +70,8 @@ sap.ui.define([
 				if (closeYear === curYear && state === "closed successful") {
 					// Get month 
 					var monthClosed = closeDate.getMonth();
-					// Check the start date 
+			
+					// Check the month closed and start date 
 					if (monthClosed >= startDate) {
 						// Store each element to Close Time array
 						countClosed.push({
@@ -82,20 +87,21 @@ sap.ui.define([
 					}
 				}
 			}
-			
+
 			// Create a new object to store each month and sum 
 			var newArr = [];
 			// Sum points and group by monthly 
 			$.each(countClosed, function(index, element) {
+			//	console.log(element.points);
 				if (newArr[element.date] === undefined) {
 					newArr[element.date] = 0;
 				}
-				
+
 				// Check if there is any empty or no value 
 				if (element.points === "" || element.points === null) {
-					element.points = 0; 	
+					element.points = 0;
 				}
-				
+
 				newArr[element.date] += element.points;
 			});
 
@@ -133,6 +139,11 @@ sap.ui.define([
 			// Create a new object
 			var result = {};
 
+			// Get SDM Points from global file 
+			var smdPoints = this.getView().getModel("Global").getData().SDMPoints;
+			// Get Sustain Start Date 
+			var startDate = this.getView().getModel("Global").getData().SustainStartDate;
+
 			for (var key in quarters) {
 				var start = quarters[key]['start'],
 					end = quarters[key]['end'],
@@ -144,22 +155,27 @@ sap.ui.define([
 					// Use reduce to calculate the sum of numbers returned by slice call.
 					// storing the result using quarter name as a key.
 					result[key] = arr.slice(start, end).reduce(function(sum, number) {
+						//	console.log(sum);
+						//	console.log(number);
+						// Check the start date 
+						//	if (start < startDate) {
 						return sum + number;
+						//	} else {
+						//		return sum + number + smdPoints;
+						//	}
 					}, 0);
 				}
 			}
 
 			var output = [];
-			
-			// Calculate for each three months 
-		//	var eachQuarter = smdPoints * 3; 
+			//	console.log(result);	
 			for (var key in result) {
 				output.push({
 					"Quarter": key,
 					"TotalPoints": result[key]
 				});
 			}
-		console.log(output);
+
 			return output;
 		},
 

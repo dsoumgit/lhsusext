@@ -28,7 +28,7 @@
 							<com:content>
 								<com:ChartContainerContent icon="sap-icon://vertical-bar-chart">
 									<com:content>
-										<viz:VizFrame id="idVizFrame" uiConfig="{applicationSet:'fiori'}" height='450px' width="100%" vizType='line'
+										<viz:VizFrame id="idVizFrame" uiConfig="{applicationSet:'fiori'}" height='450px' width="100%" vizType='column'
 											vizProperties="{plotArea: {dataLabel: {visible: true} }}">
 											<viz:dataset>
 												<viz.data:FlattenedDataset data="{path: '/Collection'}">
