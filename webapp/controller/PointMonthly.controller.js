@@ -49,6 +49,16 @@ sap.ui.define([
 			var smdPoints = this.getView().getModel("Global").getData().SDMPoints;
 			// Get Sustain Start Date 
 			var startDate = this.getView().getModel("Global").getData().SustainStartDate;
+			// Convert to date object 
+			var startDateObj = new Date(startDate);
+			// Get month
+			var startMonth = startDateObj.getMonth();
+			/*if (startMonth < 12) {
+				startMonth += 1; 	
+			}*/
+			
+			// Get year
+			var startYear = startDateObj.getFullYear();
 			// Iterate through array
 			for (var i = 0; i < allData.length; i++) {
 
@@ -64,18 +74,22 @@ sap.ui.define([
 				// Check the current year and State 
 				if (closeYear === curYear && state === "closed successful") {
 					// Format the month 
-					var month = closeDate.getMonth();
+					var monthClosed = closeDate.getMonth();
+					// Add 1 to start from 1 - 12 
+					/*if (monthClosed < 12) {
+						monthClosed += 1;
+					}*/
 					// Check the start date 
-					if (month >= startDate) {
+					if (monthClosed >= startMonth && startYear === 2018) {
 						// Store each element to Close Time array
 						arrClosed.push({
-							date: month,
+							date: monthClosed,
 							points: allData[i].Points + smdPoints
 						});
 					} else {
 						// Store each element to Close Time array
 						arrClosed.push({
-							date: month,
+							date: monthClosed,
 							points: allData[i].Points
 						});
 					}
