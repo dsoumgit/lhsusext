@@ -84,8 +84,15 @@ sap.ui.define([
 					if (monthClosed < 12) {
 						monthClosed += 1;
 					}
+					
 					// Check the start date 
-					if (monthClosed >= startMonth && startYear === 2018) {
+					if (monthClosed >= startMonth && mainModel.ClientName === "SEMills" && startYear <= 2016) {
+							// Store each element to Close Time array
+						countClosed.push({
+							date: monthClosed,
+							points: allData[i].Points + smdPoints
+						});
+					} else if (monthClosed >= startMonth && mainModel.ClientName === "P66" && startYear <= 2018) {
 						// Store each element to Close Time array
 						countClosed.push({
 							date: monthClosed,
