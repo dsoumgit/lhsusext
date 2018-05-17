@@ -69,7 +69,7 @@ sap.ui.define([
 				// Get year
 				var yearCreated = createdDateObj.getFullYear();
 				// Get year
-				if (yearCreated === curYear) {
+				
 
 					/********** Created *************/
 					// Select each month
@@ -81,7 +81,7 @@ sap.ui.define([
 					var monthCreated = dateCreated.getMonth();
 					// Count number of each month
 					countCreated[monthCreated] = (countCreated[monthCreated] || 0) + 1;
-				}
+				
 
 				/********** Close Time *************/
 				// Select Close Time dates
@@ -93,7 +93,7 @@ sap.ui.define([
 				// Get State
 				var state = allData[i].State;
 
-				if (closeYear === curYear && state === "closed successful") {
+				if (state === "closed successful") {
 					// Select each month
 					var closedDate = allData[i]["Close Time"];
 					// Convert to date 
@@ -219,7 +219,7 @@ sap.ui.define([
 					}
 				}
 			}
-			console.log(countCreated);
+			
 			// Create a new array to store the collection
 			var mappedResult = [];
 			// Array of month names

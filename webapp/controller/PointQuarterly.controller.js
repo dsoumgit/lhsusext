@@ -1,3 +1,5 @@
+/* global moment:true */
+
 sap.ui.define([
 	"lhsusext/controller/BaseController"
 ], function(BaseController) {
@@ -17,37 +19,22 @@ sap.ui.define([
 		},
 
 		setPointQuarterly: function() {
-			// Get today's year
-			var today = new Date();
-			var curYear = today.getFullYear();
-
+			var currentYear = new Date().getFullYear();
 			// Get vizframe for Tickets
 			var idVizFrame = this.getView().byId("idVizFrame");
 			// Set title to the chart 
 			idVizFrame.setVizProperties({
 				title: {
-					text: curYear
+					text: currentYear
 				}
 			});
-
-			// Get Main model 
-			var mainModel = this.getOwnerComponent().getModel("Global");
-			// Get the ClientName name
-			var name = mainModel.getData().ClientName;
-			// Set the title to the page 
-			this.getView().byId("idPage").setTitle(name + " oVo Sustainment");
 
 			// Get Data model 
 			var dataModel = this.getOwnerComponent().getModel("Data");
 			// Get data 
 			var allData = dataModel.getData().AllData;
-
 			// Create new arrays
-			var countClosed = [];
-			// Today's date 
-			var date = new Date();
-			// Get month 
-			var month = date.getMonth();
+			var arrClosed = [];
 			// Get SDM Points from global file 
 			var smdPoints = this.getView().getModel("Global").getData().SDMPoints;
 			// Get Sustain Start Date 
@@ -57,13 +44,56 @@ sap.ui.define([
 			// Get month
 			var startMonth = startDateObj.getMonth();
 			if (startMonth < 12) {
-				startMonth += 1; 	
+				startMonth += 1;
 			}
-			
+
 			// Get year
 			var startYear = startDateObj.getFullYear();
 			/** Note: The start date from the Global file is between 0 - 11
 			 */
+
+			var currentMonth = new Date().getMonth();
+			if (currentMonth < 12) {
+				currentMonth += 1;
+			}
+
+			// Get the start date from AllData array
+			var startDate = moment(startDateObj, "M/D/YYYY");
+			var sortedRecords = allData.sort(function(a, b) {
+				return (a["Close Time"] && moment(a["Close Time"], "M/D/YY H:mm").unix()) - (b["Close Time"] && moment(b["Close Time"],
+					"M/D/YY H:mm").unix());
+			});
+
+			var startYear = moment(sortedRecords.find(function(record) {
+				return record["Close Time"];
+			})["Close Time"], "M/D/YY H:mm").format("YYYY");
+			var endYear = moment(sortedRecords[sortedRecords.length - 1]["Close Time"], "M/D/YY H:mm").format("YYYY");
+
+			// Convert start year to integer type
+			var endYearInt = parseInt(endYear);
+
+			var i = 1;
+
+			// Check the current year 
+			if (currentYear === endYearInt) {
+				
+				var curQuarter = moment().quarter();
+
+			 	for (var j = 1; j <= curQuarter; j++) {
+			 		if (j == curQuarter) {
+			 			if (currentMonth % 3 == 0) {
+			 				arrClosed.push({Quarter: j, TotalPoints: smdPoints });	
+			 			} else {
+			 				arrClosed.push({Quarter: j, TotalPoints: smdPoints * (currentMonth % 3) });
+			 			}
+			 		} else {
+			 			arrClosed.push({Quarter: j, TotalPoints: smdPoints * 3});
+			 		}
+			 	}
+
+			}
+
+			i = 0;
 			// Iterate through array
 			for (var i = 0; i < allData.length; i++) {
 
@@ -72,66 +102,39 @@ sap.ui.define([
 				var closeTime = allData[i]["Close Time"];
 				// Convert to date 
 				var closeDate = new Date(closeTime);
+
 				// Get year 
 				var closeYear = closeDate.getFullYear();
 				// Get State
 				var state = allData[i].State;
 				// Check the current year and State 
-				if (closeYear === curYear && state === "closed successful") {
-					// Get month 
-					var monthClosed = closeDate.getMonth();
-					// Add 1 to start from 1 - 12 
-					if (monthClosed < 12) {
-						monthClosed += 1;
-					}
-					
-					// Check the start date 
-					if (monthClosed >= startMonth && mainModel.ClientName === "SEMills" && startYear >= 2016) {
-							// Store each element to Close Time array
-						countClosed.push({
-							date: monthClosed,
-							points: allData[i].Points + smdPoints
-						});
-					} else if (monthClosed >= startMonth && mainModel.ClientName === "P66" && startYear >= 2018) {
-						// Store each element to Close Time array
-						countClosed.push({
-							date: monthClosed,
-							points: allData[i].Points + smdPoints
-						});	
-					} else {
-						// Store each element to Close Time array
-						countClosed.push({
-							date: monthClosed,
-							points: allData[i].Points
-						});
-					}
+				if (closeYear === currentYear && state === "closed successful") {
+					var closeQuarter = moment(closeDate).quarter();
+
+					arrClosed.forEach(function(obj) {
+						// Get Quarter
+						var quarter = obj.Quarter;
+						if (quarter === closeQuarter) {
+							// add points 
+							obj.TotalPoints += allData[i].Points;
+						}
+					});
+
 				}
 			}
 
-			// Create a new object to store each month and sum 
-			var newArr = [];
-			// Sum points and group by monthly 
-			$.each(countClosed, function(index, element) {
-			//	console.log(element.points);
-				if (newArr[element.date] === undefined) {
-					newArr[element.date] = 0;
-				}
-
-				// Check if there is any empty or no value 
-				if (element.points === "" || element.points === null) {
-					element.points = 0;
-				}
-
-				newArr[element.date] += element.points;
-			});
-
-			// Create an object 
+			// Create a new object
 			var obj = {};
-			obj.Collection = this.getEachQuarter(newArr);
+			// Store as a collection
+			obj.Collection = arrClosed;
 
 			// Create a model
 			var oModel = new sap.ui.model.json.JSONModel();
+			// Set binding mode
+			oModel.setDefaultBindingMode("OneWay");
+			// Set collection to the model
 			oModel.setData(obj);
+			// Set model to the view
 			this.getView().setModel(oModel);
 		},
 
