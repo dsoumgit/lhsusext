@@ -22,13 +22,6 @@ sap.ui.define([
 
 		setPointMonthly: function() {
 
-			// Get Main model 
-			var mainModel = this.getOwnerComponent().getModel("Global");
-			// Get the ClientName name
-			var name = mainModel.getData().ClientName;
-			// Set the title to the page 
-			this.getView().byId("idPage").setTitle(name + " oVo Sustainment");
-
 			// Get Data model 
 			var dataModel = this.getOwnerComponent().getModel("Data");
 			// Get data 
@@ -136,7 +129,6 @@ sap.ui.define([
 				}
 			}
 
-			console.log(arrClosed);
 			// Create a new object
 			var obj = {};
 			// Store as a collection
