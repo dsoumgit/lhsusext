@@ -71,7 +71,7 @@ sap.ui.define([
 			// Convert start year to integer type
 			var endYearInt = parseInt(endYear);
 			
-			 if (currentYear === endYearInt && startYear < currentYear) {
+			 if (currentYear === endYearInt && startYear <= currentYear) {
 				
 				if (startMonth <= currentMonth) {
 					while (startMonth <= currentMonth) {

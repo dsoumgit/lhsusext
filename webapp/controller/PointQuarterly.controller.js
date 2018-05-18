@@ -68,14 +68,16 @@ sap.ui.define([
 				return record["Close Time"];
 			})["Close Time"], "M/D/YY H:mm").format("YYYY");
 			var endYear = moment(sortedRecords[sortedRecords.length - 1]["Close Time"], "M/D/YY H:mm").format("YYYY");
-
+			
+			// Convert start year to integer type
+			var startYearInt = parseInt(startYear);
 			// Convert start year to integer type
 			var endYearInt = parseInt(endYear);
 
 			var i = 1;
 
 			// Check the current year 
-			if (currentYear === endYearInt && startYear < currentYear) {
+			if (currentYear === endYearInt && startYearInt <= currentYear) {
 				// Define start quarter 
 				var startQuarter = moment(startDateObj).quarter();
 				// Define current quarter

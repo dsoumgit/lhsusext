@@ -35,7 +35,7 @@ sap.ui.define([
 			this.pointConsump(allData);
 		},
 
-		setTicketMonthly: function(arr) {
+		asdssetTicketMonthly: function(arr) {
 			// Get today's year
 			var today = new Date();
 			var curYear = today.getFullYear();
@@ -81,6 +81,7 @@ sap.ui.define([
 					var monthCreated = dateCreated.getMonth();
 					// Count number of each month
 					countCreated[monthCreated] = (countCreated[monthCreated] || 0) + 1;
+
 				}
 
 				/********** Close Time *************/
@@ -102,6 +103,7 @@ sap.ui.define([
 					var monthClosed = dateClosed.getMonth();
 					// Count number of each month
 					countClosed[monthClosed] = (countClosed[monthClosed] || 0) + 1;
+
 				}
 			}
 
@@ -130,8 +132,8 @@ sap.ui.define([
 			// Set model to the view
 			this.getView().setModel(oModel);
 		},
-		
-		sdssetTicketMonthly: function(arr) {
+
+		setTicketMonthly: function(arr) {
 			// Get today's year
 			var today = new Date();
 			var currentYear = today.getFullYear();
@@ -153,63 +155,165 @@ sap.ui.define([
 
 			// All data array
 			var allRecords = arr.AllData;
+			/**** Created year ************/
 			// Get the end year 
-			var sortedRecords = allRecords.sort(function(a, b) {
+			var sortedCreated = allRecords.sort(function(a, b) {
 				return (a["Created"] && moment(a["Created"], "M/D/YY H:mm").unix()) - (b["Created"] && moment(b["Created"],
 					"M/D/YY H:mm").unix());
 			});
-			var endYearCreated = moment(sortedRecords[sortedRecords.length - 1]["Created"], "M/D/YY H:mm").format("YYYY");
-			console.log(endYearCreated);
+			var endYearCreated = moment(sortedCreated[sortedCreated.length - 1]["Created"], "M/D/YY H:mm").format("YYYY");
+			// Convert end year to integer 
+			var endYearInt = parseInt(endYearCreated);
+
 			// Define the current month
 			var currentMonth = today.getMonth();
 			// Add 1 to the month 
 			if (currentMonth < 12) {
 				currentMonth += 1;
 			}
-
-			var createdResult = [];
+			
+			// Define variables 
+			var resultCreated = [];
 			// Check the year 
-			if (parseInt(endYearCreated) === currentYear) {
-				// Get the month from 1 - 12 
-				// Iterate through Created column 
-				allRecords.forEach(function(obj) {
-					// Get Created 
-					var created = obj.Created;
-					// Convert to date object 
-					var createdDate = new Date(created);
-					// Get year 
-					var createdYear = createdDate.getFullYear();
-					// Get month 
-					var createdMonth = createdDate.getMonth();
-					// Add 1 to the month
-					if (createdMonth < 12) {
-						createdMonth += 1;
-					}
+			if (endYearInt === currentYear) {
+				var i = 1;
+				// Create each month for the current year
+				while (i <= currentMonth) {
+					resultCreated.push({
+						Month: i,
+						Created: 0
+					});
+					i++;
+				}
+			}
 
-					// Add month to the array 
-					if (createdMonth === currentMonth) {
-						createdResult.push({
-							Month: createdMonth,
-							Created: obj
-						});
+			/**** Close Time year ************/
+			// Get the end year 
+			var sortedClosed = allRecords.sort(function(a, b) {
+				return (a["Close Time"] && moment(a["Close Time"], "M/D/YY H:mm").unix()) - (b["Close Time"] && moment(b["Close Time"],
+					"M/D/YY H:mm").unix());
+			});
+			var endYearClosed = moment(sortedClosed[sortedClosed.length - 1]["Close Time"], "M/D/YY H:mm").format("YYYY");
+			// Convert to int type
+			var endYearClosedInt = parseInt(endYearClosed);
+			//	console.log(endYearClosed);
+			var resultClosed = [];
+			// Check the year 
+			if (endYearClosedInt === currentYear) {
+				var k = 1;
+				// Create each month for the current year
+				while (k <= currentMonth) {
+					resultClosed.push({
+						Month: k,
+						Closed: 0
+					});
+					k++;
+				}
+			}
+			//	console.log(resultClosed);
+			/****** Created *****************/
+			// Get the month from 1 - 12 
+			// Iterate through Created column 
+			for (var j = 0; j < allRecords.length; j++) {
+				// Get Created 
+				var created = allRecords[j].Created;
+				// Convert to date object 
+				var createdDate = new Date(created);
+				// Get month 
+				var createdMonth = createdDate.getMonth();
+				// Add 1 to the month
+				if (createdMonth < 12) {
+					createdMonth += 1;
+				}
+
+				// Get year 
+				var createdYear = createdDate.getFullYear();
+
+				/******* Created ********************/
+				// Check the year between created and current 
+				if (createdYear === currentYear) {
+					// Store the objects and get length 
+					var createdMonthNum = [allRecords[j]];
+
+					// Iterate through month array
+					resultCreated.forEach(function(obj) {
+						// Get Month
+						var month = obj.Month;
+						// Check the match
+						if (month === createdMonth) {
+							// Store the number of records 
+							obj.Created += createdMonthNum.length;
+						}
+					});
+				}
+			}
+
+			/****** Close Time *****************/
+			// Get the month from 1 - 12 
+			// Iterate through Created column 
+			for (var a = 0; a < allRecords.length; a++) {
+				// Get Created 
+				var closeTime = allRecords[a]["Close Time"];
+				// Convert to date object 
+				var closeTimeDate = new Date(closeTime);
+				// Get month 
+				var closedMonth = closeTimeDate.getMonth();
+				// Add 1 to the month
+				if (closedMonth < 12) {
+					closedMonth += 1;
+				}
+
+				// Get State 
+				var state = allRecords[a].State;
+				// Get year
+				var closedYear = closeTimeDate.getFullYear();
+				// Get only "Closed"
+				if (state === "closed successful" && closedYear === currentYear) {
+					// Store the objects and get length 
+					var closedMonthNum = [allRecords[a]];
+
+					// Iterate through month array
+					resultClosed.forEach(function(obj) {
+						// Get Month
+						var month = obj.Month;
+						// Check the match
+						if (month === closedMonth) {
+							// Store the number of records 
+							obj.Closed += closedMonthNum.length;
+
+						}
+					});
+				}
+			}
+
+			// Create a new array
+			var result = []; 
+			// Loop through 
+			resultCreated.forEach(function (obj) {
+				// Month
+				var month = obj.Month; 
+				resultClosed.forEach(function (elem) {
+					// Month
+					var m = elem.Month; 
+					if (month === m) {
+						result.push({Month: month, CreatedRequests: obj.Created, ClosedRequests: elem.Closed});
 					}
 				});
-			}
-			console.log(createdResult);
-
-			var groupBy = _.groupBy(createdResult, function(elem) {
-				return Math.floor(elem.Month);
 			});
-			
-			console.log(groupBy);
+					
+			// Create a new object
+			var obj = {};
+			// Store as a collection
+			obj.Collection = result;
 
-			// Check the year between current year 
-			//	if (endYear === currentYear) {
-
-			//	}
+			// Create a model
+			var oModel = new sap.ui.model.json.JSONModel();
+			// Set collection to the model
+			oModel.setData(obj);
+			// Set model to the view
+			this.getView().setModel(oModel);
 		},
 
-		
 		// SLA Tracker 
 		SLATracker: function(arr) {
 			// Get all the data 
@@ -341,7 +445,7 @@ sap.ui.define([
 				plotArea: {
 					dataLabel: {
 						showTotal: true
-					}	
+					}
 				},
 				title: {
 					text: curYear
