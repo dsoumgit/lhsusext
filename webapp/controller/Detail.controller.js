@@ -1,3 +1,5 @@
+/* global moment:true */
+
 jQuery.sap.require("sap.m.MessageBox");
 jQuery.sap.require("lhsusext.util.formatter");
 
@@ -58,113 +60,6 @@ sap.ui.define([
 			// Create new arrays
 			var countCreated = [];
 			var countClosed = [];
-			// Array of month names
-			var monthName = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
-			// Iterate through array
-			for (var i = 0; i < allData.length; i++) {
-				// Select Created dates
-				var createdObj = allData[i].Created;
-				// Convert to Date object
-				var createdDateObj = new Date(createdObj);
-				// Get year
-				var yearCreated = createdDateObj.getFullYear();
-				// Get year
-				
-
-					/********** Created *************/
-					// Select each month
-					var createdDate = allData[i].Created;
-					// Convert to date object 
-					var dateCreated = new Date(createdDate);
-					//	console.log(dateCreated);
-					// Get month
-					var monthCreated = dateCreated.getMonth();
-					// Count number of each month
-					countCreated[monthCreated] = (countCreated[monthCreated] || 0) + 1;
-				
-
-				/********** Close Time *************/
-				// Select Close Time dates
-				var closeTime = allData[i]["Close Time"];
-				// Convert to date 
-				var closeDate = new Date(closeTime);
-				// Get year 
-				var closeYear = closeDate.getFullYear();
-				// Get State
-				var state = allData[i].State;
-
-				if (state === "closed successful") {
-					// Select each month
-					var closedDate = allData[i]["Close Time"];
-					// Convert to date 
-					var dateClosed = new Date(closedDate);
-					// Get month
-					var monthClosed = dateClosed.getMonth();
-					// Count number of each month
-					countClosed[monthClosed] = (countClosed[monthClosed] || 0) + 1;
-				}
-			}
-
-			var mappedResult = [];
-			// Create object properties  
-			for (var j = 0; j < countCreated.length; j++) {
-				mappedResult.push({
-					Month: monthName[j],
-					CreatedRequests: countCreated[j],
-					ClosedRequests: countClosed[j]
-				});
-			}
-			
-			// Get the current month
-			var curMonth = today.getMonth();
-			// check if current month exists 
-			if (mappedResult[mappedResult.length - 1].Month !== monthName[curMonth]) {
-				// Set to current month and created and closed tickets are 0
-				mappedResult.push({
-					Month: monthName[curMonth],
-					CreatedRequests: 0,
-					ClosedRequests: 0
-				});
-			}
-			
-			// Create a new object
-			var obj = {};
-			// Store as a collection
-			obj.Collection = mappedResult;
-
-			// Create a model
-			var oModel = new sap.ui.model.json.JSONModel();
-			// Set collection to the model
-			oModel.setData(obj);
-			// Set model to the view
-			this.getView().setModel(oModel);
-		},
-
-		orisetTicketMonthly: function(arr) {
-			// Get today's year
-			var today = new Date();
-			var curYear = today.getFullYear();
-
-			// Get vizframe for Tickets
-			var ticketFrame = this.getView().byId("ticketFrame");
-			// Set title to the chart 
-			ticketFrame.setVizProperties({
-				plotArea: {
-					dataLabel: {
-						formatString: "####",
-						visible: true
-					}
-				},
-				title: {
-					text: curYear
-				}
-			});
-
-			// Get all the data
-			var allData = arr.AllData;
-			// Create new arrays
-			var countCreated = [];
-			var countClosed = [];
 
 			// Iterate through array
 			for (var i = 0; i < allData.length; i++) {
@@ -182,16 +77,10 @@ sap.ui.define([
 					var createdDate = allData[i].Created;
 					// Convert to date object 
 					var dateCreated = new Date(createdDate);
-					console.log(dateCreated);
-
 					// Get month
 					var monthCreated = dateCreated.getMonth();
-					if (monthCreated !== today.getMonth()) {
-						countCreated[today.getMonth()] = 0;
-					} else {
-						// Count number of each month
-						countCreated[monthCreated] = (countCreated[monthCreated] || 0) + 1;
-					}
+					// Count number of each month
+					countCreated[monthCreated] = (countCreated[monthCreated] || 0) + 1;
 				}
 
 				/********** Close Time *************/
@@ -211,63 +100,17 @@ sap.ui.define([
 					var dateClosed = new Date(closedDate);
 					// Get month
 					var monthClosed = dateClosed.getMonth();
-					if (monthClosed !== today.getMonth()) {
-						countClosed[today.getMonth()] = 0;
-					} else {
-						// Count number of each month
-						countClosed[monthClosed] = (countClosed[monthClosed] || 0) + 1;
-					}
+					// Count number of each month
+					countClosed[monthClosed] = (countClosed[monthClosed] || 0) + 1;
 				}
 			}
-			
+
 			// Create a new array to store the collection
 			var mappedResult = [];
 			// Array of month names
 			var monthName = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
-			var curMonth = today.getMonth();
-			var test = [];
-			for (var m = 0; m < monthName.length; m++) {
-				if (m === 4) {
-					test.push(monthName[m]);
-				}
-
-			}
-
-			console.log(test);
-			//	console.log(countCreated);	
-			/*for (var created in countCreated) {
-				// Convert to int
-				var createdMonth = parseInt(created, 10);
-				// Check the month 
-				if (createdMonth !== curMonth) {
-					/*countCreated.forEach(function (obj) {
-						mappedResult.push({
-							CreatedRequests: obj
-						});
-					});
-					mappedResult.push({
-						Month: monthName[curMonth],
-						CreatedRequests: 0,
-						ClosedRequests: 0
-					});
-				}
-			}
-		console.log(mappedResult);	
-			for (var closed in countClosed) {
-				// Convert to int
-				var closedMonth = parseInt(closed, 10);
-				// Check the month 
-				if (closedMonth !== curMonth) {
-					mappedResult.push({
-						CreatedRequests: 0	
-					});
-				}
-			}
-	console.log(mappedResult);	 */
-
 			// Create object properties  
 			for (var j = 0; j < countCreated.length; j++) {
-				//	console.log()
 				mappedResult.push({
 					Month: monthName[j],
 					CreatedRequests: countCreated[j],
@@ -287,7 +130,86 @@ sap.ui.define([
 			// Set model to the view
 			this.getView().setModel(oModel);
 		},
+		
+		sdssetTicketMonthly: function(arr) {
+			// Get today's year
+			var today = new Date();
+			var currentYear = today.getFullYear();
 
+			// Get vizframe for Tickets
+			var ticketFrame = this.getView().byId("ticketFrame");
+			// Set title to the chart 
+			ticketFrame.setVizProperties({
+				plotArea: {
+					dataLabel: {
+						formatString: "####",
+						visible: true
+					}
+				},
+				title: {
+					text: currentYear
+				}
+			});
+
+			// All data array
+			var allRecords = arr.AllData;
+			// Get the end year 
+			var sortedRecords = allRecords.sort(function(a, b) {
+				return (a["Created"] && moment(a["Created"], "M/D/YY H:mm").unix()) - (b["Created"] && moment(b["Created"],
+					"M/D/YY H:mm").unix());
+			});
+			var endYearCreated = moment(sortedRecords[sortedRecords.length - 1]["Created"], "M/D/YY H:mm").format("YYYY");
+			console.log(endYearCreated);
+			// Define the current month
+			var currentMonth = today.getMonth();
+			// Add 1 to the month 
+			if (currentMonth < 12) {
+				currentMonth += 1;
+			}
+
+			var createdResult = [];
+			// Check the year 
+			if (parseInt(endYearCreated) === currentYear) {
+				// Get the month from 1 - 12 
+				// Iterate through Created column 
+				allRecords.forEach(function(obj) {
+					// Get Created 
+					var created = obj.Created;
+					// Convert to date object 
+					var createdDate = new Date(created);
+					// Get year 
+					var createdYear = createdDate.getFullYear();
+					// Get month 
+					var createdMonth = createdDate.getMonth();
+					// Add 1 to the month
+					if (createdMonth < 12) {
+						createdMonth += 1;
+					}
+
+					// Add month to the array 
+					if (createdMonth === currentMonth) {
+						createdResult.push({
+							Month: createdMonth,
+							Created: obj
+						});
+					}
+				});
+			}
+			console.log(createdResult);
+
+			var groupBy = _.groupBy(createdResult, function(elem) {
+				return Math.floor(elem.Month);
+			});
+			
+			console.log(groupBy);
+
+			// Check the year between current year 
+			//	if (endYear === currentYear) {
+
+			//	}
+		},
+
+		
 		// SLA Tracker 
 		SLATracker: function(arr) {
 			// Get all the data 
@@ -416,6 +338,11 @@ sap.ui.define([
 			var pointFrame = this.getView().byId("pointFrame");
 			// Set title to the chart 
 			pointFrame.setVizProperties({
+				plotArea: {
+					dataLabel: {
+						showTotal: true
+					}	
+				},
 				title: {
 					text: curYear
 				}
