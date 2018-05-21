@@ -29,108 +29,12 @@ sap.ui.define([
 			var allData = dataModel.getData();
 			// Monthly method
 			this.setTicketMonthly(allData);
+			// Oldest Closed Requests
+			this.getOldestRequests(allData);
 			// SLA Tracker chart
 			this.SLATracker(allData);
 			// Point consumption
 			this.pointConsump(allData);
-		},
-
-		asdssetTicketMonthly: function(arr) {
-			// Get today's year
-			var today = new Date();
-			var curYear = today.getFullYear();
-
-			// Get vizframe for Tickets
-			var ticketFrame = this.getView().byId("ticketFrame");
-			// Set title to the chart 
-			ticketFrame.setVizProperties({
-				plotArea: {
-					dataLabel: {
-						formatString: "####",
-						visible: true
-					}
-				},
-				title: {
-					text: curYear
-				}
-			});
-
-			// Get all the data
-			var allData = arr.AllData;
-			// Create new arrays
-			var countCreated = [];
-			var countClosed = [];
-
-			// Iterate through array
-			for (var i = 0; i < allData.length; i++) {
-				// Select Created dates
-				var createdObj = allData[i].Created;
-				// Convert to Date object
-				var createdDateObj = new Date(createdObj);
-				// Get year
-				var yearCreated = createdDateObj.getFullYear();
-				// Get year
-				if (yearCreated === curYear) {
-
-					/********** Created *************/
-					// Select each month
-					var createdDate = allData[i].Created;
-					// Convert to date object 
-					var dateCreated = new Date(createdDate);
-					// Get month
-					var monthCreated = dateCreated.getMonth();
-					// Count number of each month
-					countCreated[monthCreated] = (countCreated[monthCreated] || 0) + 1;
-
-				}
-
-				/********** Close Time *************/
-				// Select Close Time dates
-				var closeTime = allData[i]["Close Time"];
-				// Convert to date 
-				var closeDate = new Date(closeTime);
-				// Get year 
-				var closeYear = closeDate.getFullYear();
-				// Get State
-				var state = allData[i].State;
-
-				if (closeYear === curYear && state === "closed successful") {
-					// Select each month
-					var closedDate = allData[i]["Close Time"];
-					// Convert to date 
-					var dateClosed = new Date(closedDate);
-					// Get month
-					var monthClosed = dateClosed.getMonth();
-					// Count number of each month
-					countClosed[monthClosed] = (countClosed[monthClosed] || 0) + 1;
-
-				}
-			}
-
-			// Create a new array to store the collection
-			var mappedResult = [];
-			// Array of month names
-			var monthName = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
-			// Create object properties  
-			for (var j = 0; j < countCreated.length; j++) {
-				mappedResult.push({
-					Month: monthName[j],
-					CreatedRequests: countCreated[j],
-					ClosedRequests: countClosed[j]
-				});
-			}
-
-			// Create a new object
-			var obj = {};
-			// Store as a collection
-			obj.Collection = mappedResult;
-
-			// Create a model
-			var oModel = new sap.ui.model.json.JSONModel();
-			// Set collection to the model
-			oModel.setData(obj);
-			// Set model to the view
-			this.getView().setModel(oModel);
 		},
 
 		setTicketMonthly: function(arr) {
@@ -313,7 +217,43 @@ sap.ui.define([
 			// Set model to the view
 			this.getView().setModel(oModel);
 		},
+		
+		getOldestRequests: function(arr) {
+			// Get All Data array
+			var allRecords = arr.AllData;
+			// Define new variable for years
+			var result = [];
+			// Iterate through All Data array
+			allRecords.forEach(function(obj) {
+				// Get State 
+				var state = obj.State; 
+				// Get all except closed successful 
+				if (state !== "closed successful") {
+					// Store all objects to new array
+					result.push(obj);
+				}
+			});
+			
+			// Sort by Created dates 
+			var sortedRecords = result.sort(function(a, b) {
+				return (a["Created"] && moment(a["Created"], "M/D/YY H:mm").unix()) - (b["Created"] && moment(b["Created"],
+					"M/D/YY H:mm").unix());
+			});
 
+			// Get first five objects
+			var mappedResult = sortedRecords.slice(0, 5);
+			// Create an object
+			var obj = {};
+			obj.DataCollection = mappedResult;
+
+			// Create json model
+			var oModel = new sap.ui.model.json.JSONModel();
+			// Set data 
+			oModel.setData(obj);
+			// Set object to the view
+			this.getView().setModel(oModel, "OldData");
+		},
+		
 		// SLA Tracker 
 		SLATracker: function(arr) {
 			// Get all the data 

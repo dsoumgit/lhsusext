@@ -164,5 +164,22 @@ lhsusext.util.formatter = {
 		var monthlyPoints = oPoint[0].MonthlyPoints;
 		
 		return Math.abs(totalPoints - monthlyPoints); 
+	},
+	
+	dateFormat: function (oDate) {
+		// Convert to date object 
+		var dateObj = new Date(oDate);
+		// Get month
+		var month = dateObj.getMonth();
+		// Add 1 to month 
+		if (month < 12) {
+			month += 1; 
+		}
+		// Get date 
+		var date = dateObj.getDate();
+		// Get year
+		var year = dateObj.getFullYear();
+		// Format 
+		return month + "/" + date + "/" + year; 
 	}
 };

@@ -44,6 +44,53 @@
 							</content>
 						</Panel>
 						<Panel height="auto" width="auto" class="sapUiResponsiveMargin">
+							<content>
+								<Table id="idProductsTable" inset="false" items="{ path: 'OldData>/DataCollection' }">
+									<headerToolbar>
+										<Toolbar>
+											<Title text="Oldest Closed Requests" level="H2"/>
+										</Toolbar>
+									</headerToolbar>
+									<columns>
+										<Column width="4em">
+											<Text text="Ticket Number"/>
+										</Column>
+										<Column minScreenWidth="Tablet" width="12em" demandPopin="true">
+											<Text text="Description"/>
+										</Column>
+										<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+											<Text text="Created On"/>
+										</Column>
+										<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+											<Text text="Status"/>
+										</Column>
+										<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+											<Text text="Queue"/>
+										</Column>
+										<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+											<Text text="Customer User"/>
+										</Column>
+										<Column hAlign="Center">
+											<Text text="Functional Area"/>
+										</Column>
+									</columns>
+									<items>
+										<ColumnListItem>
+											<cells>
+												<Text text="{OldData>Ticket#}"/>
+												<Text text="{OldData>Title}"/>
+												<Text text="{path: 'OldData>Created', formatter: 'lhsusext.util.formatter.dateFormat'}"/>
+												<Text text="{OldData>State}" />
+												<Text text="{OldData>Queue}" />
+												<Text text="{OldData>Customer User}" />
+												<Text text="{OldData>Functional Area}" />
+											</cells>
+										</ColumnListItem>
+									</items>
+								</Table>
+							</content>
+						</Panel>
+						<Panel height="auto" width="auto" class="sapUiResponsiveMargin">
 							<headerToolbar>
 								<Toolbar height="3rem">
 									<Title text="SLA Tracker"/>
