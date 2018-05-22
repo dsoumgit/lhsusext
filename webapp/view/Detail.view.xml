@@ -48,7 +48,7 @@
 								<Table id="idProductsTable" inset="false" items="{ path: 'OldData>/DataCollection' }">
 									<headerToolbar>
 										<Toolbar>
-											<Title text="Oldest Open Requests" level="H2"/>
+											<Title text="Aging Report" level="H2"/>
 										</Toolbar>
 									</headerToolbar>
 									<columns>
