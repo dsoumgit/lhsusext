@@ -14,8 +14,10 @@ sap.ui.define([
 		onInit: function() {
 			this.oInitialLoadFinishedDeferred = jQuery.Deferred();
 			this.bus = sap.ui.component(sap.ui.core.Component.getOwnerIdFor(this.getView())).getEventBus();
+			
+			this.getRouter().attachRoutePatternMatched(this.onRouteMatched, this);
 		},
-
+		
 		onBeforeRendering: function() {
 			// Get the Data model 
 			var mainModel = this.getOwnerComponent().getModel("Global");
@@ -36,7 +38,23 @@ sap.ui.define([
 			// Point consumption
 			this.pointConsump(allData);
 		},
-
+		
+		onRouteMatched: function(oEvent) {
+			var sName = oEvent.getParameter("name");
+			
+			if (sName === "master") {
+				// Get Plant 
+				// Get data model
+				var dataModel = this.getOwnerComponent().getModel("Data");
+				// Get all data array
+				var allData = dataModel.getData();
+				// Monthly method
+				this.setTicketMonthly(allData);
+				// Point consumption 
+				this.pointConsump(allData);
+			}
+		},
+		
 		setTicketMonthly: function(arr) {
 			// Get today's year
 			var today = new Date();
