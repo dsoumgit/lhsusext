@@ -478,8 +478,8 @@ sap.ui.define([
 				obj.Collection = [{
 					Month: monthNames[today.getMonth()],
 					SDM: sdmPoints,
-				//	Innovation: monthInno.length,
-					ClosedRequests: totalPoints
+					Innovation: totalPoints,
+					ClosedRequests: monthInno.length
 				}];
 			}
 
