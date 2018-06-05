@@ -395,7 +395,11 @@ sap.ui.define([
 			var curYear = today.getFullYear();
 			// Current month
 			var curMonth = today.getMonth();
-
+			// Add 1 to the month
+			if (curMonth < 12) {
+				curMonth += 1; 	
+			}
+					
 			// Get vizframe for Tickets
 			var pointFrame = this.getView().byId("pointFrame");
 			// Set title to the chart 
@@ -433,100 +437,56 @@ sap.ui.define([
 				if (closeYear === curYear && state === "closed successful") {
 					// Get month 
 					var month = closeDate.getMonth();
-
+					// Add 1 to the month
+					if (month < 12) {
+						month += 1; 	
+					}
+					
 					// Filter by Innovation from Priority column
 					var inno = allData[i].Priority;
 					// Get the number of rows for Innovation
-					if (month === curMonth) {
-						if (inno === "4. Innovation (Enhancement)") {
-							monthInno.push(allData[i].Points);
-						} else {
-							monthNonInno.push(allData[i].Points);
-						}
+					if (month === curMonth && inno === "4. Innovation (Enhancement)") {
+						monthInno.push(allData[i]);
 					}
 				}
 			}
 
+			var totalPoints = 0;
+			// Total innovation points 
+			monthInno.forEach(function (obj) {
+				// Total Points 
+				totalPoints += obj.Points; 
+			});
+			
 			// Create a new object
 			var obj = {};
 			// Array of months
 			var monthNames = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
-			// Create a model
-			var oModel = new sap.ui.model.json.JSONModel();
-
+			
 			// Get the SDM Points  			
 			var sdmPoints = this.getView().getModel("Global").getData().SDMPoints;
-			// Get the Total Monthly Points from global file 
-			var monthlyPoints = this.getView().getModel("Global").getData().MonthlyPoints;
-			// Create a total point variable 
-			var totalPoints, overage, rolloverPoints;
-			//	total points = SDM Points + Total Points of closed tickets
-			totalPoints = sdmPoints + monthNonInno.length;
-			// Check the value 
-			if (totalPoints > monthlyPoints) {
-				// Calculate the average by substracting the monthly points with total points
-				overage = monthlyPoints - totalPoints;
-			}
-
-			if (totalPoints < monthlyPoints) {
-				// Calculate the roll over points 
-				rolloverPoints = monthlyPoints - totalPoints;
-			}
-
-			// Check each month 
-			if (monthInno.length === 0 || monthNonInno.length === 0) {
-
+			
+			// Check if no result 
+			if (monthInno.length === 0) {
 				obj.Collection = [{
 					Month: monthNames[today.getMonth()],
 					SDM: sdmPoints,
-					//	MonthlyPoints: monthlyPoints, 
-					Innovation: monthInno.length,
-					ClosedRequests: monthNonInno.length
-						//	TotalPoints: totalPoints, 
-						//	Overage: overage,
-						//	RolloverPoints: rolloverPoints
+					Innovation: 0,
+					ClosedRequests: 0 
 				}];
-
-				// Set collection to the model
-				oModel.setData(obj);
 			} else {
-				// Remove any empty string 
-				var innoArray = monthInno.filter(function(v) {
-					return v !== "";
-				});
-
-				// Remove any empty string 
-				var nonInnoArray = monthNonInno.filter(function(v) {
-					return v !== "";
-				});
-
-				// Sum the Innovation points
-				var sumInnoPoints = innoArray.reduce(function(sum, num) {
-					// Return the total
-					return sum + num;
-				});
-
-				// Sum the Non Innovation points
-				var sumNonInnoPoints = nonInnoArray.reduce(function(sum, num) {
-					// Return the total
-					return sum + num;
-				});
-
-				// Create a collection
 				obj.Collection = [{
 					Month: monthNames[today.getMonth()],
 					SDM: sdmPoints,
-					//	MonthlyPoints: monthlyPoints, 
-					Innovation: sumInnoPoints,
-					ClosedRequests: sumNonInnoPoints
-						//	Overage: overage,
-						//	RolloverPoints: rolloverPoints
+				//	Innovation: monthInno.length,
+					ClosedRequests: totalPoints
 				}];
-
-				// Set collection to the model
-				oModel.setData(obj);
 			}
 
+			// Create a model
+			var oModel = new sap.ui.model.json.JSONModel();
+			// Set data to the model
+			oModel.setData(obj);
 			// Set model to the view
 			this.getView().setModel(oModel, "PointModel");
 		},
