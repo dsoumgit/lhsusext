@@ -19,12 +19,6 @@ sap.ui.define([
 		},
 		
 		onBeforeRendering: function() {
-			// Get the Data model 
-			var mainModel = this.getOwnerComponent().getModel("Global");
-			// Get the ClientName name
-			var name = mainModel.getData().ClientName;
-			// Set the title to the page 
-			this.getView().byId("idPage").setTitle(name + " oVo Sustainment");
 			// Get data model
 			var dataModel = this.getOwnerComponent().getModel("Data");
 			// Get all data array

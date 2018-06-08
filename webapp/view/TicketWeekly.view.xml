@@ -11,7 +11,7 @@
 	xmlns:mic="sap.suite.ui.microchart" 
 	xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds"
 	xmlns="sap.m">
-	<Page id="idPage" navButtonPress="onNavBack" showNavButton="false">
+	<Page id="idPage" title="{Global>/ClientName} oVo Sustainment" navButtonPress="onNavBack" showNavButton="false">
 		<content>
 			<Panel width="auto" class="sapUiResponsiveMargin" visible="true">
 				<Panel height="auto" width="auto" class="sapUiResponsiveMargin">

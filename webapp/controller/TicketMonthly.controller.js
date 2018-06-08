@@ -29,13 +29,6 @@ sap.ui.define([
 					text: curYear
 				}
 			});
-
-			// Get Main model 
-			var mainModel = this.getOwnerComponent().getModel("Global");
-			// Get the ClientName name
-			var name = mainModel.getData().ClientName; 
-			// Set the title to the page 
-			this.getView().byId("idPage").setTitle(name + " oVo Sustainment");
 			
 			// Get Data model 
 			var dataModel = this.getOwnerComponent().getModel("Data");
