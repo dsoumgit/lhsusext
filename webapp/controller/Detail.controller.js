@@ -441,6 +441,8 @@ sap.ui.define([
 					// Get the number of rows for Innovation
 					if (month === curMonth && inno === "4. Innovation (Enhancement)") {
 						monthInno.push(allData[i]);
+					} else if (month === curMonth && inno !== "4. Innovation (Enhancement)") {
+						monthNonInno.push(allData[i]);
 					}
 				}
 			}
@@ -473,7 +475,7 @@ sap.ui.define([
 					Month: monthNames[today.getMonth()],
 					SDM: sdmPoints,
 					Innovation: totalPoints,
-					ClosedRequests: monthInno.length
+					ClosedRequests: monthNonInno.length
 				}];
 			}
 
