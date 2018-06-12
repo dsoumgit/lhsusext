@@ -121,7 +121,7 @@ sap.ui.define([
 			// Create unique names
 			var uniqueNames = []; 
 			// Remove duplicate elements 
-			$.each(queueArr, function(i, ele) {
+			$.each(queueArr, function(ind, ele) {
 				// Check the element if it is not in array
 				if ($.inArray(ele, uniqueNames) === -1 || $.inArray(ele, uniqueNames) === "") {
 					// Add to the new array

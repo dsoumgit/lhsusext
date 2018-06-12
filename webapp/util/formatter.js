@@ -1,3 +1,5 @@
+/* global moment:true */
+
 jQuery.sap.declare("lhsusext.util.formatter");
 
 jQuery.sap.require("sap.ui.core.format.NumberFormat");
@@ -132,54 +134,10 @@ lhsusext.util.formatter = {
 			return rolloverPoints; 
 		}
 	},
-	
-	getPointColor: function(oPoint) {
-		// Get Total Points 
-		var totalPoints = oPoint[0].TotalPoints;
-		// Get Monthly Points 
-		var monthlyPoints = oPoint[0].MonthlyPoints;
-		// Create a total point variable 
-		var overage, rolloverPoints;
-	//	console.log(totalPoints);
-		// Check the value 
-		if (totalPoints > monthlyPoints) {
-			// Calculate the average by substracting the monthly points with total points
-			overage = monthlyPoints - totalPoints;
 
-			return "Error";
-		}
-
-		if (totalPoints < monthlyPoints) {
-			// Calculate the roll over points 
-			rolloverPoints = monthlyPoints - totalPoints;
-
-			return "Good"; 
-		}
-	},
-	
-	getResult: function (oPoint) {
-		// Get Total Points 
-		var totalPoints = oPoint[0].TotalPoints;
-		// Get Monthly Points 
-		var monthlyPoints = oPoint[0].MonthlyPoints;
-		
-		return Math.abs(totalPoints - monthlyPoints); 
-	},
 	
 	dateFormat: function (oDate) {
-		// Convert to date object 
-		var dateObj = new Date(oDate);
-		// Get month
-		var month = dateObj.getMonth();
-		// Add 1 to month 
-		if (month < 12) {
-			month += 1; 
-		}
-		// Get date 
-		var date = dateObj.getDate();
-		// Get year
-		var year = dateObj.getFullYear();
-		// Format 
-		return month + "/" + date + "/" + year; 
+		// Format the date
+		return moment(oDate).format("MM/DD/YYYY");
 	}
 };

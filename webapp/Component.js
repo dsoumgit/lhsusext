@@ -1,11 +1,10 @@
-jQuery.sap.require("sap.m.MessageBox");
-/* global moment:true */
+
 sap.ui.define([
 	"sap/ui/core/UIComponent",
 	"sap/ui/Device",
-	"lhsusext/model/models",
-	"lhsusext/libs/moment"
-], function(UIComponent, Device, models, momentjs) {
+	"lhsusext/model/models"
+//	"lhsusext/libs/moment"
+], function(UIComponent, Device, models) {
 	"use strict";
 
 	return UIComponent.extend("lhsusext.Component", {
@@ -50,16 +49,16 @@ sap.ui.define([
 						type: "GET",
 						async: false,
 						cache: false,
-						success: function(response) {
+						success: function(globalResponse) {
 							// Set the binding mode
 							globalModel.setDefaultBindingMode("OneWay");
 							// Set model to data 
-							globalModel.setData(response);
+							globalModel.setData(globalResponse);
 							// Set data to the view 
 							that.setModel(globalModel, "Global");
 
 							// Get file name 
-							var fileName = response.DataFileName;
+							var fileName = globalResponse.DataFileName;
 
 							// Get data file 
 							$.ajax({
@@ -67,12 +66,12 @@ sap.ui.define([
 								type: "GET",
 								async: false,
 								cache: false,
-								success: function(response) {
+								success: function(dataResponse) {
 
 									// Set the binding mode
 									dataModel.setDefaultBindingMode("OneWay");
 									// Set model to data 
-									dataModel.setData(response);
+									dataModel.setData(dataResponse);
 									// Set data to the view 
 									that.setModel(dataModel, "Data");
 

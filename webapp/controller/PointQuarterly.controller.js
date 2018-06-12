@@ -58,7 +58,7 @@ sap.ui.define([
 			}
 
 			// Get the start date from AllData array
-			var startDate = moment(startDateObj, "M/D/YYYY");
+		//	var startDate = moment(startDateObj, "M/D/YYYY");
 			var sortedRecords = allData.sort(function(a, b) {
 				return (a["Close Time"] && moment(a["Close Time"], "M/D/YY H:mm").unix()) - (b["Close Time"] && moment(b["Close Time"],
 					"M/D/YY H:mm").unix());
@@ -154,70 +154,6 @@ sap.ui.define([
 			oModel.setData(obj);
 			// Set model to the view
 			this.getView().setModel(oModel);
-		},
-
-		getEachQuarter: function(arr) {
-			// Define each quarter
-			var quarters = {
-				'Q1': {
-					start: 0,
-					end: 3
-				},
-				'Q2': {
-					start: 3,
-					end: 6
-				},
-				'Q3': {
-					start: 6,
-					end: 9
-				},
-				'Q4': {
-					start: 9,
-					end: 12
-				}
-			};
-
-			// Create a new object
-			var result = {};
-
-			// Get SDM Points from global file 
-			var smdPoints = this.getView().getModel("Global").getData().SDMPoints;
-			// Get Sustain Start Date 
-			var startDate = this.getView().getModel("Global").getData().SustainStartDate;
-
-			for (var key in quarters) {
-				var start = quarters[key]['start'],
-					end = quarters[key]['end'],
-					numbers = arr.slice(start, end);
-
-				// Check if there is no value for the future months	
-				if (numbers.length !== 0) {
-					// Getting elements from array using start and end values using slice function.
-					// Use reduce to calculate the sum of numbers returned by slice call.
-					// storing the result using quarter name as a key.
-					result[key] = arr.slice(start, end).reduce(function(sum, number) {
-						//	console.log(sum);
-						//	console.log(number);
-						// Check the start date 
-						//	if (start < startDate) {
-						return sum + number;
-						//	} else {
-						//		return sum + number + smdPoints;
-						//	}
-					}, 0);
-				}
-			}
-
-			var output = [];
-			//	console.log(result);	
-			for (var key in result) {
-				output.push({
-					"Quarter": key,
-					"TotalPoints": result[key]
-				});
-			}
-
-			return output;
 		},
 
 		// Back to home page
