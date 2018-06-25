@@ -23,11 +23,11 @@
 											<viz:dataset>
 												<viz.data:FlattenedDataset data="{path: '/Collection'}">
 													<viz.data:dimensions>
-														<viz.data:DimensionDefinition name="{i18n>Quarter}" value="{Quarter}"/>
+														<viz.data:DimensionDefinition name="Quarter" value="{Quarter}"/>
 													</viz.data:dimensions>
 													<viz.data:measures>
-														<viz.data:MeasureDefinition name="{i18n>CreatedRequests}" value="{CreatedRequests}"/>
-														<viz.data:MeasureDefinition name="{i18n>ClosedRequests}" value="{ClosedRequests}"/>
+														<viz.data:MeasureDefinition name="CreatedRequests" value="{CreatedRequests}"/>
+														<viz.data:MeasureDefinition name="ClosedRequests" value="{ClosedRequests}"/>
 													</viz.data:measures>
 												</viz.data:FlattenedDataset>
 											</viz:dataset>

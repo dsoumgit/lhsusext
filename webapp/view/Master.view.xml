@@ -20,11 +20,11 @@
 				<m:content>
 					<m:List
 						items="{
-							path: 'MenuList>/Tickets'
+							path: 'Global>/SustainExternal/Tickets'
 						}">
 						<m:items>
 							<m:StandardListItem
-								title="{MenuList>title}" type="Navigation" press="onItemPress" />
+								title="{Global>title}" type="Navigation" press="onItemPress" />
 						</m:items>
 					</m:List>
 				</m:content>
@@ -38,11 +38,11 @@
 				<m:content>
 					<m:List
 						items="{
-							path: 'MenuList>/PointConsump'
+							path: 'Global>/SustainExternal/PointConsumption'
 						}">
 						<m:items>
 							<m:StandardListItem
-								title="{MenuList>title}" type="Navigation" press="onItemPress" />
+								title="{Global>title}" type="Navigation" press="onItemPress" />
 						</m:items>
 					</m:List>
 				</m:content>
@@ -56,11 +56,11 @@
 				<m:content>
 					<m:List
 						items="{
-							path: 'MenuList>/Functional'
+							path: 'Functional>/AreaFunctional'
 						}">
 						<m:items>
 							<m:StandardListItem
-								title="{MenuList>title}" type="Navigation" press="onItemPress" />
+								title="{Functional>Year} Analysis" type="Navigation" press="onAreaPress" />
 						</m:items>
 					</m:List>
 				</m:content>

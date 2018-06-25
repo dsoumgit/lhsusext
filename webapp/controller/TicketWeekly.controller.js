@@ -1,9 +1,8 @@
 /* global moment:true */
 
 sap.ui.define([
-	"lhsusext/controller/BaseController",
-	"lhsusext/libs/moment"
-], function(BaseController, momentjs) {
+	"lhsusext/controller/BaseController"
+], function(BaseController) {
 	"use strict";
 
 	return BaseController.extend("lhsusext.controller.TicketWeekly", {

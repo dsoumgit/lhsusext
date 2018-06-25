@@ -5,7 +5,7 @@
 		"type": "application",
 		"i18n": "i18n/i18n.properties",
 		"applicationVersion": {
-			"version": "2018.06.12.01"
+			"version": "2018.06.25.01"
 		},
 		"title": "{{appTitle}}",
 		"description": "{{appDescription}}",
@@ -78,27 +78,27 @@
 				"name": "detail",
 				"target": "detail"
 			}, {
-				"pattern": "ticketQuarterly/{entity}",
+				"pattern": "ticketQuarterly",
 				"name": "ticketQuarterly",
 				"target": "ticketQuarterly"
 			}, {
-				"pattern": "ticketMonthly/{entity}",
+				"pattern": "ticketMonthly",
 				"name": "ticketMonthly",
 				"target": "ticketMonthly"
 			}, {
-				"pattern": "ticketWeekly/{entity}",
+				"pattern": "ticketWeekly",
 				"name": "ticketWeekly",
 				"target": "ticketWeekly"
 			}, {
-				"pattern": "pointQuarterly/{entity}",
+				"pattern": "pointQuarterly",
 				"name": "pointQuarterly",
 				"target": "pointQuarterly"
 			}, {
-				"pattern": "pointMonthly/{entity}",
+				"pattern": "pointMonthly",
 				"name": "pointMonthly",
 				"target": "pointMonthly"
 			}, {
-				"pattern": "funcCurYear/{entity}",
+				"pattern": "funcCurYear",
 				"name": "funcCurYear",
 				"target": "funcCurYear"
 			}],

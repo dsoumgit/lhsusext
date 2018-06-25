@@ -12,12 +12,57 @@ sap.ui.define([
 			this.bus = sap.ui.component(sap.ui.core.Component.getOwnerIdFor(this.getView())).getEventBus();
 		
 			// Set menu list 
-			this.bus.subscribe("app", "MenuCollection", this.setCollection, this);
+		//	this.bus.subscribe("app", "MenuCollection", this.setCollection, this);
 		},
 		
 		onBeforeRendering: function () {
 			// Setting up data 
-			this.setData(); 	
+		//	this.setData(); 
+		
+			this.setFunctionalItems();
+		},
+		
+		setFunctionalItems: function () {
+			// Get all data 
+			var data = this.getView().getModel("Data").getData().AllData; 
+		
+			var allYears = [];
+			// Iterate through array
+			for (var i = 0; i < data.length; i++) {
+				// Get Created 
+				var created = data[i].Created; 
+				// Format the date
+				var createdDate = moment(created).format("YYYY");
+				
+				allYears.push(parseInt(createdDate));
+				// Get the highest year 
+				/*data.filter(function (obj) {
+					return moment(obj).format("YYYY") < createdDate; 	
+				});*/
+			}
+			
+			
+			// Remove duplicates 
+			var uniqueYears = [];
+			$.each(allYears, function (ind, elem) {
+				if ($.inArray(elem, uniqueYears) === -1) {
+					uniqueYears.push(elem);
+				}
+			});
+			
+			// Sort array
+			var sortYear = uniqueYears.sort();
+			// Get the last object 
+			var lastObj = sortYear[sortYear.length - 1];
+			
+			// Create an object 
+			var obj = {};
+			obj.AreaFunctional = [{"Year": lastObj, "key": "funcCurYear"}]; 
+		
+			// Create a model
+			var oModel = new sap.ui.model.json.JSONModel();
+			oModel.setData(obj);
+			this.getView().setModel(oModel, "Functional"); 
 		},
 		
 		onRouteMatched: function(oEvent) {
@@ -39,7 +84,7 @@ sap.ui.define([
 		},
 	
 	
-		setData: function () {
+		/*setData: function () {
 			// Get today's year
 			var year = new Date().getFullYear();
 			// Construct data json
@@ -84,15 +129,17 @@ sap.ui.define([
 			// Set data to model
 			oModel.setData(data);
 			this.getView().setModel(oModel, "MenuList");	
-		},
+		},*/
 		
 		onItemPress: function (oEvent) {
 			// Get object 
-			var obj = oEvent.getSource().getBindingContext("MenuList").getObject();
-			var objId = obj.id; 
+			var obj = oEvent.getSource().getBindingContext("Global").getObject();
+
+			// Navigate to the view 			
+			this.oRouter.navTo(obj.key);	
 			
 			// Get today's year 
-			var year = new Date().getFullYear();
+			/*var year = new Date().getFullYear();
 			
 			// Route based on each view condition 
 			if (obj.name === "Quarterly Tickets") {
@@ -108,13 +155,22 @@ sap.ui.define([
 				this.getObj("pointMonthly", objId);
 			} else if (obj.name === year + " Functional") {	
 				this.getObj("funcCurYear", objId);
-			}
+			}*/
 		},
 		
-		getObj: function (name, id) {
+		/*getObj: function (name, id) {
 			this.oRouter.navTo(name, {
 				entity: id
 			});		
+		},*/
+		
+		
+		onAreaPress: function (oEvent) {
+			// Get object 
+			var obj = oEvent.getSource().getBindingContext("Functional").getObject();
+
+			// Navigate to the view 			
+			this.oRouter.navTo(obj.key);	
 		},
 		
 		onContactPress: function() {
