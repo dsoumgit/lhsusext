@@ -1,9 +1,8 @@
-
 sap.ui.define([
 	"sap/ui/core/UIComponent",
 	"sap/ui/Device",
-	"lhsusext/model/models"
-//	"lhsusext/libs/moment"
+	"lhsusext/model/models",
+	"lhsusext/libs/moment"
 ], function(UIComponent, Device, models) {
 	"use strict";
 
