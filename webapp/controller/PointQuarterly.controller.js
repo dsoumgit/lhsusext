@@ -84,7 +84,7 @@ sap.ui.define([
 				var curQuarter = moment().quarter();
 				
 				if (startQuarter <= curQuarter ) {
-				 	for (var s = startQuarter; s <= curQuarter; s++) {
+				 	for (var s = 1; s <= curQuarter; s++) {
 				 		if (s === curQuarter) {
 				 			if (currentMonth % 3 === 0) {
 				 				arrClosed.push({Quarter: s, TotalPoints: smdPoints });	
@@ -110,7 +110,7 @@ sap.ui.define([
 				}
 
 			}
-
+			
 			i = 0;
 			// Iterate through array
 			for (var i = 0; i < allData.length; i++) {
@@ -145,7 +145,7 @@ sap.ui.define([
 			var obj = {};
 			// Store as a collection
 			obj.Collection = arrClosed;
-
+		
 			// Create a model
 			var oModel = new sap.ui.model.json.JSONModel();
 			// Set binding mode
