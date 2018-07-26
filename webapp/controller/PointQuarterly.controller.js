@@ -76,15 +76,21 @@ sap.ui.define([
 
 			var i = 1;
 
-			// Check the current year 
-			if (currentYear === endYearInt && startYearInt <= currentYear) {
-				// Define start quarter 
-				var startQuarter = moment(startDateObj).quarter();
-				// Define current quarter
-				var curQuarter = moment().quarter();
+			/** First condition: 
+			/  External app only shows current data 
+			*/
+			
+			var startQuarter = moment(startDateObj).quarter();
+			
+			// Define current quarter
+			var curQuarter = moment().quarter();
 				
+			// If current year is the start year 
+			if (currentYear === startYearInt) {
+		//	if (currentYear === endYearInt && startYearInt <= currentYear) {
+				// Check the quarter 
 				if (startQuarter <= curQuarter ) {
-				 	for (var s = 1; s <= curQuarter; s++) {
+				 	for (var s = startQuarter; s <= curQuarter; s++) {
 				 		if (s === curQuarter) {
 				 			if (currentMonth % 3 === 0) {
 				 				arrClosed.push({Quarter: s, TotalPoints: smdPoints });	
@@ -108,7 +114,18 @@ sap.ui.define([
 				 		}
 				 	}
 				}
-
+			} else {
+				for (var j = 1; j <= curQuarter; j++) {
+			 		if (j === curQuarter) {
+			 			if (currentMonth % 3 === 0) {
+			 				arrClosed.push({Quarter: j, TotalPoints: smdPoints });	
+			 			} else {
+			 				arrClosed.push({Quarter: j, TotalPoints: smdPoints * (currentMonth % 3) });
+			 			}
+			 		} else {
+			 			arrClosed.push({Quarter: j, TotalPoints: smdPoints * 3});
+			 		}
+			 	}
 			}
 			
 			i = 0;
