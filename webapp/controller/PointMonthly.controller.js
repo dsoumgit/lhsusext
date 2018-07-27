@@ -4,22 +4,22 @@ jQuery.sap.require("lhsusext.util.formatter");
 
 sap.ui.define([
 	"lhsusext/controller/BaseController"
-], function(BaseController) {
+], function (BaseController) {
 	"use strict";
 
 	return BaseController.extend("lhsusext.controller.PointMonthly", {
-		onInit: function() {
+		onInit: function () {
 			this._oRouter = sap.ui.core.UIComponent.getRouterFor(this);
 			this._oRouter.getRoute("pointMonthly").attachPatternMatched(this._onDetailMatched, this);
 
 			this.bus = sap.ui.component(sap.ui.core.Component.getOwnerIdFor(this.getView())).getEventBus();
 		},
 
-		_onDetailMatched: function(oEvent) {
+		_onDetailMatched: function (oEvent) {
 			// Call method
 			this.setPointMonthly();
 		},
-		
+
 		setPointMonthly: function () {
 			var currentYear = new Date().getFullYear();
 			// Get vizframe for Tickets
@@ -44,54 +44,45 @@ sap.ui.define([
 			// Convert to Date object
 			var startDateObj = new Date(startDate);
 			// Get month
-			var startMonth = startDateObj.getMonth();
-
-			if (startMonth < 12) {
-				startMonth += 1; 	
+			var sustainMonth = startDateObj.getMonth();
+			// Add 1 to start between 1 to 12
+			if (sustainMonth < 12) {
+				sustainMonth += 1;
 			}
 
 			// Get year
-			var startYear = startDateObj.getFullYear();
+			var sustainYear = startDateObj.getFullYear();
 			/** Note: The start date from the Global file is between 0 - 11
 			 */
-			 
-			 var currentMonth = new Date().getMonth();
-			 if (currentMonth < 12) {
-				currentMonth += 1;	
-			 }
-			 
 			
+			// Get current month
+			var currentMonth = new Date().getMonth();
+			// Add 1 to start between 1 to 12
+			if (currentMonth < 12) {
+				currentMonth += 1;
+			}
+			
+			// Initialize the variable 
 			var i = 1;
-			var sortedRecords = allData.sort(function(a, b) {
-				return (a["Close Time"] && moment(a["Close Time"], "M/D/YY H:mm").unix()) - (b["Close Time"] && moment(b["Close Time"],
-					"M/D/YY H:mm").unix());
-			});
-			var endYear = moment(sortedRecords[sortedRecords.length - 1]["Close Time"], "M/D/YY H:mm").format("YYYY");
-			
-			// Convert start year to integer type
-			var endYearInt = parseInt(endYear);
-			
-			 if (currentYear === endYearInt && startYear <= currentYear) {
-				
-				if (startMonth <= currentMonth) {
-					while (startMonth <= currentMonth) {
-						arrClosed.push( {Month: startMonth, TotalPoints: smdPoints} );
-						startMonth++;
-					}
-				} else {
-					while (i <= currentMonth) {
-				 		arrClosed.push({Month: i, TotalPoints: smdPoints });
-				 		i++; 
-				 	}
+			// Check the Sustain start year vs end year 
+			if (sustainYear === currentYear) {
+				for (i = sustainMonth; i <= currentMonth; i++) {
+					arrClosed.push({
+						Month: i,
+						TotalPoints: smdPoints
+					});
 				}
-			 } else {
-			 	while (i <= 12) {
-			 		arrClosed.push({Month: i, TotalPoints: smdPoints});
-			 		i++; 
-			 	}
-			 }
-			 
-			 i = 0;
+			} else {
+				while (i <= currentMonth) {
+					arrClosed.push({
+						Month: i,
+						TotalPoints: smdPoints
+					});
+					i++;
+				}
+			}
+
+			i = 0;
 			// Iterate through array
 			for (i = 0; i < allData.length; i++) {
 
@@ -115,16 +106,15 @@ sap.ui.define([
 
 					arrClosed.forEach(function (obj) {
 						// Get month
-						var month = obj.Month; 
+						var month = obj.Month;
 						if (month === monthClosed) {
-						//	console.log(obj);
 							// Get points 
 							obj.TotalPoints += allData[i].Points;
 						}
 					});
 				}
 			}
-			
+
 			// Create a new object
 			var obj = {};
 			// Store as a collection
@@ -139,9 +129,9 @@ sap.ui.define([
 			// Set model to the view
 			this.getView().setModel(oModel);
 		},
-		
+
 		// Back to home page
-		onHomePress: function() {
+		onHomePress: function () {
 			this.getRouter().navTo("master");
 		}
 	});
