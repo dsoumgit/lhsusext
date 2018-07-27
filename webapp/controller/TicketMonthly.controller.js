@@ -80,7 +80,7 @@ sap.ui.define([
 					countClose[monthClosed] = (countClose[monthClosed] || 0) + 1;
 				}
 			}
-
+	
 			var mappedResult = [];
 			// Array of months
 			var monthName = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
@@ -88,11 +88,11 @@ sap.ui.define([
 			for (var j = 0; j < countCreated.length; j++) {
 				mappedResult.push({
 					Month: monthName[j],
-					CreatedRequests: countCreated[j],
-					ClosedRequests: countClose[j]
+					CreatedRequests: countCreated[j] | 0,
+					ClosedRequests: countClose[j] | 0
 				});
 			}
-
+			
 			// Create a new object
 			var obj = {};
 			// Store as a collection

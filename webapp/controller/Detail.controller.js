@@ -115,7 +115,7 @@ sap.ui.define([
 			var endYearClosed = moment(sortedClosed[sortedClosed.length - 1]["Close Time"], "M/D/YY H:mm").format("YYYY");
 			// Convert to int type
 			var endYearClosedInt = parseInt(endYearClosed);
-			//	console.log(endYearClosed);
+			
 			var resultClosed = [];
 			// Check the year 
 			if (endYearClosedInt === currentYear) {
@@ -521,7 +521,7 @@ sap.ui.define([
 
 			// Remove duplicate elemements
 			var uniqueClosed = this.removeDupicates(closedYears);
-		console.log(uniqueClosed);
+
 			// Get last element 
 			var lastObj = uniqueClosed[uniqueClosed.length - 1]; 
 			// Create Closed Tickets array
