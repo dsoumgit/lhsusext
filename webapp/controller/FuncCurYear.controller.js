@@ -7,15 +7,18 @@ sap.ui.define([
 
 	return BaseController.extend("lhsusext.controller.FuncCurYear", {
 		onInit: function() {
-			this._oRouter = sap.ui.core.UIComponent.getRouterFor(this);
-			this._oRouter.getRoute("funcCurYear").attachPatternMatched(this._onDetailMatched, this);
-
 			this.bus = sap.ui.component(sap.ui.core.Component.getOwnerIdFor(this.getView())).getEventBus();
+			
+			this.getRouter().attachRoutePatternMatched(this.onRouteMatched, this);
 		},
+		
+		onRouteMatched: function(oEvent) {
+			var sName = oEvent.getParameter("name");
 
-		_onDetailMatched: function(oEvent) {
-			// Call method
-			this.setAreaMonthly();
+			if (sName === "funcCurYear") {
+				// Call method
+				this.setAreaMonthly();
+			}
 		},
 
 		setAreaMonthly: function() {
@@ -30,13 +33,6 @@ sap.ui.define([
 					text: curYear
 				}
 			});
-			
-			// Get Main model 
-			var mainModel = this.getOwnerComponent().getModel("Global");
-			// Get the ClientName name
-			var name = mainModel.getData().ClientName; 
-			// Set the title to the page 
-			this.getView().byId("idPage").setTitle(name + " oVo Sustainment");
 			
 			// Get Data model 
 			var dataModel = this.getOwnerComponent().getModel("Data");

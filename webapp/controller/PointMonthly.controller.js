@@ -9,17 +9,20 @@ sap.ui.define([
 
 	return BaseController.extend("lhsusext.controller.PointMonthly", {
 		onInit: function () {
-			this._oRouter = sap.ui.core.UIComponent.getRouterFor(this);
-			this._oRouter.getRoute("pointMonthly").attachPatternMatched(this._onDetailMatched, this);
-
 			this.bus = sap.ui.component(sap.ui.core.Component.getOwnerIdFor(this.getView())).getEventBus();
+			
+			this.getRouter().attachRoutePatternMatched(this.onRouteMatched, this);
 		},
+		
+		onRouteMatched: function(oEvent) {
+			var sName = oEvent.getParameter("name");
 
-		_onDetailMatched: function (oEvent) {
-			// Call method
-			this.setPointMonthly();
+			if (sName === "pointMonthly") {
+				// Call method
+				this.setPointMonthly();
+			}
 		},
-
+		
 		setPointMonthly: function () {
 			var currentYear = new Date().getFullYear();
 			// Get vizframe for Tickets

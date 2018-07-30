@@ -11,15 +11,26 @@
 	xmlns:mic="sap.suite.ui.microchart" 
 	xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds"
 	xmlns="sap.m">
-	<Page id="idPage" title="{path: 'Global>/ClientName'} oVo Sustainment" navButtonPress="onNavBack" showNavButton="false">
+	<Page id="idPage" navButtonPress="onNavBack" showNavButton="false">
+		<customHeader>
+			<Bar>
+				<contentLeft>
+					<!--<Image src="img/Reveal-Logo.png" tooltip="Reveal Logo"/>-->
+				</contentLeft>
+				<contentMiddle>
+					<Text text="{Global>/ClientName} oVo Sustainment"/>
+				</contentMiddle>
+				<contentRight>
+					<Button icon="sap-icon://home" press="onHomePress" type="Default" />
+				</contentRight>
+			</Bar>
+		</customHeader>
 		<content>
 			<Panel width="auto" class="sapUiResponsiveMargin" visible="true">
 				<Panel height="auto" width="auto" class="sapUiResponsiveMargin">
 					<headerToolbar>
 						<Toolbar height="3rem">
 							<Title text="Points Consumption by Quarter"/>
-							<ToolbarSpacer/>
-							<Button icon="sap-icon://home" text="Home" type="Emphasized" press="onHomePress"/>
 						</Toolbar>
 					</headerToolbar>
 					<content>

@@ -12,25 +12,9 @@ sap.ui.define([
 	return BaseController.extend("lhsusext.controller.Detail", {
 
 		onInit: function() {
-			this.oInitialLoadFinishedDeferred = jQuery.Deferred();
 			this.bus = sap.ui.component(sap.ui.core.Component.getOwnerIdFor(this.getView())).getEventBus();
 
 			this.getRouter().attachRoutePatternMatched(this.onRouteMatched, this);
-		},
-
-		onBeforeRendering: function() {
-			/*// Get data model
-			var dataModel = this.getOwnerComponent().getModel("Data");
-			// Get all data array
-			var allData = dataModel.getData();
-			// Monthly method
-			this.setTicketMonthly(allData);
-			// Oldest Closed Requests
-			this.getOldestRequests(allData);
-			// SLA Tracker chart
-			this.SLATracker(allData);
-			// Point consumption
-			this.pointConsump(allData);*/
 		},
 
 		onRouteMatched: function(oEvent) {

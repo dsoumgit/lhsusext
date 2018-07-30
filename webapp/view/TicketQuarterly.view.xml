@@ -1,15 +1,26 @@
 <mvc:View height="100%" controllerName="lhsusext.controller.TicketQuarterly" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc"
 	xmlns:com="sap.suite.ui.commons" xmlns:viz.data="sap.viz.ui5.data" xmlns:viz="sap.viz.ui5.controls" xmlns:l="sap.ui.layout"
 	xmlns:form="sap.ui.layout.form" xmlns:mic="sap.suite.ui.microchart" xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds" xmlns="sap.m">
-	<Page id="idPage" title="{Global>/ClientName} oVo Sustainment" navButtonPress="onNavBack" showNavButton="false">
+	<Page id="idPage" navButtonPress="onNavBack" showNavButton="false">
+		<customHeader>
+			<Bar>
+				<contentLeft>
+					<!--<Image src="img/Reveal-Logo.png" tooltip="Reveal Logo"/>-->
+				</contentLeft>
+				<contentMiddle>
+					<Text text="{Global>/ClientName} oVo Sustainment"/>
+				</contentMiddle>
+				<contentRight>
+					<Button icon="sap-icon://home" press="onHomePress" type="Default" />
+				</contentRight>
+			</Bar>
+		</customHeader>
 		<content>
 			<Panel width="auto" class="sapUiResponsiveMargin" visible="true">
 				<Panel height="auto" width="auto" class="sapUiResponsiveMargin">
 					<headerToolbar>
 						<Toolbar height="3rem">
 							<Title text="Overview of Open vs Closed Sustainment Request by Quarter"/>
-							<ToolbarSpacer/>
-							<Button icon="sap-icon://home" text="Home" type="Emphasized" press="onHomePress"/>
 						</Toolbar>
 					</headerToolbar>
 					<content>
