@@ -2,8 +2,9 @@ sap.ui.define([
 	"sap/ui/core/UIComponent",
 	"sap/ui/Device",
 	"lhsusext/model/models",
-	"lhsusext/libs/moment"
-], function(UIComponent, Device, models) {
+	"lhsusext/libs/moment",
+	"sap/ui/core/routing/HashChanger/"
+], function(UIComponent, Device, models, HashChanger) {
 	"use strict";
 
 	return UIComponent.extend("lhsusext.Component", {
@@ -19,6 +20,11 @@ sap.ui.define([
 		 * @override
 		 */
 		init: function() {
+			/*** 
+			 * Reset the routing hash when refreshing the browser
+			 */
+    		sap.ui.core.routing.HashChanger.getInstance().replaceHash("");
+    		
 			// call the base component's init function
 			UIComponent.prototype.init.apply(this, arguments);
 
@@ -94,10 +100,16 @@ sap.ui.define([
 					});
 				}
 			});
-		},
-
+		}
+		/*
 		createContent: function() {
-
+			console.log(HashChanger);
+			/*** 
+			 * Reset the routing hash when refreshing the browser
+			 
+    	//	HashChanger.getInstance().replaceHash("");
+    		
+    		
 			// Root view
 			var oRootView = sap.ui.view("appview", {
 				type: sap.ui.core.mvc.ViewType.XML,
@@ -105,6 +117,6 @@ sap.ui.define([
 			});
 
 			return oRootView;
-		}
+		} */
 	});
 });
