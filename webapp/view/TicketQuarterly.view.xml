@@ -11,7 +11,7 @@
 					<Text text="{Global>/ClientName} oVo Sustainment"/>
 				</contentMiddle>
 				<contentRight>
-					<Button icon="sap-icon://home" press="onHomePress" type="Default" />
+					<Button icon="sap-icon://home" press="onHomePress" type="Default"/>
 				</contentRight>
 			</Bar>
 		</customHeader>
@@ -26,11 +26,18 @@
 					<content>
 						<com:ChartContainer id="idChartContainer" showFullScreen="true" showPersonalization="false" autoAdjustHeight="false" showLegend="true"
 							showZoom="true" personalizationPress="attachPersonalizationPress" showLegendButton="true" contentChange="attachContentChange" visible="true">
+							<com:dimensionSelectors>
+								<Label text="Value Label:" design="Bold"></Label>
+								<Switch state="false" id="idShowData" change="onShowData">
+									<layoutData>
+										<FlexItemData growFactor="1"/>
+									</layoutData>
+								</Switch>
+							</com:dimensionSelectors>
 							<com:content>
 								<com:ChartContainerContent icon="sap-icon://vertical-bar-chart">
 									<com:content>
-										<viz:VizFrame id="quarterFrame" uiConfig="{applicationSet:'fiori'}" height='450px' width="100%" vizType='column'
-											vizProperties="{plotArea: {dataLabel: {visible: true} }}">
+										<viz:VizFrame id="quarterFrame" uiConfig="{applicationSet:'fiori'}" height='450px' width="100%" vizType='column'>
 											<viz:dataset>
 												<viz.data:FlattenedDataset data="{path: '/Collection'}">
 													<viz.data:dimensions>
@@ -54,7 +61,7 @@
 						</com:ChartContainer>
 					</content>
 				</Panel>
-			</Panel>	
+			</Panel>
 		</content>
 	</Page>
 </mvc:View>

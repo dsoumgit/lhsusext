@@ -1,8 +1,10 @@
 /* global moment:true */
 
 sap.ui.define([
-	"lhsusext/controller/BaseController"
-], function(BaseController) {
+	"lhsusext/controller/BaseController",
+	"sap/viz/ui5/format/ChartFormatter",
+	"sap/viz/ui5/api/env/Format"
+], function(BaseController, ChartFormatter, Format) {
 	"use strict";
 
 	return BaseController.extend("lhsusext.controller.PointQuarterly", {
@@ -22,9 +24,19 @@ sap.ui.define([
 		},
 
 		setPointQuarterly: function() {
+			// Check the data label
+			this.onShowData();
+			
 			var currentYear = new Date().getFullYear();
 			// Get vizframe for Tickets
 			var idVizFrame = this.getView().byId("idVizFrame");
+			// Format the data 		
+			Format.numericFormatter(ChartFormatter.getInstance());
+			var formatPattern = ChartFormatter.DefaultPattern;
+			// Create tool tip control
+			var oTooltip = new sap.viz.ui5.controls.VizTooltip({});
+			oTooltip.connect(idVizFrame.getVizUid());
+			oTooltip.setFormatString(formatPattern.STANDARDFLOAT);
 			// Set title to the chart 
 			idVizFrame.setVizProperties({
 				title: {
@@ -175,7 +187,43 @@ sap.ui.define([
 			// Set model to the view
 			this.getView().setModel(oModel);
 		},
+		
+		// Function to show the label
+		onShowData: function (oEvent) {
+			// Show busy indicator
+			sap.ui.core.BusyIndicator.show();
+			// Get selected state 
+			var selected = this.getView().byId("idShowData").getState();
+			// Get vizframe id 
+			var oVizframe = this.getView().byId("idVizFrame");
 
+			// Define a variable to store the switch 
+			var labelOn = "";
+			// simulate delayed end of operation
+			jQuery.sap.delayedCall(2000, this, function () {
+				// Check if selected 
+				if (selected === true) {
+					// Show the labels
+					labelOn = true;
+				} else {
+					// Hide the labels 
+					labelOn = false;
+				}
+
+				// Set the visibility 
+				oVizframe.setVizProperties({
+					plotArea: {
+						dataLabel: {
+							visible: labelOn
+						}
+					}
+				});
+
+				// Hide busy indicator
+				sap.ui.core.BusyIndicator.hide();
+			});
+		},
+		
 		// Back to home page
 		onHomePress: function() {
 			this.getRouter().navTo("master");

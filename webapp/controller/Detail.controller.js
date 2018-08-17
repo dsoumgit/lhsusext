@@ -5,8 +5,10 @@ jQuery.sap.require("lhsusext.util.formatter");
 
 sap.ui.define([
 	"lhsusext/controller/BaseController",
-	"sap/ui/commons/Carousel"
-], function(BaseController, Carousel) {
+	"sap/ui/commons/Carousel",
+	"sap/viz/ui5/format/ChartFormatter",
+	"sap/viz/ui5/api/env/Format"
+], function(BaseController, Carousel, ChartFormatter, Format) {
 	"use strict";
 
 	return BaseController.extend("lhsusext.controller.Detail", {
@@ -37,20 +39,23 @@ sap.ui.define([
 		},
 
 		setTicketMonthly: function(arr) {
+			// Check the data label
+			this.onShowData();
 			// Get today's year
 			var today = new Date();
 			var currentYear = today.getFullYear();
 
 			// Get vizframe for Tickets
 			var ticketFrame = this.getView().byId("ticketFrame");
+			// Format the data 		
+			Format.numericFormatter(ChartFormatter.getInstance());
+			var formatPattern = ChartFormatter.DefaultPattern;
+			// Create tool tip control
+			var oTooltip = new sap.viz.ui5.controls.VizTooltip({});
+			oTooltip.connect(ticketFrame.getVizUid());
+			oTooltip.setFormatString(formatPattern.STANDARDFLOAT);
 			// Set title to the chart 
 			ticketFrame.setVizProperties({
-				plotArea: {
-					dataLabel: {
-						formatString: "####",
-						visible: true
-					}
-				},
 				title: {
 					text: currentYear
 				}
@@ -220,7 +225,43 @@ sap.ui.define([
 			// Set model to the view
 			this.getView().setModel(oModel);
 		},
+		
+		// Function to show the label
+		onShowData: function (oEvent) {
+			// Show busy indicator
+			sap.ui.core.BusyIndicator.show();
+			// Get selected state 
+			var selected = this.getView().byId("idShowData").getState();
+			// Get vizframe id 
+			var oVizframe = this.getView().byId("ticketFrame");
 
+			// Define a variable to store the switch 
+			var labelOn = "";
+			// simulate delayed end of operation
+			jQuery.sap.delayedCall(2000, this, function () {
+				// Check if selected 
+				if (selected === true) {
+					// Show the labels
+					labelOn = true;
+				} else {
+					// Hide the labels 
+					labelOn = false;
+				}
+
+				// Set the visibility 
+				oVizframe.setVizProperties({
+					plotArea: {
+						dataLabel: {
+							visible: labelOn
+						}
+					}
+				});
+
+				// Hide busy indicator
+				sap.ui.core.BusyIndicator.hide();
+			});
+		},
+		
 		getOldestRequests: function(arr) {
 			// Get All Data array
 			var allRecords = arr.AllData;

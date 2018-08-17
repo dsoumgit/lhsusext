@@ -16,6 +16,14 @@
 							<content>
 								<com:ChartContainer showFullScreen="true" showPersonalization="false" autoAdjustHeight="false" showLegend="true" showZoom="true"
 									personalizationPress="attachPersonalizationPress" showLegendButton="true" contentChange="attachContentChange" visible="true">
+									<com:dimensionSelectors>
+										<Label text="Value Label:" design="Bold"></Label>
+										<Switch state="false" id="idShowData" change="onShowData">
+											<layoutData>
+												<FlexItemData growFactor="1"/>
+											</layoutData>
+										</Switch>
+									</com:dimensionSelectors>
 									<com:content>
 										<com:ChartContainerContent icon="sap-icon://vertical-bar-chart">
 											<com:content>
@@ -77,9 +85,9 @@
 												<Text text="{OldData>Ticket#}"/>
 												<Text text="{OldData>Title}"/>
 												<Text text="{path: 'OldData>Created', formatter: 'lhsusext.util.formatter.dateFormat'}"/>
-												<Text text="{OldData>State}" />
-												<Text text="{OldData>Customer User}" />
-												<Text text="{OldData>Functional Area}" />
+												<Text text="{OldData>State}"/>
+												<Text text="{OldData>Customer User}"/>
+												<Text text="{OldData>Functional Area}"/>
 											</cells>
 										</ColumnListItem>
 									</items>
