@@ -28,7 +28,7 @@
 							showZoom="true" personalizationPress="attachPersonalizationPress" showLegendButton="true" contentChange="attachContentChange" visible="true">
 							<com:dimensionSelectors>
 								<Label text="Value Label:" design="Bold"></Label>
-								<Switch state="false" id="idShowData" change="onShowData">
+								<Switch state="tr" id="idShowData" change="onShowData">
 									<layoutData>
 										<FlexItemData growFactor="1"/>
 									</layoutData>

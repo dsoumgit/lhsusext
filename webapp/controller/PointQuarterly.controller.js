@@ -22,7 +22,26 @@ sap.ui.define([
 				this.setPointQuarterly();
 			}
 		},
+		onPDFPressed: function (oEvent) {
+			var oTarget = this.getView(),
+				sTargetId = oEvent.getSource().data("targetId");
 
+			if (sTargetId) {
+				oTarget = oTarget.byId(sTargetId);
+			}
+
+			if (oTarget) {
+				var $domTarget = oTarget.$()[0],
+					sTargetContent = $domTarget.innerHTML,
+					sOriginalContent = document.body.innerHTML;
+
+				document.body.innerHTML = sTargetContent;
+				window.print();
+				document.body.innerHTML = sOriginalContent;
+			} else {
+				jQuery.sap.log.error("onPrint needs a valid target container [view|data:targetId=\"SID\"]");
+			}
+		},
 		setPointQuarterly: function() {
 			// Check the data label
 			this.onShowData();
@@ -37,8 +56,33 @@ sap.ui.define([
 			var oTooltip = new sap.viz.ui5.controls.VizTooltip({});
 			oTooltip.connect(idVizFrame.getVizUid());
 			oTooltip.setFormatString(formatPattern.STANDARDFLOAT);
+			// Get Monthly Points 
+			var monthlyPoints = this.getView().getModel("Global").getData().MonthlyPoints;
+			// Calculate Monthly Points quarterly multiplying by 3 
+			var monthlyPointsQuarterly = monthlyPoints * 3;
 			// Set title to the chart 
 			idVizFrame.setVizProperties({
+				plotArea: {
+					dataLabel: {
+						showTotal: true
+					},
+					colorPalette: ["rgb(88, 153, 218)", "rgb(232, 116, 59)"],
+					referenceLine: {
+						line: {
+							valueAxis: [{
+								value: monthlyPointsQuarterly,
+								visible: true,
+								size: 3,
+								type: "solid",
+								color: "#FF0000",
+								label: {
+									text: "Points Allowed: " + monthlyPointsQuarterly,
+									visible: false
+								}
+							}]
+						}
+					}
+				},
 				title: {
 					text: currentYear
 				}
@@ -173,10 +217,15 @@ sap.ui.define([
 				}
 			}
 
+			// Add SDM points object to every element 
+			arrClosed.forEach(function (obj) {
+				obj.SDMPoints = smdPoints * 3;
+			});
 			// Create a new object
 			var obj = {};
 			// Store as a collection
 			obj.Collection = arrClosed;
+			// obj.CurrentYear = currentYear;
 		
 			// Create a model
 			var oModel = new sap.ui.model.json.JSONModel();
@@ -186,6 +235,53 @@ sap.ui.define([
 			oModel.setData(obj);
 			// Set model to the view
 			this.getView().setModel(oModel);
+						// Variable to store the total points 
+			var sumPoints = 0;			
+						// Create a new array 
+			var newArr = [];
+			// Get selected keys for quarter
+			// var quarterKeys = this.getView().byId("comboQuarter").getSelectedKeys();
+            var currentQuarter = moment().utc().quarter();
+			// Iterate through array 
+			allData.forEach(function (obj) {
+				// Close Time column 
+				var closeTimeDate = new Date(obj["Close Time"]);
+				var q = moment(closeTimeDate).utc().quarter();
+				// State column
+				var closedState = obj.State;
+
+				if (closedState === "closed successful" && parseInt(currentYear,10) === closeTimeDate.getFullYear() && currentQuarter === q ) {
+					// Store each element to a new array 
+					sumPoints += obj.Points;
+					newArr.push(obj);
+					
+				}
+			});
+
+			// Get SDM Points from global file 
+	//		var smdPoints = this.getView().getModel("Global").getData().SDMPoints;
+			// Get Monthly Points 
+	//		var monthlyPoints = this.getView().getModel("Global").getData().MonthlyPoints;
+			// Calculate Monthly Points quarterly multiplying by 3 
+	//		var monthlyPointsQuarterly = monthlyPoints * 3;
+			// Calculate Reveal SDM points multiplying by 3 
+			var revealSDMQuarterly = smdPoints * 3;
+			var newObj = {};
+			newObj.DataCollection = newArr;
+			newObj.SelectedYear = currentYear;
+			newObj.CurrentQuarter = currentQuarter;
+			newObj.TotalPoints = sumPoints;
+			newObj.RevealSDM = revealSDMQuarterly;
+			newObj.GrandTotal = sumPoints + revealSDMQuarterly;
+			newObj.MonthlyPoints = monthlyPointsQuarterly;
+			newObj.RolloverPoints = Math.abs(sumPoints - monthlyPointsQuarterly);
+
+			// Create a model
+			var reportModel = new sap.ui.model.json.JSONModel();
+			// Set collection to the model
+			reportModel.setData(newObj);
+			// Set model to the view
+			this.getView().setModel(reportModel, "ReportModel");
 		},
 		
 		// Function to show the label
