@@ -1,9 +1,11 @@
+jQuery.sap.require("sap.m.MessageBox");
+ 
 sap.ui.define([
 	"sap/ui/core/UIComponent",
 	"sap/ui/Device",
 	"lhsusext/model/models",
 	"lhsusext/libs/moment",
-	"sap/ui/core/routing/HashChanger/"
+	"sap/ui/core/routing/HashChanger"
 ], function(UIComponent, Device, models, HashChanger) {
 	"use strict";
 
@@ -20,6 +22,7 @@ sap.ui.define([
 		 * @override
 		 */
 		init: function() {
+		//	console.log(sap.ui.core.routing.HashChanger.getInstance().replaceHash(""));
 			/*** 
 			 * Reset the routing hash when refreshing the browser
 			 */
@@ -27,7 +30,7 @@ sap.ui.define([
     		
 			// call the base component's init function
 			UIComponent.prototype.init.apply(this, arguments);
-
+			
 			var that = this;
 			// Create a model for global file
 			var globalModel = new sap.ui.model.json.JSONModel();
@@ -100,15 +103,9 @@ sap.ui.define([
 					});
 				}
 			});
-		}
-		/*
+		},
+		
 		createContent: function() {
-			console.log(HashChanger);
-			/*** 
-			 * Reset the routing hash when refreshing the browser
-			 
-    	//	HashChanger.getInstance().replaceHash("");
-    		
     		
 			// Root view
 			var oRootView = sap.ui.view("appview", {
@@ -117,6 +114,6 @@ sap.ui.define([
 			});
 
 			return oRootView;
-		} */
+		} 
 	});
 });
