@@ -8,18 +8,18 @@ sap.ui.define([
 	"sap/ui/commons/Carousel",
 	"sap/viz/ui5/format/ChartFormatter",
 	"sap/viz/ui5/api/env/Format"
-], function(BaseController, Carousel, ChartFormatter, Format) {
+], function (BaseController, Carousel, ChartFormatter, Format) {
 	"use strict";
 
 	return BaseController.extend("lhsusext.controller.Detail", {
 
-		onInit: function() {
+		onInit: function () {
 			this.bus = sap.ui.component(sap.ui.core.Component.getOwnerIdFor(this.getView())).getEventBus();
 
 			this.getRouter().attachRoutePatternMatched(this.onRouteMatched, this);
 		},
 
-		onRouteMatched: function(oEvent) {
+		onRouteMatched: function (oEvent) {
 			var sName = oEvent.getParameter("name");
 
 			if (sName === "master") {
@@ -38,7 +38,7 @@ sap.ui.define([
 			}
 		},
 
-		setTicketMonthly: function(arr) {
+		setTicketMonthly: function (arr) {
 			// Check the data label
 			this.onShowData();
 			// Get today's year
@@ -65,7 +65,7 @@ sap.ui.define([
 			var allRecords = arr.AllData;
 			/**** Created year ************/
 			// Get the end year 
-			var sortedCreated = allRecords.sort(function(a, b) {
+			var sortedCreated = allRecords.sort(function (a, b) {
 				return (a["Created"] && moment(a["Created"], "M/D/YY H:mm").unix()) - (b["Created"] && moment(b["Created"],
 					"M/D/YY H:mm").unix());
 			});
@@ -97,14 +97,14 @@ sap.ui.define([
 
 			/**** Close Time year ************/
 			// Get the end year 
-			var sortedClosed = allRecords.sort(function(a, b) {
+			var sortedClosed = allRecords.sort(function (a, b) {
 				return (a["Close Time"] && moment(a["Close Time"], "M/D/YY H:mm").unix()) - (b["Close Time"] && moment(b["Close Time"],
 					"M/D/YY H:mm").unix());
 			});
 			var endYearClosed = moment(sortedClosed[sortedClosed.length - 1]["Close Time"], "M/D/YY H:mm").format("YYYY");
 			// Convert to int type
 			var endYearClosedInt = parseInt(endYearClosed);
-			
+
 			var resultClosed = [];
 			// Check the year 
 			if (endYearClosedInt === currentYear) {
@@ -144,7 +144,7 @@ sap.ui.define([
 					var createdMonthNum = [allRecords[j]];
 
 					// Iterate through month array
-					resultCreated.forEach(function(obj) {
+					resultCreated.forEach(function (obj) {
 						// Get Month
 						var month = obj.Month;
 						// Check the match
@@ -181,7 +181,7 @@ sap.ui.define([
 					var closedMonthNum = [allRecords[a]];
 
 					// Iterate through month array
-					resultClosed.forEach(function(obj) {
+					resultClosed.forEach(function (obj) {
 						// Get Month
 						var month = obj.Month;
 						// Check the match
@@ -197,10 +197,10 @@ sap.ui.define([
 			// Create a new array
 			var result = [];
 			// Loop through 
-			resultCreated.forEach(function(obj) {
+			resultCreated.forEach(function (obj) {
 				// Month
 				var month = obj.Month;
-				resultClosed.forEach(function(elem) {
+				resultClosed.forEach(function (elem) {
 					// Month
 					var m = elem.Month;
 					if (month === m) {
@@ -225,7 +225,7 @@ sap.ui.define([
 			// Set model to the view
 			this.getView().setModel(oModel);
 		},
-		
+
 		// Function to show the label
 		onShowData: function (oEvent) {
 			// Show busy indicator
@@ -261,14 +261,14 @@ sap.ui.define([
 				sap.ui.core.BusyIndicator.hide();
 			});
 		},
-		
-		getOldestRequests: function(arr) {
+
+		getOldestRequests: function (arr) {
 			// Get All Data array
 			var allRecords = arr.AllData;
 			// Define new variable for years
 			var result = [];
 			// Iterate through All Data array
-			allRecords.forEach(function(obj) {
+			allRecords.forEach(function (obj) {
 				// Get State 
 				var state = obj.State;
 				// Get all except closed successful 
@@ -279,7 +279,7 @@ sap.ui.define([
 			});
 
 			// Sort by Created dates 
-			var sortedRecords = result.sort(function(a, b) {
+			var sortedRecords = result.sort(function (a, b) {
 				return (a["Created"] && moment(a["Created"], "M/D/YY H:mm").unix()) - (b["Created"] && moment(b["Created"],
 					"M/D/YY H:mm").unix());
 			});
@@ -299,7 +299,7 @@ sap.ui.define([
 		},
 
 		// SLA Tracker 
-		SLATracker: function(arr) {
+		SLATracker: function (arr) {
 			// Get all the data 
 			var allDataArr = arr.AllData;
 			// Get today's date
@@ -313,7 +313,7 @@ sap.ui.define([
 			var sev1Arr = [];
 			var sev2Arr = [];
 			var sev3Arr = [];
-			allDataArr.filter(function(obj) {
+			allDataArr.filter(function (obj) {
 				// Get Priority column
 				var priority = obj.Priority;
 				// Get created date
@@ -394,7 +394,7 @@ sap.ui.define([
 			this.getView().setModel(oModel, "SLA");
 		},
 
-		getSevTotal: function(sevArr, sevTimeArr) {
+		getSevTotal: function (sevArr, sevTimeArr) {
 			// Total Severity
 			var sevTotal = sevArr.length;
 			// Count Sev 
@@ -414,7 +414,7 @@ sap.ui.define([
 		},
 
 		// Point Consumption
-		sdspointConsump: function(arr) {
+		sdspointConsump: function (arr) {
 			// Get today's year
 			var today = new Date();
 			// Current year
@@ -481,7 +481,7 @@ sap.ui.define([
 
 			var totalPoints = 0;
 			// Total innovation points 
-			monthInno.forEach(function(obj) {
+			monthInno.forEach(function (obj) {
 				// Total Points 
 				totalPoints += obj.Points;
 			});
@@ -496,7 +496,7 @@ sap.ui.define([
 
 			// Total non innovation points 
 			var totalNonInno = 0;
-			monthNonInno.forEach(function(obj) {
+			monthNonInno.forEach(function (obj) {
 				// Total Points 
 				totalNonInno += obj.Points;
 			});
@@ -516,10 +516,10 @@ sap.ui.define([
 			this.getView().setModel(oModel, "PointModel");
 		},
 
-		removeDupicates: function(arrYears) {
+		removeDupicates: function (arrYears) {
 			// Remove duplicate 
 			var uniqueYear = [];
-			$.each(arrYears, function(ind, ele) {
+			$.each(arrYears, function (ind, ele) {
 				if ($.inArray(ele, uniqueYear) === -1) {
 					uniqueYear.push(ele);
 				}
@@ -528,12 +528,12 @@ sap.ui.define([
 			return uniqueYear;
 		},
 
-		pointConsump: function(arr) {
+		pointConsump: function (arr) {
 			// Get all the data
 			var data = arr.AllData;
 			var closedYears = [];
 			// Filter on Close Time and State 
-			data.filter(function(elem) {
+			data.filter(function (elem) {
 				if (elem["Close Time"] !== "" && elem["State"] === "closed successful") {
 					// Get year 
 					var closeTime = elem["Close Time"];
@@ -548,7 +548,7 @@ sap.ui.define([
 			var uniqueClosed = this.removeDupicates(closedYears);
 
 			// Get last element 
-			var lastObj = uniqueClosed[uniqueClosed.length - 1]; 
+			var lastObj = uniqueClosed[uniqueClosed.length - 1];
 			// Create Closed Tickets array
 			var monthInno = [];
 			var monthNonInno = [];
@@ -591,14 +591,14 @@ sap.ui.define([
 			// Sum the total
 			var totalInno = 0;
 			// Total innovation points 
-			monthInno.forEach(function(obj) {
+			monthInno.forEach(function (obj) {
 				// Total Points 
 				totalInno += obj.Points;
 			});
 
 			// Total non innovation points 
 			var totalNonInno = 0;
-			monthNonInno.forEach(function(obj) {
+			monthNonInno.forEach(function (obj) {
 				// Total Points 
 				totalNonInno += obj.Points;
 			});
@@ -622,11 +622,13 @@ sap.ui.define([
 			var pointFrame = this.getView().byId("pointFrame");
 			// Set title to the chart 
 			pointFrame.setVizProperties({
-				dataLabel: {
-					showTotal: true
+				plotArea: {
+					dataLabel: {
+						showTotal: true
+					}
 				},
 				title: {
-					text: parseInt(lastObj)
+					text: parseInt(lastObj, 10)
 				}
 			});
 
@@ -638,11 +640,11 @@ sap.ui.define([
 			this.getView().setModel(oModel, "PointModel");
 		},
 
-		getEventBus: function() {
+		getEventBus: function () {
 			return sap.ui.getCore().getEventBus();
 		},
 
-		getRouter: function() {
+		getRouter: function () {
 			return sap.ui.core.UIComponent.getRouterFor(this);
 		}
 	});

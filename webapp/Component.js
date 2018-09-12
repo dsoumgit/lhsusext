@@ -26,7 +26,7 @@ sap.ui.define([
 			/*** 
 			 * Reset the routing hash when refreshing the browser
 			 */
-    		sap.ui.core.routing.HashChanger.getInstance().replaceHash("");
+    	//	sap.ui.core.routing.HashChanger.getInstance().replaceHash("");
     		
 			// call the base component's init function
 			UIComponent.prototype.init.apply(this, arguments);

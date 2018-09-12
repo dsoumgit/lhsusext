@@ -41,10 +41,10 @@
 											<viz:dataset>
 												<viz.data:FlattenedDataset data="{path: '/Collection'}">
 													<viz.data:dimensions>
-														<viz.data:DimensionDefinition name="{i18n>Quarter}" value="{path: 'Quarter', formatter: 'lhsusext.util.formatter.formatQuarter'}"/>
+														<viz.data:DimensionDefinition name="Quarter" value="{path: 'Quarter', formatter: 'lhsusext.util.formatter.formatQuarter'}"/>
 													</viz.data:dimensions>
 													<viz.data:measures>
-														<viz.data:MeasureDefinition name="{i18n>TotalPoints}" value="{TotalPoints}"/>
+														<viz.data:MeasureDefinition name="TotalPoints" value="{TotalPoints}"/>
 														<viz.data:MeasureDefinition name="SDMPoints" value="{SDMPoints}"/>
 													</viz.data:measures>
 												</viz.data:FlattenedDataset>
@@ -72,12 +72,6 @@
 									<Text id="idSelectedYear" text="{path: 'ReportModel>/SelectedYear'}"/>
 									<Title text="Quarter:" level="H3"/>
 									<Text id="idQuarter" text="{path: 'ReportModel>/CurrentQuarter'}"/>
-									<!--<MultiComboBox id="comboQuarter" placeholder="Select..." selectionChange="handleSelectionChange" selectionFinish="handleSelectionFinish" width="200px">-->
-									<!--	<core:Item key="1" text="Q1"/>-->
-									<!--	<core:Item key="2" text="Q2"/>-->
-									<!--	<core:Item key="3" text="Q3"/>-->
-									<!--	<core:Item key="4" text="Q4"/>-->
-									<!--</MultiComboBox>-->
 								</Toolbar>
 							</headerToolbar>
 							<columns>
@@ -172,7 +166,7 @@
 									<items>
 										<Label class="sapUiSmallMargin" text="Points Consumed"/>
 										<Label class="sapUiSmallMargin" text=""/>
-										<Label class="sapUiSmallMargin" text="{ReportModel>/TotalPoints}"/>
+										<Label class="sapUiSmallMargin" text="{ReportModel>/GrandTotal}"/>
 									</items>
 								</FlexBox>
 								<FlexBox height="40px" alignItems="Start" justifyContent="End">
