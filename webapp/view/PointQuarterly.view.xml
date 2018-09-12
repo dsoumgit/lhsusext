@@ -71,7 +71,12 @@
 									<Title text="Year:" level="H3"/>
 									<Text id="idSelectedYear" text="{path: 'ReportModel>/SelectedYear'}"/>
 									<Title text="Quarter:" level="H3"/>
-									<Text id="idQuarter" text="{path: 'ReportModel>/CurrentQuarter'}"/>
+									<MultiComboBox id="comboQuarter" items="{path: '/Collection'}" placeholder="Select..." selectionChange="handleSelectionChange" selectionFinish="handleSelectionFinish" width="200px">
+										<core:Item key="{Quarter}" text="{Key}"/>
+										<!--<core:Item key="2" text="Q2"/>
+										<core:Item key="3" text="Q3"/>
+										<core:Item key="4" text="Q4"/>-->
+									</MultiComboBox>
 								</Toolbar>
 							</headerToolbar>
 							<columns>
@@ -108,7 +113,7 @@
 									<cells>
 										<Text text="{ReportModel>Ticket#}"/>
 										<Text text="{ReportModel>Title}"/>
-										<Text text="{path: 'ReportModel>Close Time', formatter: 'lhsusint.util.formatter.dateFormat'}"/>
+										<Text text="{path: 'ReportModel>Close Time', formatter: 'lhsusext.util.formatter.dateFormat'}"/>
 										<Text text="{ReportModel>State}"/>
 										<Text text="{ReportModel>Priority}"/>
 										<Text text="{ReportModel>Customer User}"/>
