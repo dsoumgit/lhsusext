@@ -496,7 +496,7 @@ sap.ui.define([
 			// Set model to the view
 			this.getView().setModel(oModel);
 			// Variable to store the total points 
-			var sumPoints = 0;
+			var totalPoints = 0;
 			// Create a new array 
 			var newArr = [];
 			// Get selected keys for quarter
@@ -512,7 +512,7 @@ sap.ui.define([
 
 				if (closedState === "closed successful" && parseInt(currentYear, 10) === closeTimeDate.getFullYear() && currentQuarter === q) {
 					// Store each element to a new array 
-					sumPoints += obj.Points;
+					totalPoints += obj.Points;
 					newArr.push(obj);
 
 				}
@@ -526,15 +526,18 @@ sap.ui.define([
 			//		var monthlyPointsQuarterly = monthlyPoints * 3;
 			// Calculate Reveal SDM points multiplying by 3 
 			var revealSDMQuarterly = sdmPoints * 3;
+			var grandTotal = totalPoints + revealSDMQuarterly;
+			var rolloverPoints = grandTotal - monthlyPointsQuarterly;
+			// Create a new object 
 			var newObj = {};
 			newObj.DataCollection = newArr;
 			newObj.SelectedYear = currentYear;
 			newObj.CurrentQuarter = currentQuarter;
-			newObj.TotalPoints = sumPoints;
+			newObj.TotalPoints = totalPoints;
 			newObj.RevealSDM = revealSDMQuarterly;
-			newObj.GrandTotal = sumPoints + revealSDMQuarterly;
+			newObj.GrandTotal = grandTotal;
 			newObj.MonthlyPoints = monthlyPointsQuarterly;
-			newObj.RolloverPoints = Math.abs((sumPoints + revealSDMQuarterly) - monthlyPointsQuarterly);
+			newObj.RolloverPoints = Math.abs(rolloverPoints);
 
 			// Create a model
 			var reportModel = new sap.ui.model.json.JSONModel();
