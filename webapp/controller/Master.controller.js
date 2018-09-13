@@ -172,10 +172,6 @@ sap.ui.define([
 			infoDialog.open();
 		},
 
-		onLinkPress: function () {
-			
-		},
-
 		getEventBus: function () {
 			return sap.ui.getCore().getEventBus();
 		},
