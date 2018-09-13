@@ -192,7 +192,6 @@ sap.ui.define([
 			  target : { shellHash : hrefForProductDisplay }
 			}); */
 			
-		//	console.log(hrefForProductDisplay);
 		
 			// get a handle on the global XAppNav service
 			var oCrossAppNavigator = sap.ushell.Container.getService("CrossApplicationNavigation"); 
