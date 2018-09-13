@@ -173,46 +173,7 @@ sap.ui.define([
 		},
 
 		onLinkPress: function () {
-			/*var oStartupParameters = jQuery.sap.getUriParameters().mParams;
-		//	console.log(oStartupParameters);
-			//	window.open("https://webidetesting0187968-b2d05bb92.dispatcher.us1.hana.ondemand.com/test-resources/sap/ushell/shells/sandbox/fioriSandbox.html?hc_orionpath=%2FDI_webide_di_workspace3k0n1jcjcbskct04%2Flhsusint&neo-di-affinity=BIGipServerdisapwebide.us1.hana.ondemand.com+%21Fc2r61okUprEa5gynGFYjfsxdA3nTA87qMrVpyTRcOyPT6mlMJL9Hp1g6p4gVZEXSrb8GekAnqeHzE4%3D&sap-ui-xx-componentPreload=off&sap-ui-appCacheBuster=..%2F..%2F..%2F..%2F..%2F&sap-ushell-test-url-url=..%2F..%2F..%2F..%2F..%2Fwebapp&sap-ushell-test-url-additionalInformation=SAPUI5.Component%3Dlhsusint#Test-url&/", "_self", true);
-
-			var oCrossAppNav = sap.ushell.Container.getService("CrossApplicationNavigation");
-			var hrefForProductDisplay = oCrossAppNav.hrefForExternal({
-				target: {
-					semanticObject: "lhsusint",
-					action: "display"
-				}
-			//	params: {
-			//		ProductID: ["102343333"]
-			//	}
-			});
 			
-			oCrossAppNav.toExternal({
-			  target : { shellHash : hrefForProductDisplay }
-			}); */
-			
-		
-			// get a handle on the global XAppNav service
-			var oCrossAppNavigator = sap.ushell.Container.getService("CrossApplicationNavigation"); 
-			oCrossAppNavigator.isIntentSupported(["lhsusint-display"])
-				.done(function(aResponses) {
-
-				})
-				.fail(function() {
-					new sap.m.MessageToast("Provide corresponding intent to navigate");
-				});
-			// generate the Hash to display a employee Id
-			var hash = (oCrossAppNavigator && oCrossAppNavigator.hrefForExternal({
-				target: {
-					semanticObject: "lhsusint",
-					action: "display"
-				}
-			})) || ""; 
-			//Generate a  URL for the second application
-			var url = window.location.href.split('#')[0] + hash; 
-			//Navigate to second app
-			sap.m.URLHelper.redirect(url, true); 
 		},
 
 		getEventBus: function () {
