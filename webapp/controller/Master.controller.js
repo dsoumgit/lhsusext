@@ -171,7 +171,30 @@ sap.ui.define([
 
 			infoDialog.open();
 		},
+		
+		onLinkPress: function () {
+			// get a handle on the global XAppNav service
+			var oCrossAppNavigator = sap.ushell.Container.getService("CrossApplicationNavigation"); 
+			oCrossAppNavigator.isIntentSupported(["employeeId-display"])
+				.done(function(aResponses) {
 
+				})
+				.fail(function() {
+					new sap.m.MessageToast("Provide corresponding intent to navigate");
+				});
+			// generate the Hash to display a employee Id
+			var hash = (oCrossAppNavigator && oCrossAppNavigator.hrefForExternal({
+				target: {
+					semanticObject: "employeeId",
+					action: "display"
+				}
+			})) || ""; 
+			//Generate a  URL for the second application
+			var url = window.location.href.split('#')[0] + hash; 
+			//Navigate to second app
+			sap.m.URLHelper.redirect(url, true); 	
+		},
+		
 		getEventBus: function () {
 			return sap.ui.getCore().getEventBus();
 		},
