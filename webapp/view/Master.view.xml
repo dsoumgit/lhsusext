@@ -82,6 +82,21 @@
 					</m:List>
 				</m:content>
 			</m:Panel>
+			<m:Panel expandable="true" expanded="true" width="auto" class="sapUiResponsiveMargin">
+				<m:headerToolbar>
+					<m:Toolbar height="3rem">
+						<m:Title text="Test"/>
+					</m:Toolbar>
+				</m:headerToolbar>
+				<m:content>
+					<m:List>
+						<m:items>
+							<m:StandardListItem
+								title="Link Navigation" type="Navigation" press="onLinkPress" />
+						</m:items>
+					</m:List>
+				</m:content>
+			</m:Panel>
 		</m:content>
 	</m:Page>
 </mvc:View>
