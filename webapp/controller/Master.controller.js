@@ -175,7 +175,7 @@ sap.ui.define([
 		onLinkPress: function () {
 			// get a handle on the global XAppNav service
 			var oCrossAppNavigator = sap.ushell.Container.getService("CrossApplicationNavigation"); 
-			oCrossAppNavigator.isIntentSupported(["employeeId-display"])
+			oCrossAppNavigator.isIntentSupported(["lhsusint-display"])
 				.done(function(aResponses) {
 
 				})
@@ -185,7 +185,7 @@ sap.ui.define([
 			// generate the Hash to display a employee Id
 			var hash = (oCrossAppNavigator && oCrossAppNavigator.hrefForExternal({
 				target: {
-					semanticObject: "employeeId",
+					semanticObject: "lhsusint",
 					action: "display"
 				}
 			})) || ""; 
