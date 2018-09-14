@@ -309,7 +309,7 @@ sap.ui.define([
 			 */
 			// Get id from Quarter drop down 
 			var comboQuarter = this.getView().byId("comboQuarter");
-			comboQuarter.setSelectedKeys([curQuarter]);
+			comboQuarter.setSelectedKey([curQuarter]);
 			
 			// Create a model
 			var reportModel = new sap.ui.model.json.JSONModel(newObj);
@@ -317,6 +317,98 @@ sap.ui.define([
 			reportModel.setSizeLimit(9999999999);
 			// Set model to the view
 			this.getView().setModel(reportModel, "ReportModel");
+		},
+		
+		handleSelectionChange: function (oEvent) {
+			// Hide busy indicator
+			sap.ui.core.BusyIndicator.show();
+			// Get selected quarters
+			var selectedKey = oEvent.getSource().getSelectedKey();
+			// simulate delayed end of operation
+			jQuery.sap.delayedCall(2000, this, function () {
+				// Get Data model 
+				var dataModel = this.getOwnerComponent().getModel("Data");
+				// Get data 
+				var allData = dataModel.getData().AllData;
+				// Create a new array 
+				var output = [];
+				// Variable to store the total points 
+				var totalPoints = 0;
+				// Get id from selected year 
+				var selectedYear = this.getView().byId("idSelectedYear").getText();
+			
+				// Iterate through array 
+				allData.forEach(function (obj) {
+					// Close Time column 
+					var closeTimeDate = new Date(obj["Close Time"]);
+					// State column
+					var closedState = obj.State;
+					// Convert to quarter 
+					var q = moment(closeTimeDate).utc().quarter();
+					
+					if (closedState === "closed successful" && parseInt(selectedKey, 10) === q && parseInt(selectedYear, 10) === closeTimeDate.getFullYear()) {
+						// Sum the points 
+						totalPoints += obj.Points;
+						// Store each element to a new array 
+						output.push(obj);
+					}
+				});
+				
+				// Create a new array 
+			//	var output = [];
+				// Variable to store the total points 
+			//	var totalPoints = 0;
+				// Iterate through array and check the matching selected keys 
+				/*newArr.filter(function (item) {
+					// Close Time column 
+					var ct = new Date(item["Close Time"]);
+					var q = moment(ct).utc().quarter();
+					// Check each quarter from the selected keys 
+					selectedKeys.forEach(function (obj) {
+						// Convert to int type 
+						var quarterInt = parseInt(obj, 10);
+						// Check each quarter if exists 
+						if (quarterInt === q) {
+							// Sum the points 
+							totalPoints += item.Points;
+							// Store elements to new array 
+							output.push(item);
+						}
+					});
+				});*/
+
+				// Get SDM Points from global file 
+				var smdPoints = this.getView().getModel("Global").getData().SDMPoints;
+				// Calculate Reveal SDM points multiplying by 3 
+				var revealSDMQuarterly = smdPoints * 3;
+				// Get Monthly Points 
+				var monthlyPoints = this.getView().getModel("Global").getData().MonthlyPoints;
+				// Calculate Monthly Points quarterly multiplying by 3 
+				var monthlyPointsQuarterly = monthlyPoints * 3;
+				var grandTotal = totalPoints + revealSDMQuarterly;
+				var rolloverPoints = grandTotal - monthlyPointsQuarterly;
+				// Create a new object
+				var obj = {};
+				// Store as a collection
+				//	obj.Collection = arrClosed;
+				obj.DataCollection = output;
+				obj.SelectedYear = selectedYear;
+				obj.TotalPoints = totalPoints;
+				obj.RevealSDM = revealSDMQuarterly;
+				obj.GrandTotal = grandTotal;
+				obj.MonthlyPoints = monthlyPointsQuarterly;
+				obj.RolloverPoints = Math.abs(rolloverPoints);
+
+				// Create a model
+				var oModel = new sap.ui.model.json.JSONModel(obj);
+				// Set size limit
+				oModel.setSizeLimit(99999999);
+				// Set model to the view
+				this.getView().setModel(oModel, "ReportModel");
+
+				// Hide busy indicator
+				sap.ui.core.BusyIndicator.hide();
+			});
 		},
 		
 		// Function on selected key 
