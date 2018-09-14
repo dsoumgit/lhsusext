@@ -82,7 +82,7 @@
 					</m:List>
 				</m:content>
 			</m:Panel>
-			<!--<m:Panel expandable="true" expanded="true" width="auto" class="sapUiResponsiveMargin">
+			<m:Panel expandable="true" expanded="true" width="auto" class="sapUiResponsiveMargin">
 				<m:headerToolbar>
 					<m:Toolbar height="3rem">
 						<m:Title text="Test"/>
@@ -96,7 +96,7 @@
 						</m:items>
 					</m:List>
 				</m:content>
-			</m:Panel>-->
+			</m:Panel>
 		</m:content>
 	</m:Page>
 </mvc:View>

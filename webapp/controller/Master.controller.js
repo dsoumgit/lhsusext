@@ -173,8 +173,11 @@ sap.ui.define([
 		},
 		
 		onLinkPress: function () {
+			
+			window.open("https://flpnwc-bb8bd811a.dispatcher.us1.hana.ondemand.com/sites?siteId=0fad276b-74be-4bd9-bd04-877e81a76ffa#lhsusint-Display&/", "_blank", true);
+			
 			// get a handle on the global XAppNav service
-			var oCrossAppNavigator = sap.ushell.Container.getService("CrossApplicationNavigation"); 
+			/*var oCrossAppNavigator = sap.ushell.Container.getService("CrossApplicationNavigation"); 
 			oCrossAppNavigator.isIntentSupported(["lhsusint-display"])
 				.done(function(aResponses) {
 
@@ -192,7 +195,7 @@ sap.ui.define([
 			//Generate a  URL for the second application
 			var url = window.location.href.split('#')[0] + hash; 
 			//Navigate to second app
-			sap.m.URLHelper.redirect(url, true); 	
+			sap.m.URLHelper.redirect(url, true); 	*/
 		},
 		
 		getEventBus: function () {
