@@ -27,9 +27,10 @@
 									<com:content>
 										<com:ChartContainerContent icon="sap-icon://vertical-bar-chart">
 											<com:content>
-												<viz:VizFrame id="ticketFrame" uiConfig="{applicationSet:'fiori'}" height='450px' width="100%" vizType='column'>
+												<viz:VizFrame id="ticketFrame" uiConfig="{applicationSet:'fiori'}" height='450px' width="100%" 
+													vizType='column'>
 													<viz:dataset>
-														<viz.data:FlattenedDataset data="{path: '/Collection'}">
+														<viz.data:FlattenedDataset data="{/Collection}">
 															<viz.data:dimensions>
 																<viz.data:DimensionDefinition name="Month" value="{path: 'Month', formatter: 'lhsusext.util.formatter.formatMonth'}"/>
 															</viz.data:dimensions>
@@ -45,6 +46,25 @@
 														<viz.feeds:FeedItem id='categoryAxisFeed' uid="categoryAxis" type="Dimension" values="Month"/>
 													</viz:feeds>
 												</viz:VizFrame>
+												
+												<!--<viz:Popover id="idPopOver"></viz:Popover>
+												<viz:VizFrame id="ticketFrame" uiConfig="{applicationSet:'fiori'}" height="450px" width="100%" 
+													vizType='timeseries_column'>
+													<viz:dataset>
+														<viz.data:FlattenedDataset data="{/milk}">
+															<viz.data:dimensions>
+																<viz.data:DimensionDefinition name="Date" value="{path: 'Date', formatter: 'lhsusext.util.formatter.formatDate'}" dataType="date"/>
+															</viz.data:dimensions>
+															<viz.data:measures>
+																<viz.data:MeasureDefinition name="cost" value="{cost}"/>
+															</viz.data:measures>
+														</viz.data:FlattenedDataset>
+													</viz:dataset>
+													<viz:feeds>
+														<viz.feeds:FeedItem uid="valueAxis" type="Measure" values="cost"/>
+														<viz.feeds:FeedItem uid="timeAxis" type="Dimension" values="Date"/>
+													</viz:feeds>
+												</viz:VizFrame>-->
 											</com:content>
 										</com:ChartContainerContent>
 									</com:content>
@@ -143,12 +163,12 @@
 													<viz:dataset>
 														<viz.data:FlattenedDataset data="{ path: 'PointModel>/Collection' }">
 															<viz.data:dimensions>
-																<viz.data:DimensionDefinition name="{i18n>Month}" value="{PointModel>Month}"/>
+																<viz.data:DimensionDefinition name="Month" value="{PointModel>Month}"/>
 															</viz.data:dimensions>
 															<viz.data:measures>
-																<viz.data:MeasureDefinition name="{i18n>SDM}" value="{PointModel>SDM}"/>
-																<viz.data:MeasureDefinition name="{i18n>ClosedRequests}" value="{PointModel>ClosedRequests}"/>
-																<viz.data:MeasureDefinition name="{i18n>Innovation}" value="{PointModel>Innovation}"/>
+																<viz.data:MeasureDefinition name="SDM" value="{PointModel>SDM}"/>
+																<viz.data:MeasureDefinition name="ClosedRequests" value="{PointModel>ClosedRequests}"/>
+																<viz.data:MeasureDefinition name="Innovation" value="{PointModel>Innovation}"/>
 															</viz.data:measures>
 														</viz.data:FlattenedDataset>
 													</viz:dataset>

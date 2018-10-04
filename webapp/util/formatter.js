@@ -15,7 +15,21 @@ lhsusext.util.formatter = {
 		}); //Returns a NumberFormat instance for float
 		return oNumberFormat.format(oNumber);
 	},
+	
+	formatDate: function (oDate) {
+	//	console.log(oDate);
+		
+		
+		var oDateFormat = sap.ui.core.format.DateFormat.getDateInstance({pattern : "MM/dd/YYYY" });   
 
+		if (oDate !== null) {
+			var dateFormatted = new Date(oDate); 
+		//	console.log(dateFormatted.getMonth());
+			
+			return oDateFormat.format(dateFormatted);
+		}
+	},
+	
 	formatNum: function(oNumber) {
 		var oNumberFormat = sap.ui.core.format.NumberFormat.getFloatInstance({
 			maxFractionDigits: 1,

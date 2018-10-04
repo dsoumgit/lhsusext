@@ -95,19 +95,19 @@ sap.ui.define([
 				}
 			}
 
-			i = 0;
+		//	i = 0;
 			// Iterate through array
-			for (i = 0; i < allData.length; i++) {
+			for (var k = 0; k < allData.length; k++) {
 
 				/********** Close Time *************/
 				// Select Close Time dates
-				var closeTime = allData[i]["Close Time"];
+				var closeTime = allData[k]["Close Time"];
 				// Convert to date 
 				var closeDate = new Date(closeTime);
 				// Get year 
 				var closeYear = closeDate.getFullYear();
 				// Get State
-				var state = allData[i].State;
+				var state = allData[k].State;
 				// Check the current year and State 
 				if (closeYear === currentYear && state === "closed successful") {
 					// Get month 
@@ -117,17 +117,26 @@ sap.ui.define([
 						monthClosed += 1;
 					}
 
-					arrClosed.forEach(function (obj) {
+					/*arrClosed.forEach(function (obj) {
 						// Get month
 						var month = obj.Month;
 						if (month === monthClosed) {
 							// Get points 
 							obj.TotalPoints += allData[i].Points;
 						}
-					});
+					});*/
+					
+					for (var j = 0; j < arrClosed.length; j++) {
+						// Get month
+						var month = arrClosed[j].Month;
+						if (month === monthClosed) {
+							// Get points 
+							arrClosed[j].TotalPoints += allData[k].Points;
+						}
+					}
 				}
 			}
-
+			
 			// Create a new object
 			var obj = {};
 			// Store as a collection
@@ -135,8 +144,6 @@ sap.ui.define([
 
 			// Create a model
 			var oModel = new sap.ui.model.json.JSONModel();
-			// Set binding mode
-			oModel.setDefaultBindingMode("OneWay");
 			// Set collection to the model
 			oModel.setData(obj);
 			// Set model to the view

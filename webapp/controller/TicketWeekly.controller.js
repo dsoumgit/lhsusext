@@ -184,6 +184,7 @@ sap.ui.define([
 		getWeeklyDates: function(that, arr) {
 
 			var filtered = arr.filter(function(string) {
+				console.log(string);
 				// Conver to date object
 				var date = new Date(string);
 				// Get year
@@ -197,7 +198,7 @@ sap.ui.define([
 
 				return (
 					year === currentYear ||
-					that.isPresent(that.datesOfFirstWeekFromLastYear(), fullDate)
+					that.isPresent(that.datesOfFirstWeekFromLastYear(), date)
 				);
 			});
 
@@ -238,6 +239,8 @@ sap.ui.define([
 		},
 
 		isPresent: function(dates, date) {
+			console.log(dates);
+			console.log(date);
 			return !!dates.find(function(dateElement) {
 				return date.isSame(dateElement);
 			});
