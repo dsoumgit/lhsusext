@@ -39,6 +39,10 @@ sap.ui.define([
 			var oTooltip = new sap.viz.ui5.controls.VizTooltip({});
 			oTooltip.connect(idVizFrame.getVizUid());
 			oTooltip.setFormatString(formatPattern.STANDARDFLOAT);
+			// Get pop over id for Essential 1 
+			var oPopover = this.getView().byId("idPopOver");
+			oPopover.connect(idVizFrame.getVizUid());
+			oPopover.setFormatString(ChartFormatter.DefaultPattern.Integer);
 			// Set title to the chart 
 			idVizFrame.setVizProperties({
 				title: {
@@ -126,27 +130,6 @@ sap.ui.define([
 				mappedResult.push(groups);
 			}
 			
-			// Create unique names
-			var uniqueNames = []; 
-			// Remove duplicate elements 
-			$.each(queueArr, function(ind, ele) {
-				// Check the element if it is not in array
-				if ($.inArray(ele, uniqueNames) === -1 || $.inArray(ele, uniqueNames) === "") {
-					// Add to the new array
-					uniqueNames.push(ele);
-				}
-			});
-			
-			// Create a new array to store data of Measures 
-			var measureArr = [];
-			// Add name property 
-			for (var key in uniqueNames) {
-				measureArr.push({
-					"name": uniqueNames[key],
-					"value": "{" + uniqueNames[key] + "}"
-				});
-			}
-			
 			// Create an object
 			var obj = {};
 			obj.Collection = mappedResult;
@@ -160,6 +143,34 @@ sap.ui.define([
 
 			// Get viz frame id 
 			var oVizFrame = that.getView().byId("idVizFrame");
+			// Create unique names
+			var uniqueNames = []; 
+			// Remove duplicate elements 
+			/*$.each(queueArr, function(ind, ele) {
+				// Check the element if it is not in array
+				if ($.inArray(ele, uniqueNames) === -1 || $.inArray(ele, uniqueNames) === "") {
+					// Add to the new array
+					uniqueNames.push(ele);
+				}
+			});*/
+			
+			queueArr.forEach(function (ele) {
+				// Check the element if it is not in array
+				if (jQuery.inArray(ele, uniqueNames) === -1 || $.inArray(ele, uniqueNames) === "") {
+					// Add to the new array
+					uniqueNames.push(ele);
+				}
+			});
+				
+			// Create a new array to store data of Measures 
+			var measureArr = [];
+			// Add name property 
+			for (var key in uniqueNames) {
+				measureArr.push({
+					"name": uniqueNames[key],
+					"value": "{" + uniqueNames[key] + "}"
+				});
+			}
 			
 			// Create dataset
 			var oDataset = new sap.viz.ui5.data.FlattenedDataset({

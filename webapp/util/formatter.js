@@ -18,8 +18,19 @@ lhsusext.util.formatter = {
 	
 	formatDate: function (oDate) {
 	//	console.log(oDate);
+		var date = oDate; 
+		return 2;
+	//	var result = [];
+	//	result.push(date);
+	//	result.unshift(date);
+		/*if (!result[oDate]) {
+			result[oDate] = [oDate];   
+		} else {
+			result.push(result[oDate]);
+		}*/
 		
-		
+	//	console.log(result);
+	/*	
 		var oDateFormat = sap.ui.core.format.DateFormat.getDateInstance({pattern : "MM/dd/YYYY" });   
 
 		if (oDate !== null) {
@@ -28,7 +39,9 @@ lhsusext.util.formatter = {
 			
 			return oDateFormat.format(dateFormatted);
 		}
+		*/
 	},
+	
 	
 	formatNum: function(oNumber) {
 		var oNumberFormat = sap.ui.core.format.NumberFormat.getFloatInstance({

@@ -19,9 +19,7 @@ sap.ui.define([
 
 			if (sName === "pointQuarterly") {
 				// Call method
-					this.setPointQuarterly();
-
-			//	this.setPointMonthly();
+				this.setPointQuarterly();
 			}
 		},
 
@@ -40,6 +38,10 @@ sap.ui.define([
 			var oTooltip = new sap.viz.ui5.controls.VizTooltip({});
 			oTooltip.connect(idVizFrame.getVizUid());
 			oTooltip.setFormatString(formatPattern.STANDARDFLOAT);
+			// Get pop over id for Essential 1 
+			var oPopover = this.getView().byId("idPopOver");
+			oPopover.connect(idVizFrame.getVizUid());
+			oPopover.setFormatString(ChartFormatter.DefaultPattern.Integer);
 			// Get Monthly Points 
 			var monthlyPoints = this.getView().getModel("Global").getData().MonthlyPoints;
 			// Calculate Monthly Points quarterly multiplying by 3 
@@ -99,24 +101,30 @@ sap.ui.define([
 			if (currentMonth < 12) {
 				currentMonth += 1;
 			}
+			
+			// Create a new array to store elements for current year 
+			var closeTimeYear = [];
+			// Iterate through array 
+			for (var k = 0; k < allData.length; k++) {
+				// Get State 
+				var state = allData[k].State;
+				// Get Close Time 
+				var closeTimeDate = allData[k]["Close Time"];
+				
+				// Check the condition 
+				if (state === "closed successful" && new Date(closeTimeDate).getFullYear() === currentYear) {
+					// Get year 
+					var closeYear = new Date(closeTimeDate).getFullYear();
+					// Store to new array 
+					closeTimeYear.push(closeYear);
+				}
+			}
+			
+			// Get the year from the first object 
+			var startYearInt = closeTimeYear[0];
 
-			// Get the start date from AllData array
-			//	var startDate = moment(startDateObj, "M/D/YYYY");
-			var sortedRecords = allData.sort(function (a, b) {
-				return (a["Close Time"] && moment(a["Close Time"], "M/D/YY H:mm").unix()) - (b["Close Time"] && moment(b["Close Time"],
-					"M/D/YY H:mm").unix());
-			});
-
-			var startYear = moment(sortedRecords.find(function (record) {
-				return record["Close Time"];
-			})["Close Time"], "M/D/YY H:mm").format("YYYY");
-			var endYear = moment(sortedRecords[sortedRecords.length - 1]["Close Time"], "M/D/YY H:mm").format("YYYY");
-
-			// Convert start year to integer type
-			var startYearInt = parseInt(startYear);
-			// Convert start year to integer type
-			var endYearInt = parseInt(endYear);
-
+			
+			// Initialize the counter 
 			var i = 1;
 
 			/** First condition: 

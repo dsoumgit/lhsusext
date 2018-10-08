@@ -37,9 +37,10 @@
 							<com:content>
 								<com:ChartContainerContent icon="sap-icon://vertical-bar-chart">
 									<com:content>
+										<viz:Popover id="idPopOver"></viz:Popover>
 										<viz:VizFrame id="idVizFrame" uiConfig="{applicationSet:'fiori'}" height='550px' width="100%" vizType='line'>
 											<viz:dataset>
-												<viz.data:FlattenedDataset data="{path: '/Collection' }">
+												<viz.data:FlattenedDataset data="{/Collection}">
 													<viz.data:dimensions>
 														<viz.data:DimensionDefinition name="Week" value="{Week}"/>
 													</viz.data:dimensions>
@@ -50,11 +51,31 @@
 												</viz.data:FlattenedDataset>
 											</viz:dataset>
 											<viz:feeds>
-												<viz.feeds:FeedItem id='valueAxisFeed' uid="valueAxis" type="Measure" values="CreatedRequests"/>
+												<viz.feeds:FeedItem uid="valueAxis" type="Measure" values="CreatedRequests"/>
 												<viz.feeds:FeedItem uid="valueAxis" type="Measure" values="ClosedRequests"/>
-												<viz.feeds:FeedItem id='categoryAxisFeed' uid="categoryAxis" type="Dimension" values="Week"/>
+												<viz.feeds:FeedItem uid="categoryAxis" type="Dimension" values="Week"/>
 											</viz:feeds>
 										</viz:VizFrame>
+										
+										<!--<viz:Popover id="idPopOver"></viz:Popover>
+										<viz:VizFrame id="idVizFrame" uiConfig="{applicationSet:'fiori'}" height='550px' width="100%" vizType='timeseries_line'>
+											<viz:dataset>
+												<viz.data:FlattenedDataset data="{/Collection}">
+													<viz.data:dimensions>
+														<viz.data:DimensionDefinition name="Date" value="{Date}" dataType="date"/>
+													</viz.data:dimensions>
+													<viz.data:measures>
+														<viz.data:MeasureDefinition name="CreatedRequests" value="{CreatedRequests}"/>
+														<viz.data:MeasureDefinition name="ClosedRequests" value="{ClosedRequests}"/>
+													</viz.data:measures>
+												</viz.data:FlattenedDataset>
+											</viz:dataset>
+											<viz:feeds>
+												<viz.feeds:FeedItem uid="valueAxis" type="Measure" values="CreatedRequests"/>
+												<viz.feeds:FeedItem uid="valueAxis" type="Measure" values="ClosedRequests"/>
+												<viz.feeds:FeedItem uid="timeAxis" type="Dimension" values="Date"/>
+											</viz:feeds>
+										</viz:VizFrame>-->
 									</com:content>
 								</com:ChartContainerContent>
 							</com:content>
@@ -62,16 +83,6 @@
 					</content>
 				</Panel>
 			</Panel>
-			<!--<VBox>
-				<Select id="idQuarter" change="handleChangeQuarter" selectedKey="2017">
-					<items>
-						<core:Item key="2014" text="2014"/>
-						<core:Item key="2015" text="2015"/>
-						<core:Item key="2016" text="2016"/>
-						<core:Item key="2017" text="2017"/>
-					</items>
-				</Select>
-			</VBox>-->
 		</content>
 	</Page>
 </mvc:View>

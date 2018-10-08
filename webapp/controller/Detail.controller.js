@@ -226,7 +226,17 @@ sap.ui.define([
 			var selected = this.getView().byId("idShowData").getState();
 			// Get vizframe id 
 			var oVizframe = this.getView().byId("ticketFrame");
-
+			// Format the data 		
+			Format.numericFormatter(ChartFormatter.getInstance());
+			var formatPattern = ChartFormatter.DefaultPattern;
+			// Create tool tip control
+			var oTooltip = new sap.viz.ui5.controls.VizTooltip({});
+			oTooltip.connect(oVizframe.getVizUid());
+			oTooltip.setFormatString(formatPattern.STANDARDFLOAT);
+			// Get pop over id for Essential 1 
+			var oPopover = this.getView().byId("idPopOver");
+			oPopover.connect(oVizframe.getVizUid());
+			oPopover.setFormatString(ChartFormatter.DefaultPattern.Integer);
 			// Define a variable to store the switch 
 			var labelOn = "";
 			// simulate delayed end of operation
@@ -405,109 +415,6 @@ sap.ui.define([
 			return serPerInt;
 		},
 
-		// Point Consumption
-		sdspointConsump: function (arr) {
-			// Get today's year
-			var today = new Date();
-			// Current year
-			var curYear = today.getFullYear();
-			// Current month
-			var curMonth = today.getMonth();
-			// Add 1 to the month
-			if (curMonth < 12) {
-				curMonth += 1;
-			}
-
-			// Get vizframe for Tickets
-			var pointFrame = this.getView().byId("pointFrame");
-			// Set title to the chart 
-			pointFrame.setVizProperties({
-				plotArea: {
-					dataLabel: {
-						showTotal: true
-					}
-				},
-				title: {
-					text: curYear
-				}
-			});
-
-			// Get the main model 			
-			//	var mainModel = this.getView().getModel("Main");
-			// Get all the data
-			var allData = arr.AllData;
-			// Create new arrays
-			var monthInno = [];
-			var monthNonInno = [];
-			// Iterate through array
-			for (var i = 0; i < allData.length; i++) {
-
-				/********** Close Time *************/
-				// Select Close Time dates
-				var closeTime = allData[i]["Close Time"];
-				// Convert to date 
-				var closeDate = new Date(closeTime);
-				// Get year 
-				var closeYear = closeDate.getFullYear();
-				// Get State
-				var state = allData[i].State;
-				// Check the current year and State 
-				if (closeYear === curYear && state === "closed successful") {
-					// Get month 
-					var month = closeDate.getMonth();
-					// Add 1 to the month
-					if (month < 12) {
-						month += 1;
-					}
-
-					// Filter by Innovation from Priority column
-					var inno = allData[i].Priority;
-					// Get the number of rows for Innovation
-					if (month === curMonth && inno === "4. Innovation (Enhancement)") {
-						monthInno.push(allData[i]);
-					} else if (month === curMonth && inno !== "4. Innovation (Enhancement)") {
-						monthNonInno.push(allData[i]);
-					}
-				}
-			}
-
-			var totalPoints = 0;
-			// Total innovation points 
-			monthInno.forEach(function (obj) {
-				// Total Points 
-				totalPoints += obj.Points;
-			});
-
-			// Create a new object
-			var obj = {};
-			// Array of months
-			var monthNames = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
-
-			// Get the SDM Points  			
-			var sdmPoints = this.getView().getModel("Global").getData().SDMPoints;
-
-			// Total non innovation points 
-			var totalNonInno = 0;
-			monthNonInno.forEach(function (obj) {
-				// Total Points 
-				totalNonInno += obj.Points;
-			});
-
-			obj.Collection = [{
-				Month: monthNames[today.getMonth()],
-				SDM: sdmPoints,
-				Innovation: totalPoints,
-				ClosedRequests: monthNonInno.length
-			}];
-
-			// Create a model
-			var oModel = new sap.ui.model.json.JSONModel();
-			// Set data to the model
-			oModel.setData(obj);
-			// Set model to the view
-			this.getView().setModel(oModel, "PointModel");
-		},
-
 		removeDupicates: function (arrYears) {
 			// Remove duplicate 
 			var uniqueYear = [];
@@ -612,6 +519,10 @@ sap.ui.define([
 
 			// Get vizframe for Tickets
 			var pointFrame = this.getView().byId("pointFrame");
+			// Get pop over id for Essential 1 
+			var oPopover = this.getView().byId("idPopOverPoint");
+			oPopover.connect(pointFrame.getVizUid());
+			oPopover.setFormatString(ChartFormatter.DefaultPattern.Integer);
 			// Set title to the chart 
 			pointFrame.setVizProperties({
 				plotArea: {

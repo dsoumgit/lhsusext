@@ -37,6 +37,10 @@ sap.ui.define([
 			var oTooltip = new sap.viz.ui5.controls.VizTooltip({});
 			oTooltip.connect(idVizFrame.getVizUid());
 			oTooltip.setFormatString(formatPattern.STANDARDFLOAT);
+			// Get pop over id 
+			var oPopover = this.getView().byId("idPopOver");
+			oPopover.connect(idVizFrame.getVizUid());
+			oPopover.setFormatString(ChartFormatter.DefaultPattern.Integer);
 			// Set title to the chart 
 			idVizFrame.setVizProperties({
 				title: {

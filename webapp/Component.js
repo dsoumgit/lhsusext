@@ -5,6 +5,7 @@ sap.ui.define([
 	"sap/ui/Device",
 	"lhsusext/model/models",
 	"lhsusext/libs/moment",
+	"lhsusext/libs/array_find",
 	"sap/ui/core/routing/HashChanger"
 ], function(UIComponent, Device, models, HashChanger) {
 	"use strict";

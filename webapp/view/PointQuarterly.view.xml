@@ -37,6 +37,7 @@
 							<com:content>
 								<com:ChartContainerContent icon="sap-icon://vertical-bar-chart">
 									<com:content>
+										<viz:Popover id="idPopOver"></viz:Popover>
 										<viz:VizFrame id="idVizFrame" uiConfig="{applicationSet:'fiori'}" height='450px' width="100%" vizType='stacked_column'>
 											<viz:dataset>
 												<viz.data:FlattenedDataset data="{path: '/Collection'}">
@@ -71,7 +72,7 @@
 									<Title text="Year:" level="H3"/>
 									<Text id="idSelectedYear" text="{path: 'ReportModel>/SelectedYear'}"/>
 									<Title text="Quarter:" level="H3"/>
-									<ComboBox id="comboQuarter" items="{path: '/Collection'}" placeholder="Select..." selectionChange="handleSelectionChange" selectionFinish="handleSelectionFinish" width="200px">
+									<ComboBox id="comboQuarter" items="{path: '/Collection'}" placeholder="Select..." selectionChange="handleSelectionChange" width="200px">
 										<core:Item key="{Quarter}" text="{Key}"/>
 										<!--<core:Item key="2" text="Q2"/>
 										<core:Item key="3" text="Q3"/>
