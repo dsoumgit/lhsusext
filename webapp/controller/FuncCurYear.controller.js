@@ -22,8 +22,168 @@ sap.ui.define([
 				this.setAreaMonthly();
 			}
 		},
+		
+		setAreaMonthly: function () {
+			// Check the data label
+			this.onShowData();
+			// Get Data model 
+			var dataModel = this.getOwnerComponent().getModel("Data");
+			// Get data 
+			var allData = dataModel.getData().AllData;
+			// Today's date 
+			var today = new Date();	
+			// Define result object 
+			var result = {};
+			// Get the global model 			
+			var arrayQueue = this.getView().getModel("Global").getData().Queue;
+			// Iterate through array
+			for (var i = 0; i < allData.length; i++) {
+				// Select Created dates
+				var created = allData[i].Created;
+				// Convert to Date object
+				var createdDate = new Date(created);
+				// Get year
+				var yearCreated = createdDate.getFullYear();
+				
+				// Check the current year
+				if (yearCreated === today.getFullYear()) {
+					// Get Queue column 
+					var queue = allData[i].Queue;
+					// Rename Queue
+					arrayQueue.forEach(function (obj) {
+						if (queue === obj.queue) {
+							queue = obj.name;  
+						}	
+					});
+					
+					// Get Created month 
+					var createdMonth = createdDate.getMonth(); 
+					// Add 1 to the month 
+					if (createdMonth < 10) {
+						createdMonth += 1; 
+					}
+					
+					// Group queue by monthly 
+					for (var m = 1; m <= createdMonth; m++) {
+						if (m === createdMonth) {
+							if (result[createdMonth] === undefined) {
+								result[createdMonth] = [queue];
+							} else {
+								result[createdMonth].push(queue);
+							}
+						}
+					}
+				}
+			}
+				
+			// Create an array to store each month
+			var mappedResult = [];
+			var queueArr = [];
+			// Array of months 
+			var monthName = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
 
-		setAreaMonthly: function() {
+			for (var key in result) {
+				
+				var groups = this.groupBy(result[key]);
+				// Create Month key and value 
+				groups["Month"] = monthName[key];
+				// Store groups to new array 
+				mappedResult.push(groups);
+				
+				// Create dynamic queue 
+				result[key].forEach(function (obj) {
+					queueArr.push(obj); 
+				});
+			}
+			
+			// Create a new object
+			var obj = {};
+			// Store collection 
+			obj.Collection = mappedResult;
+			
+			// Create a new json model
+			var oModel = new sap.ui.model.json.JSONModel();
+			// Set data to the model
+			oModel.setData(obj);
+			// Set the model to the view 
+			this.getView().setModel(oModel);
+			
+			
+			// Get viz frame id 
+			var oVizFrame = this.getView().byId("idVizFrame");
+			// Set the chart title 
+			var idVizFrame = this.getView().byId("idVizFrame");
+			// Format the data 		
+			Format.numericFormatter(ChartFormatter.getInstance());
+			var formatPattern = ChartFormatter.DefaultPattern;
+			// Create tool tip control
+			var oTooltip = new sap.viz.ui5.controls.VizTooltip({});
+			oTooltip.connect(idVizFrame.getVizUid());
+			oTooltip.setFormatString(formatPattern.STANDARDFLOAT);
+			// Get pop over id for Essential 1 
+			var oPopover = this.getView().byId("idPopOver");
+			oPopover.connect(idVizFrame.getVizUid());
+			oPopover.setFormatString(ChartFormatter.DefaultPattern.Integer);
+			// Set title to the chart 
+			idVizFrame.setVizProperties({
+				title: {
+					text: today.getFullYear()
+				}
+			});
+			
+			// Create unique names
+			var uniqueNames = []; 
+			// Remove duplicate elements 
+			$.each(queueArr, function(ind, ele) {
+				// Check the element if it is not in array
+				if ($.inArray(ele, uniqueNames) === -1 || $.inArray(ele, uniqueNames) === "") {
+					// Add to the new array
+					uniqueNames.push(ele);
+				}
+			});
+			
+			// Create a new array to store data of Measures 
+			var measureArr = [];
+			// Add name property 
+			for (var key in uniqueNames) {
+				measureArr.push({
+					"name": uniqueNames[key],
+					"value": "{" + uniqueNames[key] + "}"
+				});
+			}
+			// Create dataset
+			var oDataset = new sap.viz.ui5.data.FlattenedDataset({
+				dimensions: [{
+					name: "Month",
+					value: "{Month}"
+				}],
+				measures: measureArr,  
+				data: {
+					path: "/Collection"
+				}
+			});
+
+			oVizFrame.setDataset(oDataset);
+	
+			var feedValueAxis = new sap.viz.ui5.controls.common.feeds.FeedItem({
+					"uid": "valueAxis",
+					"type": "Measure",
+					"values": uniqueNames
+				}),
+				feedCategoryAxis = new sap.viz.ui5.controls.common.feeds.FeedItem({
+					"uid": "categoryAxis",
+					"type": "Dimension",
+					"values": ["Month"]
+				});
+
+			// Resolve an issue after second time 	
+			oVizFrame.destroyFeeds();
+
+			oVizFrame.addFeed(feedValueAxis);
+			oVizFrame.addFeed(feedCategoryAxis);
+		},
+		
+		asdfssetAreaMonthly: function() {
 			// Check the data label
 			this.onShowData();
 			// Scope variable
