@@ -19,7 +19,9 @@ sap.ui.define([
 
 			if (sName === "pointQuarterly") {
 				// Call method
-				this.setPointQuarterly();
+					this.setPointQuarterly();
+
+			//	this.setPointMonthly();
 			}
 		},
 
@@ -38,10 +40,6 @@ sap.ui.define([
 			var oTooltip = new sap.viz.ui5.controls.VizTooltip({});
 			oTooltip.connect(idVizFrame.getVizUid());
 			oTooltip.setFormatString(formatPattern.STANDARDFLOAT);
-			// Get pop over id for Essential 1 
-			var oPopover = this.getView().byId("idPopOver");
-			oPopover.connect(idVizFrame.getVizUid());
-			oPopover.setFormatString(ChartFormatter.DefaultPattern.Integer);
 			// Get Monthly Points 
 			var monthlyPoints = this.getView().getModel("Global").getData().MonthlyPoints;
 			// Calculate Monthly Points quarterly multiplying by 3 
@@ -93,7 +91,7 @@ sap.ui.define([
 			}
 
 			// Get year
-			var startYear = startDateObj.getFullYear();
+		//	var sustainStartYear = startDateObj.getFullYear();
 			/** Note: The start date from the Global file is between 0 - 11
 			 */
 
@@ -101,30 +99,43 @@ sap.ui.define([
 			if (currentMonth < 12) {
 				currentMonth += 1;
 			}
-			
-			// Create a new array to store elements for current year 
-			var closeTimeYear = [];
-			// Iterate through array 
-			for (var k = 0; k < allData.length; k++) {
-				// Get State 
-				var state = allData[k].State;
-				// Get Close Time 
-				var closeTimeDate = allData[k]["Close Time"];
-				
-				// Check the condition 
-				if (state === "closed successful" && new Date(closeTimeDate).getFullYear() === currentYear) {
-					// Get year 
-					var closeYear = new Date(closeTimeDate).getFullYear();
-					// Store to new array 
-					closeTimeYear.push(closeYear);
-				}
-			}
-			
-			// Get the year from the first object 
-			var startYearInt = closeTimeYear[0];
 
+			// Get the start date from AllData array
+			//	var startDate = moment(startDateObj, "M/D/YYYY");
+		//	var sortedRecords = allData.sort(function (a, b) {
+		//		return (a["Close Time"] && moment(a["Close Time"], "M/D/YY H:mm").unix()) - (b["Close Time"] && moment(b["Close Time"],
+		//			"M/D/YY H:mm").unix());
+		//	});
 			
-			// Initialize the counter 
+			// Date format 
+			var oDateFormat = sap.ui.core.format.DateFormat.getInstance({pattern: "MM/dd/yyyy"});
+			// Sort Close Time date 
+			var sortedRecords = allData.sort(function (a, b) {
+				return (oDateFormat.format(new Date(a["Close Time"])) - oDateFormat.format(new Date(b["Close Time"])));
+			});	
+
+			var startYear = moment(sortedRecords.find(function (record) {
+				return record["Close Time"];
+			})["Close Time"], "M/D/YY H:mm").format("YYYY");
+			
+			// Year format 
+			/*var yearFormat = sap.ui.core.format.DateFormat.getInstance({pattern: "yyyy"});
+			// Get start year
+			var startYear = moment(sortedRecords.find(function (record) {
+				return yearFormat.format(new Date(record["Close Time"]));		
+			}));
+			
+			console.log(startYear);*/
+			
+		//	var endYear = moment(sortedRecords[sortedRecords.length - 1]["Close Time"], "M/D/YY H:mm").format("YYYY");
+	//		var endYear = yearFormat.format(sortedRecords[sortedRecords.length - 1]["Close Time"]);
+	//	console.log(endYear);	
+			
+			// Convert start year to integer type
+			var startYearInt = parseInt(startYear, 10);
+			// Convert start year to integer type
+		//	var endYearInt = parseInt(endYear, 10);
+
 			var i = 1;
 
 			/** First condition: 
