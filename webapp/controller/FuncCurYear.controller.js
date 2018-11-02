@@ -126,6 +126,11 @@ sap.ui.define([
 			oPopover.setFormatString(ChartFormatter.DefaultPattern.Integer);
 			// Set title to the chart 
 			idVizFrame.setVizProperties({
+				plotArea: {
+					colorPalette: ["rgb(88, 153, 218)", "rgb(0, 153, 0)", "rgb(255, 128, 0)", 
+						"rgb(178, 102, 255)", "rgb(255, 153, 255)", "rgb(0, 255, 255)", "rgb(204, 0, 0)",
+						"rgb(255, 255, 0)", "rgb(51, 0, 25)" ]	
+				},
 				title: {
 					text: today.getFullYear()
 				}

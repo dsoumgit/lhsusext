@@ -43,6 +43,9 @@ sap.ui.define([
 			oPopover.setFormatString(ChartFormatter.DefaultPattern.Integer);
 			// Set title to the chart 
 			idVizFrame.setVizProperties({
+				plotArea: {
+					colorPalette: ["rgb(88, 153, 218)"]	
+				},
 				title: {
 					text: currentYear
 				}

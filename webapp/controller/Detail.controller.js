@@ -31,11 +31,11 @@ sap.ui.define([
 				// Monthly method
 				this.setTicketMonthly(allData);
 				// Oldest Closed Requests
-					this.getOldestRequests(allData);
+				this.getOldestRequests(allData);
 				// SLA Tracker chart
-					this.SLATracker(allData);
+				this.SLATracker(allData);
 				// Point consumption
-					this.pointConsump(allData);
+				this.pointConsump(allData);
 			}
 		},
 
@@ -44,9 +44,6 @@ sap.ui.define([
 			this.onShowData();
 			// Get all data 
 			var allRecords = arr.AllData;
-			var oDateFormat = sap.ui.core.format.DateFormat.getDateInstance({
-				pattern: "MM/dd/yyyy"
-			});
 			var today = new Date();
 			var currentMonth = today.getMonth();
 			// Start month at 1
@@ -88,17 +85,6 @@ sap.ui.define([
 				if (createdYear === today.getFullYear()) {
 					// Store the objects and get length 
 					var createdMonthNum = [allRecords[j]];
-
-					// Iterate through month array
-					/*resultCreated.forEach(function (obj) {
-						// Get Month
-						var month = obj.Month;
-						// Check the match
-						if (month === createdMonth) {
-							// Store the number of records 
-							obj.Created += createdMonthNum.length;
-						}
-					});*/
 
 					for (var a = 0; a < resultCreated.length; a++) {
 						// Get Month
@@ -170,7 +156,7 @@ sap.ui.define([
 					}
 				}
 			}
-			
+
 			// Create a new array
 			var result = [];
 			// Loop through 
@@ -195,21 +181,21 @@ sap.ui.define([
 			var obj = {};
 			// Store as a collection
 			obj.Collection = result;
-			
+
 			var oVizframe = this.getView().byId("ticketFrame");
 			// Set the visibility 
 			oVizframe.setVizProperties({
 				plotArea: {
-					
 					dataLabel: {
 						visible: true
-					}
+					},
+					colorPalette: ["rgb(88, 153, 218)", "rgb(232, 116, 59)"]
 				},
 				title: {
 					text: today.getFullYear()
 				}
 			});
-				
+
 			// Create a model
 			var oModel = new sap.ui.model.json.JSONModel();
 			// Set collection to the model
@@ -239,29 +225,26 @@ sap.ui.define([
 			oPopover.setFormatString(ChartFormatter.DefaultPattern.Integer);
 			// Define a variable to store the switch 
 			var labelOn = "";
-			// simulate delayed end of operation
-			jQuery.sap.delayedCall(2000, this, function () {
-				// Check if selected 
-				if (selected === true) {
-					// Show the labels
-					labelOn = true;
-				} else {
-					// Hide the labels 
-					labelOn = false;
-				}
+			// Check if selected 
+			if (selected === true) {
+				// Show the labels
+				labelOn = true;
+			} else {
+				// Hide the labels 
+				labelOn = false;
+			}
 
-				// Set the visibility 
-				oVizframe.setVizProperties({
-					plotArea: {
-						dataLabel: {
-							visible: labelOn
-						}
+			// Set the visibility 
+			oVizframe.setVizProperties({
+				plotArea: {
+					dataLabel: {
+						visible: labelOn
 					}
-				});
-
-				// Hide busy indicator
-				sap.ui.core.BusyIndicator.hide();
+				}
 			});
+
+			// Hide busy indicator
+			sap.ui.core.BusyIndicator.hide();
 		},
 
 		getOldestRequests: function (arr) {
@@ -528,7 +511,8 @@ sap.ui.define([
 				plotArea: {
 					dataLabel: {
 						showTotal: true
-					}
+					},
+					colorPalette: ["rgb(88, 153, 218)", "rgb(232, 116, 59)", "rgb(0, 153, 76)"]
 				},
 				title: {
 					text: parseInt(lastObj, 10)

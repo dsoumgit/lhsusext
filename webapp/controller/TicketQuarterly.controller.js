@@ -2,17 +2,17 @@ sap.ui.define([
 	"lhsusext/controller/BaseController",
 	"sap/viz/ui5/format/ChartFormatter",
 	"sap/viz/ui5/api/env/Format"
-], function(BaseController, ChartFormatter, Format) {
+], function (BaseController, ChartFormatter, Format) {
 	"use strict";
 
 	return BaseController.extend("lhsusext.controller.TicketQuarterly", {
-		onInit: function() {
+		onInit: function () {
 			this.bus = sap.ui.component(sap.ui.core.Component.getOwnerIdFor(this.getView())).getEventBus();
-			
+
 			this.getRouter().attachRoutePatternMatched(this.onRouteMatched, this);
 		},
-		
-		onRouteMatched: function(oEvent) {
+
+		onRouteMatched: function (oEvent) {
 			var sName = oEvent.getParameter("name");
 
 			if (sName === "ticketQuarterly") {
@@ -20,8 +20,8 @@ sap.ui.define([
 				this.setTicketQuarterly();
 			}
 		},
-		
-		setTicketQuarterly: function() {
+
+		setTicketQuarterly: function () {
 			// Check the data label
 			this.onShowData();
 			// Get today's year
@@ -43,11 +43,14 @@ sap.ui.define([
 			oPopover.setFormatString(ChartFormatter.DefaultPattern.Integer);
 			// Set title to the chart 
 			idVizFrame.setVizProperties({
+				plotArea: {
+					colorPalette: ["rgb(88, 153, 218)", "rgb(232, 116, 59)"]
+				},
 				title: {
 					text: curYear
 				}
 			});
-			
+
 			// Get Data model 
 			var dataModel = this.getOwnerComponent().getModel("Data");
 			// Get data 
@@ -121,7 +124,7 @@ sap.ui.define([
 			this.getView().setModel(oModel);
 		},
 
-		getEachQuarter: function(arr) {
+		getEachQuarter: function (arr) {
 			// Define each quarter
 			var quarters = {
 				'Q1': {
@@ -155,7 +158,7 @@ sap.ui.define([
 					// Getting elements from array using start and end values using slice function.
 					// Use reduce to calculate the sum of numbers returned by slice call.
 					// storing the result using quarter name as a key.
-					result[key] = arr.slice(start, end).reduce(function(sum, number) {
+					result[key] = arr.slice(start, end).reduce(function (sum, number) {
 						return sum + number;
 					}, 0);
 				}
@@ -171,7 +174,7 @@ sap.ui.define([
 
 			return result;
 		},
-		
+
 		// Function to show the label
 		onShowData: function (oEvent) {
 			// Show busy indicator
@@ -183,33 +186,31 @@ sap.ui.define([
 
 			// Define a variable to store the switch 
 			var labelOn = "";
-			// simulate delayed end of operation
-			jQuery.sap.delayedCall(2000, this, function () {
-				// Check if selected 
-				if (selected === true) {
-					// Show the labels
-					labelOn = true;
-				} else {
-					// Hide the labels 
-					labelOn = false;
-				}
+			// Check if selected 
+			if (selected === true) {
+				// Show the labels
+				labelOn = true;
+			} else {
+				// Hide the labels 
+				labelOn = false;
+			}
 
-				// Set the visibility 
-				oVizframe.setVizProperties({
-					plotArea: {
-						dataLabel: {
-							visible: labelOn
-						}
+			// Set the visibility 
+			oVizframe.setVizProperties({
+				plotArea: {
+					dataLabel: {
+						visible: labelOn
 					}
-				});
-
-				// Hide busy indicator
-				sap.ui.core.BusyIndicator.hide();
+				}
 			});
+
+			// Hide busy indicator
+			sap.ui.core.BusyIndicator.hide();
+
 		},
-		
+
 		// Back to home page
-		onHomePress: function() {
+		onHomePress: function () {
 			this.getRouter().navTo("master");
 		}
 	});
