@@ -45,7 +45,7 @@
 														<viz.data:DimensionDefinition name="Month" value="{Month}"/>
 													</viz.data:dimensions>
 													<viz.data:measures>
-														<viz.data:MeasureDefinition name="ABAP" value="{ABAP}" visible="false"  />
+														<viz.data:MeasureDefinition name="ABAP" value="{ABAP}" />
 														<viz.data:MeasureDefinition name="SD" value="{SD}"/>
 														<viz.data:MeasureDefinition name="MM" value="{MM}"/>
 														<viz.data:MeasureDefinition name="WM" value="{WM}"/>
