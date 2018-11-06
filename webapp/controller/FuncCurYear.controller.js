@@ -29,7 +29,7 @@ sap.ui.define([
 			// Get Data model 
 			var dataModel = this.getOwnerComponent().getModel("Data");
 			// Get data 
-			var allData = dataModel.getData();
+			var allData = dataModel.getData().AllData; 
 			// Today's date 
 			var today = new Date();
 			// Define result object 
