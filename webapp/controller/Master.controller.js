@@ -22,7 +22,7 @@ sap.ui.define([
 
 		setFunctionalItems: function () {
 			// Get all data 
-			var data = this.getView().getModel("Data").getData().AllData;
+			var data = this.getView().getModel("Data").getData();
 
 			var allYears = [];
 			// Iterate through array
@@ -174,7 +174,7 @@ sap.ui.define([
 		
 		onLinkPress: function () {
 			
-			window.open("https://flpnwc-bb8bd811a.dispatcher.us1.hana.ondemand.com/sites?siteId=0fad276b-74be-4bd9-bd04-877e81a76ffa#lhsusint-Display&/", "_self");
+		//	window.open("https://flpnwc-bb8bd811a.dispatcher.us1.hana.ondemand.com/sites?siteId=0fad276b-74be-4bd9-bd04-877e81a76ffa#lhsusint-Display&/", "_self");
 			
 			// get a handle on the global XAppNav service
 			/*var oCrossAppNavigator = sap.ushell.Container.getService("CrossApplicationNavigation"); 

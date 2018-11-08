@@ -54,7 +54,7 @@ sap.ui.define([
 			// Get Data model 
 			var dataModel = this.getOwnerComponent().getModel("Data");
 			// Get data 
-			var allData = dataModel.getData().AllData;
+			var allData = dataModel.getData();
 			// Create new arrays
 			var arrClosed = [];
 			// Get SDM Points from global file 
@@ -124,15 +124,7 @@ sap.ui.define([
 						monthClosed += 1;
 					}
 
-					/*arrClosed.forEach(function (obj) {
-						// Get month
-						var month = obj.Month;
-						if (month === monthClosed) {
-							// Get points 
-							obj.TotalPoints += allData[i].Points;
-						}
-					});*/
-					
+					// Iterate through array
 					for (var j = 0; j < arrClosed.length; j++) {
 						// Get month
 						var month = arrClosed[j].Month;

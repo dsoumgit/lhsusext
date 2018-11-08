@@ -39,11 +39,11 @@ sap.ui.define([
 			}
 		},
 
-		setTicketMonthly: function (arr) {
+		setTicketMonthly: function (allRecords) {
 			// Check the data label
 			this.onShowData();
 			// Get all data 
-			var allRecords = arr.AllData;
+		//	var allRecords = arr.AllData;
 			var today = new Date();
 			var currentMonth = today.getMonth();
 			// Start month at 1
@@ -135,16 +135,6 @@ sap.ui.define([
 					var closedMonthNum = [allRecords[b]];
 
 					// Iterate through month array
-					/*resultClosed.forEach(function (obj) {
-						// Get Month
-						var month = obj.Month;
-						// Check the match
-						if (month === closedMonth) {
-							// Store the number of records 
-							obj.Closed += closedMonthNum.length;
-						}
-					});*/
-
 					for (var c = 0; c < resultClosed.length; c++) {
 						// Get close time month
 						var closeTimeMonth = resultClosed[c].Month;
@@ -247,9 +237,9 @@ sap.ui.define([
 			sap.ui.core.BusyIndicator.hide();
 		},
 
-		getOldestRequests: function (arr) {
+		getOldestRequests: function (allRecords) {
 			// Get All Data array
-			var allRecords = arr.AllData;
+		//	var allRecords = arr.AllData;
 			// Define new variable for years
 			var result = [];
 			// Iterate through All Data array
@@ -262,13 +252,11 @@ sap.ui.define([
 					result.push(obj);
 				}
 			});
-
+			
 			// Sort by Created dates 
 			var sortedRecords = result.sort(function (a, b) {
-				return (a["Created"] && moment(a["Created"], "M/D/YY H:mm").unix()) - (b["Created"] && moment(b["Created"],
-					"M/D/YY H:mm").unix());
+				return (new Date(a.Created) - new Date(b.Created)); 	
 			});
-
 			// Get first five objects
 			var mappedResult = sortedRecords.slice(0, 5);
 			// Create an object
@@ -284,9 +272,9 @@ sap.ui.define([
 		},
 
 		// SLA Tracker 
-		SLATracker: function (arr) {
+		SLATracker: function (allDataArr) {
 			// Get all the data 
-			var allDataArr = arr.AllData;
+		//	var allDataArr = arr.AllData;
 			// Get today's date
 			var today = new Date();
 			// Get current year
@@ -410,9 +398,9 @@ sap.ui.define([
 			return uniqueYear;
 		},
 
-		pointConsump: function (arr) {
+		pointConsump: function (data) {
 			// Get all the data
-			var data = arr.AllData;
+		//	var data = arr.AllData;
 			var closedYears = [];
 			// Filter on Close Time and State 
 			data.filter(function (elem) {

@@ -58,7 +58,7 @@ sap.ui.define([
 			// Get Data model 
 			var dataModel = this.getOwnerComponent().getModel("Data");
 			// Get data 
-			var allData = dataModel.getData().AllData;
+			var allData = dataModel.getData();
 			// Create new arrays
 			var arrCreated = [];
 			var arrClosed = [];
