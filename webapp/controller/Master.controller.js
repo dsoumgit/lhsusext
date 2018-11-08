@@ -16,28 +16,43 @@ sap.ui.define([
 
 			if (sName === "master") {
 
-				this.setFunctionalItems();
+			//	this.setFunctionalItems();
+				this.setCurrentYear();
 			}
 		},
-
-		setFunctionalItems: function () {
+			
+		setCurrentYear: function () {
+			// Get current year 
+			var currentYear = new Date().getFullYear();
+		//	var obj = {};
+		//	obj.Year = currentYear;
+			// Create an object 
+			var obj = {};
+			obj.AreaFunctional = [{
+				"Year": currentYear,
+				"key": "funcCurYear"
+			}];
+			// Create a model
+			var oModel = new sap.ui.model.json.JSONModel();
+			oModel.setData(obj);
+			this.getView().setModel(oModel, "Functional");
+		},
+			
+		sdssetFunctionalItems: function () {
 			// Get all data 
-			var data = this.getView().getModel("Data").getData();
+			var data = this.getView().getModel("Data").getData().AllData;
 
 			var allYears = [];
 			// Iterate through array
 			for (var i = 0; i < data.length; i++) {
-				// Get Created 
+				// Get Created
 				var created = data[i].Created;
 				// Convert to date object 
-				var dateObj = new Date(created);
-
-				// Format the year
-				var createdYear = dateObj.getFullYear();
+				var createdYear = new Date(created).getFullYear();
 				// Push to new array
 				allYears.push(createdYear);
 			}
-
+			
 			// Remove duplicates 
 			var uniqueYears = [];
 			$.each(allYears, function (ind, elem) {
