@@ -27,7 +27,7 @@ sap.ui.define([
 				// Get data model
 				var dataModel = this.getOwnerComponent().getModel("Data");
 				// Get all data array
-				var allData = dataModel.getData();
+				var allData = dataModel.getData(); 
 				// Monthly method
 				this.setTicketMonthly(allData);
 				// Oldest Closed Requests
@@ -39,11 +39,11 @@ sap.ui.define([
 			}
 		},
 
-		setTicketMonthly: function (allRecords) {
+		setTicketMonthly: function (arr) {
 			// Check the data label
 			this.onShowData();
 			// Get all data 
-		//	var allRecords = arr.AllData;
+			var allRecords = arr.AllData;
 			var today = new Date();
 			var currentMonth = today.getMonth();
 			// Start month at 1
@@ -237,9 +237,9 @@ sap.ui.define([
 			sap.ui.core.BusyIndicator.hide();
 		},
 
-		getOldestRequests: function (allRecords) {
+		getOldestRequests: function (arr) {
 			// Get All Data array
-		//	var allRecords = arr.AllData;
+			var allRecords = arr.AllData;
 			// Define new variable for years
 			var result = [];
 			// Iterate through All Data array
@@ -272,9 +272,9 @@ sap.ui.define([
 		},
 
 		// SLA Tracker 
-		SLATracker: function (allDataArr) {
+		SLATracker: function (arr) {
 			// Get all the data 
-		//	var allDataArr = arr.AllData;
+			var allDataArr = arr.AllData;
 			// Get today's date
 			var today = new Date();
 			// Get current year
@@ -398,9 +398,9 @@ sap.ui.define([
 			return uniqueYear;
 		},
 
-		pointConsump: function (data) {
+		pointConsump: function (arr) {
 			// Get all the data
-		//	var data = arr.AllData;
+			var data = arr.AllData;
 			var closedYears = [];
 			// Filter on Close Time and State 
 			data.filter(function (elem) {

@@ -54,7 +54,7 @@ sap.ui.define([
 			// Get Data model 
 			var dataModel = this.getOwnerComponent().getModel("Data");
 			// Get data 
-			var allData = dataModel.getData();
+			var allData = dataModel.getData().AllData;
 			// Create new arrays
 			var arrClosed = [];
 			// Get SDM Points from global file 
