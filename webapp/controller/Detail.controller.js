@@ -38,8 +38,121 @@ sap.ui.define([
 				this.pointConsump(allData);
 			}
 		},
-
+		
 		setTicketMonthly: function (arr) {
+			// Check the data label
+			this.onShowData();
+			// Get all data 
+			var allRecords = arr.AllData;
+			// Filter the current year 
+			var createdRecords = allRecords.filter(function (obj) {
+				// Check the current year
+				return (new Date(obj.Created).getFullYear() === new Date().getFullYear()); 
+			});
+			
+			var resultCreated = {};
+			// Loop through each month 
+			createdRecords.forEach(function (elem) {
+				// Get Created date 
+				var createdMonth = new Date(elem.Created).getMonth(); 
+				// Create each month 
+				if (resultCreated[createdMonth] === undefined) {
+					resultCreated[createdMonth] = [elem];
+				} else {
+					resultCreated[createdMonth].push(elem);
+				}
+				
+			});
+			
+			 // Create a new array to store the result 
+			var outputCreated = [];
+			var monthNames = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+			for (var key in resultCreated) {
+				outputCreated.push({
+					"Month": monthNames[key],
+					"CreatedRequests": resultCreated[key].length
+				});
+			}
+			
+			
+			// Filter the Close Time and State 
+			var closeRecords = allRecords.filter(function (obj) {
+				// Get State field 
+				var state = obj.State; 
+				// Check the current year
+				return (new Date(obj["Close Time"]).getFullYear() === new Date().getFullYear()
+						&& state === "closed successful"); 
+			});
+			
+			var resultClosed = {};
+			// Loop through each month 
+			closeRecords.forEach(function (elem) {
+				// Get Close Time date 
+				var closedMonth = new Date(elem["Close Time"]).getMonth(); 
+
+				// Create each month 
+				if (resultClosed[closedMonth] === undefined) {
+					resultClosed[closedMonth] = [elem];
+				} else {
+					resultClosed[closedMonth].push(elem);
+				}
+			});
+			
+			 // Create a new array to store the result 
+			var outputClosed = [];
+			for (var key in resultClosed) {
+				outputClosed.push({
+					"Month": monthNames[key],
+					"ClosedRequests": resultClosed[key].length
+				});
+			}
+			
+			/***
+			 * Merge two arrays with the same values ***
+			 */
+			// Copy array 1 
+			var output = outputCreated.slice(); 
+			// Loop through array 2 
+			outputClosed.forEach(function (elem) {
+				// find month and return the object that is found 
+				var found = output.find(function (i) {
+					return elem.Month === i.Month; 	
+				});
+				
+				// Check if found
+				if (found) {
+					// add a new property to the current object 
+					found.ClosedRequests = elem.ClosedRequests; 
+				} else {
+					// add it if not found 
+					output.push(elem); 
+				}
+			});
+			
+			// Get vizframe id 
+			var oVizframe = this.getView().byId("ticketFrame");
+			// Set the visibility 
+			oVizframe.setVizProperties({
+				plotArea: {
+					dataLabel: {
+						visible: true
+					},
+					colorPalette: ["rgb(88, 153, 218)", "rgb(232, 116, 59)"]
+				},
+				title: {
+					text: new Date().getFullYear()
+				}
+			});
+
+			var obj = {};
+			obj.Collection = output; 
+			// Create a model and set data 
+			var oModel = new sap.ui.model.json.JSONModel(obj);
+			// Set model to the view
+			this.getView().setModel(oModel);
+		},
+		
+		sdssetTicketMonthly: function (arr) {
 			// Check the data label
 			this.onShowData();
 			// Get all data 
@@ -270,9 +383,150 @@ sap.ui.define([
 			// Set object to the view
 			this.getView().setModel(oModel, "OldData");
 		},
-
+		
 		// SLA Tracker 
 		SLATracker: function (arr) {
+			// Get all the data 
+			var allDataArr = arr.AllData;
+			// Filter by Created in the current year and Priority (not including Innovation)
+			allDataArr = allDataArr.filter(function (obj) {
+				// Get Priority 
+				var priority = obj.Priority; 
+				return (new Date(obj.Created).getFullYear() === new Date().getFullYear() 
+						&& priority !== "4. Innovation (Enhancement)"); 
+			});
+			
+			// Store each Serverity 
+			var result = {};
+			allDataArr.forEach(function (elem) {
+				// Get Priority
+				var priority = elem.Priority;
+				if (result[priority] === undefined) {
+					result[priority] = [elem];
+				} else {
+					result[priority].push(elem);
+				}
+			});
+				
+			// Loop through each Serverity and check the First Response Time 	
+			var output = {};
+			for (var key in result) {
+				
+				result[key].forEach(function (elem) {
+					
+					if (elem.Priority === "1. Severity-1 (High)") {
+						// Get response time 
+						var sev1ResponseTime = elem.FirstResponseInMin;
+						// Get tickets less than 60 minutes 
+						if (sev1ResponseTime < 60) {
+							if (output[elem.Priority] === undefined) {
+								output[elem.Priority] = [elem];
+							} else {
+								output[elem.Priority].push(elem);
+							}
+						}
+					} else if (elem.Priority === "2. Severity-2 (Medium)") {
+						// Get response time 
+						var sev2ResponseTime = elem.FirstResponseInMin;
+						// Get tickets less than 120 minutes 
+						if (sev2ResponseTime < 120) {
+							if (output[elem.Priority] === undefined) {
+								output[elem.Priority] = [elem];
+							} else {
+								output[elem.Priority].push(elem);
+							}
+						}
+					} else if (elem.Priority === "3. Severity-3 (Normal)") {
+						// Get response time 
+						var sev3ResponseTime = elem.FirstResponseInMin;
+						// Get tickets less than 1440 minutes 
+						if (sev3ResponseTime < 1440) {
+							if (output[elem.Priority] === undefined) {
+								output[elem.Priority] = [elem];
+							} else {
+								output[elem.Priority].push(elem);
+							}
+						}
+					}
+				});
+			}
+			
+			var totalServLength = []; 
+			// Get the total length of each Severity
+			for (var key in result) {
+				totalServLength.push({
+					"Severity": key,
+					"TotalLength": result[key].length
+				});
+			}
+			
+			// Create an array for count 
+			var countServLength = [];
+			for (var key in output) {
+				countServLength.push({
+					"Severity": key,
+					"Length": output[key].length
+				});
+			}
+			
+			/**** 
+			 * Merge two arrays with the same Serverity
+			 */
+			 // Copy array 1
+			 var mappedResult = totalServLength.slice(); 
+			 // Loop through array 2
+			 countServLength.forEach(function (item) {
+			 	// Match the Serverity and return that object
+			 	var found = mappedResult.find(function (i) {
+			 		return item.Severity === i.Severity; 
+			 	});
+			 	
+			 	// Check if found
+			 	if (found) {
+			 		// update the object 
+			 		found.Length = item.Length; 
+			 	} else {
+			 		// if not, add it 
+			 		mappedResult.push(item); 
+			 	}
+			 });
+			
+			// Calculate each Serverity 
+			var outputResult = {};
+			mappedResult.forEach(function (obj) {
+				// Get Serverity
+				var serv = obj.Severity;
+				var sevTotal = (obj.Length * 100) / obj.TotalLength;
+				// If the value 0, it won't show so treat it as 100%
+				if (isNaN(sevTotal) || sevTotal === 0) {
+					sevTotal = 100;
+				}
+				// Create each Serverity in a new object 
+				if (outputResult[serv] === undefined) {
+									// Get two decimal places 
+					outputResult[serv] = Number(sevTotal.toFixed(2)); 
+				} else {
+					outputResult[serv] = Number(sevTotal.toFixed(2)); 
+				}
+			});
+			
+			// Array of months 
+			// Define month names 
+			var monthNames = ["JANUARY", "FEBRURAY", "MARCH", "APRIL", "MAY", "JUNE",
+				"JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"
+			];
+			// Add current month 
+			outputResult.Month = monthNames[new Date().getMonth()] + "-" + new Date().getFullYear(); 
+			// Create json model
+			var oModel = new sap.ui.model.json.JSONModel();
+			// Set data 
+			oModel.setData(outputResult);
+			// Set object to the view
+			this.getView().setModel(oModel, "SLA");
+		},
+		
+		// SLA Tracker 
+		sdsSLATracker: function (arr) {
 			// Get all the data 
 			var allDataArr = arr.AllData;
 			// Get today's date
