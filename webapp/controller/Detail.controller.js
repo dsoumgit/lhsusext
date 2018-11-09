@@ -675,7 +675,7 @@ sap.ui.define([
 				// Get State 
 				var state = obj.State;
 				// Return new array 
-				return (closeTimeYear === new Date().getFullYear() && state === "closed successful" && closeTimeMonth === 2);
+				return (closeTimeYear === new Date().getFullYear() && state === "closed successful" && closeTimeMonth === currentMonth);
 			});
 			
 			// Create a new object to store both pair values 
