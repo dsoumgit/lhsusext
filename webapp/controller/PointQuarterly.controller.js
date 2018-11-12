@@ -333,7 +333,7 @@ sap.ui.define([
 				// Get Data model 
 				var dataModel = this.getOwnerComponent().getModel("Data");
 				// Get data 
-				var allData = dataModel.getData();
+				var allData = dataModel.getData().AllData;
 				// Create a new array 
 				var output = [];
 				// Variable to store the total points 
