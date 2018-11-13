@@ -1,3 +1,12 @@
+/***
+ * This page shows Created tickets request for each month in the current year. 
+ * To get the result for Created tickets, we filter by Created column, Queue column current year, 
+ *	then we check the Queue data where we store it in the global file to match with the data in 
+ *	Excel file. Then we count the number of entries that are found for each Queue item. 
+ * This will allow us to track how many entries are found in each month for each Functional Area from 
+ *	the Queue column. 
+ */ 
+
 jQuery.sap.require("lhsusext.util.formatter");
 
 sap.ui.define([

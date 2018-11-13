@@ -1,3 +1,15 @@
+/***
+ * This page shows Created vs Closed tickets request for each week in the current year. 
+ * To get the result for Created tickets, we filter by Created column and current year, then 
+ *	count the number of entries for each quarter that are found. 
+ * To get the result for Closed tickets, we filter by Close Time column, State column where it
+ *	is equal to 'closed successful' and current year, then count the number of entries for each 
+ *	week that are found.
+ * This will allow us to track how many Created tickets have been opened and Closed tickets have 
+ *	been closed by weekly. 
+ */ 
+
+
 /* global moment:true */
 
 sap.ui.define([

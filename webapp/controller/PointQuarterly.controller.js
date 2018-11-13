@@ -1,3 +1,12 @@
+/***
+ * This page shows Closed tickets request for each quarter in the current year. 
+ * To get the result for Closed tickets, we filter by Close Time column, State column where it
+ *	is equal to 'closed successful' and current year, then we check the Sustain date where we 
+ *	store it in the global file to see which quarter the Sustainment starts, so we add the SDM points to 
+ *	the total points for each month by quarterly. 
+ * This will allow us to track how many Closed tickets have been closed by quarterly. 
+ */ 
+
 /* global moment:true */
 
 sap.ui.define([

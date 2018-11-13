@@ -1,3 +1,8 @@
+/***
+ * This page behaves as a SplitApp that divides between Master and Detail page. 
+ * 
+ */ 
+
 sap.ui.define([
 	"sap/ui/core/mvc/Controller"
 ], function(Controller) {

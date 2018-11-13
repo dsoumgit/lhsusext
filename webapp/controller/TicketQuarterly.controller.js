@@ -1,3 +1,16 @@
+/***
+ * This page shows Created vs Closed tickets request for four quarters in the current year. 
+ * To get the result for Created tickets, we filter by Created column and current year, then 
+ *	count the number of entries for each quarter that are found. 
+ * To get the result for Closed tickets, we filter by Close Time column, State column where it
+ *	is equal to 'closed successful' and current year, then count the number of entries for each 
+ *	quarter that are found.
+ * This will allow us to track how many Created tickets have been opened and Closed tickets have been closed
+ *	by quarterly. 
+ */ 
+
+
+
 sap.ui.define([
 	"lhsusext/controller/BaseController",
 	"sap/viz/ui5/format/ChartFormatter",

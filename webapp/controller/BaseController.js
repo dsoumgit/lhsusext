@@ -1,3 +1,8 @@
+/***
+ * This page is the base controller where we use it to route between pages in the application. 
+ * 
+ */ 
+
 /*global history */
 sap.ui.define([
 		"sap/ui/core/mvc/Controller",

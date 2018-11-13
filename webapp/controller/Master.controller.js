@@ -1,3 +1,12 @@
+/***
+ * This page shows the list of navigation items under Created vs Closed Tickets, Point Consumption, and Functional
+ *	Area Analysis for the current year. User can see the information about Open vs Closed tickets by Quarterly,
+ *	Monthly, and Weekly. It also provides the Total Points Consumption by quarterly and monthly analysis.  
+ *	Additionally, user can reach us via Contact Us section and find out Information description about the application   
+ *		name. 
+ */ 
+
+
 sap.ui.define([
 	"sap/ui/core/mvc/Controller"
 ], function (Controller) {
@@ -97,7 +106,7 @@ sap.ui.define([
 
 		onContactPress: function () {
 			var contDialog = new sap.m.Dialog({
-				title: 'Contact Us',
+				title: "Contact Us",
 				icon: "sap-icon://contacts",
 				contentWidth: "auto",
 				contentHeight: "100px",
@@ -143,7 +152,7 @@ sap.ui.define([
 			var tradeMark = "\u2122";
 			var space = " ";
 			var infoDialog = new sap.m.Dialog({
-				title: 'Information',
+				title: "Information",
 				icon: "sap-icon://message-information",
 				contentWidth: "auto",
 				contentHeight: "auto",
@@ -177,7 +186,7 @@ sap.ui.define([
 					})
 				}),
 				beginButton: new sap.m.Button({
-					text: 'Close',
+					text: "Close",
 					press: function () {
 						infoDialog.close();
 					}
