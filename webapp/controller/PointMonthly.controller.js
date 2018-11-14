@@ -1,9 +1,12 @@
 /***
  * This page shows Closed tickets request for each month in the current year. 
- * To get the result for Closed tickets, we filter by Close Time column, State column where it
- *	is equal to 'closed successful' and current year, then we check the Sustain date where we 
- *	store it in the global file to see which month the Sustainment starts, so we add the SDM points to 
- *	the total points for each month. 
+ * To get the result for Closed tickets, see following logic below: 
+ *	1. Filter the data in Excel file by Close Time column and State column where it
+ *	   is equal to 'closed successful'
+ *	2. Check the year from Sustainment date (from global file) with the current year 
+ *  3. Check the month and add SDM points to where it begins till the end of the year 
+ *	4. Add the SDM points to the total points for each month. 
+ *	
  * This will allow us to track how many Closed tickets have been closed by monthly. 
  */ 
  

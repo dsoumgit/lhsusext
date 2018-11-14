@@ -1,11 +1,18 @@
-/***
+
+ /***
  * This page shows Closed tickets request for each quarter in the current year. 
- * To get the result for Closed tickets, we filter by Close Time column, State column where it
- *	is equal to 'closed successful' and current year, then we check the Sustain date where we 
- *	store it in the global file to see which quarter the Sustainment starts, so we add the SDM points to 
- *	the total points for each month by quarterly. 
+ * To get the result for Closed tickets, see following logic below: 
+ *	1. Filter the data in Excel file by Close Time column and State column where it
+ *	   is equal to 'closed successful'
+ *	2. Check the year from Sustainment date (from global file) with the current year 
+ *  3. Get the month from Sustainment date and check to see which quarter it is in 
+ *  4. Set the result to the starting quarter 
+ *	5. Check the starting quarter if it is equal to the current quarter in the current year 
+ *	6. Check the current month with the remainder of 3 to 0
+ *  7. Then multiply SDM points by 3 for each quarter 
+ *	
  * This will allow us to track how many Closed tickets have been closed by quarterly. 
- */ 
+ */
 
 /* global moment:true */
 
