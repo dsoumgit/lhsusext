@@ -47,25 +47,6 @@
 														<viz.feeds:FeedItem id='categoryAxisFeed' uid="categoryAxis" type="Dimension" values="Month"/>
 													</viz:feeds>
 												</viz:VizFrame>
-												
-												<!--<viz:Popover id="idPopOver"></viz:Popover>
-												<viz:VizFrame id="ticketFrame" uiConfig="{applicationSet:'fiori'}" height="450px" width="100%" 
-													vizType='timeseries_column'>
-													<viz:dataset>
-														<viz.data:FlattenedDataset data="{/milk}">
-															<viz.data:dimensions>
-																<viz.data:DimensionDefinition name="Date" value="{path: 'Date', formatter: 'lhsusext.util.formatter.formatDate'}" dataType="date"/>
-															</viz.data:dimensions>
-															<viz.data:measures>
-																<viz.data:MeasureDefinition name="cost" value="{cost}"/>
-															</viz.data:measures>
-														</viz.data:FlattenedDataset>
-													</viz:dataset>
-													<viz:feeds>
-														<viz.feeds:FeedItem uid="valueAxis" type="Measure" values="cost"/>
-														<viz.feeds:FeedItem uid="timeAxis" type="Dimension" values="Date"/>
-													</viz:feeds>
-												</viz:VizFrame>-->
 											</com:content>
 										</com:ChartContainerContent>
 									</com:content>

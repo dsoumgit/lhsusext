@@ -1,0 +1,134 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:fb="sap.ui.comp.filterbar" xmlns:nav="sap.tnt"
+	xmlns:mic="sap.suite.ui.microchart" xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds" xmlns:f="sap.ui.layout.form"
+	xmlns:core="sap.ui.core" xmlns:uni="sap.ui.unified.calendar">
+	<Panel height="auto" width="auto" class="sapUiResponsiveMargin">
+		<content>
+			<Table id="report" inset="false" items="{path: 'ReportModel>/DataCollection'}">
+				<headerToolbar>
+					<Toolbar>
+						<Title text="Quarter Points Summary Report" level="H2"/>
+						<ToolbarSpacer/>
+						<Title text="Year:" level="H3"/>
+						<Text id="idSelectedYear" text="{path: 'ReportModel>/SelectedYear'}"/>
+						<Title text="Quarter:" level="H3"/>
+						<ComboBox id="comboQuarter" items="{path: '/Collection'}" placeholder="Select..." selectionChange="handleSelectionChange" width="200px">
+							<core:Item key="{Quarter}" text="{Key}"/>
+						</ComboBox>
+					</Toolbar>
+				</headerToolbar>
+				<columns>
+					<Column width="4em">
+						<Text text="Request Number"/>
+					</Column>
+					<Column hAlign="Center">
+						<Text text="Description"/>
+					</Column>
+					<Column hAlign="Center">
+						<Text text="Close Time"/>
+					</Column>
+					<Column hAlign="Center">
+						<Text text="Status"/>
+					</Column>
+					<Column hAlign="Center">
+						<Text text="Priority"/>
+					</Column>
+					<Column hAlign="Center">
+						<Text text="Customer User"/>
+					</Column>
+					<Column hAlign="Center">
+						<Text text="CustomerID"/>
+					</Column>
+					<Column hAlign="Center">
+						<Text text="Type"/>
+					</Column>
+					<Column hAlign="Center">
+						<Text text="Points"/>
+					</Column>
+				</columns>
+				<items>
+					<ColumnListItem>
+						<cells>
+							<Text text="{ReportModel>Ticket#}"/>
+							<Text text="{ReportModel>Title}"/>
+							<Text text="{path: 'ReportModel>Close Time', sorter: {path: 'Close Time'}, formatter: 'lhsusext.util.formatter.dateFormat'}"/>
+							<Text text="{ReportModel>State}"/>
+							<Text text="{ReportModel>Priority}"/>
+							<Text text="{ReportModel>Customer User}"/>
+							<Text text="{ReportModel>CustomerID}"/>
+							<Text text="{ReportModel>Type}"/>
+							<Text text="{ReportModel>Points}"/>
+						</cells>
+					</ColumnListItem>
+				</items>
+			</Table>
+		</content>
+		<l:VerticalLayout width="100%">
+			<l:content>
+				<Panel>
+					<headerToolbar>
+						<Toolbar>
+							<Title level="H2" text="Sum"/>
+							<ToolbarSpacer/>
+							<Label text="{ReportModel>/TotalPoints}" design="Bold"/>
+						</Toolbar>
+					</headerToolbar>
+					<FlexBox height="40px" alignItems="Start" justifyContent="End">
+						<items>
+							<Label class="sapUiSmallMargin" text="Points" design="Bold"/>
+							<Label class="sapUiSmallMargin" text="Support Ticket Points"/>
+							<Label class="sapUiSmallMargin" text="{ReportModel>/TotalPoints}"/>
+						</items>
+					</FlexBox>
+					<FlexBox height="40px" alignItems="Start" justifyContent="End">
+						<items>
+							<Label class="sapUiSmallMargin" text="" design="Bold"/>
+							<Label class="sapUiSmallMargin" text="Other Points"/>
+							<Label class="sapUiSmallMargin" text="0"/>
+						</items>
+					</FlexBox>
+					<FlexBox height="40px" alignItems="Start" justifyContent="End">
+						<items>
+							<Label class="sapUiSmallMargin" text="" design="Bold"/>
+							<Label class="sapUiSmallMargin" text="Reveal SDM"/>
+							<Label class="sapUiSmallMargin" text="{ReportModel>/RevealSDM}"/>
+						</items>
+					</FlexBox>
+				</Panel>
+				<Panel>
+					<FlexBox height="40px" alignItems="Start" justifyContent="End">
+						<items>
+							<Label class="sapUiSmallMargin" text=""/>
+							<Label class="sapUiSmallMargin" text="Grand Total" design="Bold"/>
+							<Label class="sapUiSmallMargin" text="{ReportModel>/GrandTotal}" design="Bold"/>
+						</items>
+					</FlexBox>
+				</Panel>
+				<Panel>
+					<FlexBox height="40px" alignItems="Start" justifyContent="End">
+						<items>
+							<Label class="sapUiSmallMargin" text="Points Consumed"/>
+							<Label class="sapUiSmallMargin" text=""/>
+							<Label class="sapUiSmallMargin" text="{ReportModel>/GrandTotal}"/>
+						</items>
+					</FlexBox>
+					<FlexBox height="40px" alignItems="Start" justifyContent="End">
+						<items>
+							<Label class="sapUiSmallMargin" text="Points Allowed"/>
+							<Label class="sapUiSmallMargin" text=""/>
+							<Label class="sapUiSmallMargin" text="{ReportModel>/MonthlyPoints}"/>
+						</items>
+					</FlexBox>
+				</Panel>
+				<Panel>
+					<FlexBox height="40px" alignItems="Start" justifyContent="End">
+						<items>
+							<Label class="sapUiSmallMargin" text="Rollover Points" design="Bold"/>
+							<Label class="sapUiSmallMargin" text=""/>
+							<Label class="sapUiSmallMargin" text="{ReportModel>/RolloverPoints}" design="Bold"/>
+						</items>
+					</FlexBox>
+				</Panel>
+			</l:content>
+		</l:VerticalLayout>
+	</Panel>
+</core:FragmentDefinition>

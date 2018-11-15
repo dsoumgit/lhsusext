@@ -4,11 +4,11 @@
  *	Monthly, and Weekly. It also provides the Total Points Consumption by quarterly and monthly analysis.  
  *	Additionally, user can reach us via Contact Us section and find out Information description about the application   
  *		name. 
- */ 
-
+ */
 
 sap.ui.define([
-	"sap/ui/core/mvc/Controller"
+	"sap/ui/core/mvc/Controller",
+	"sap/ui/core/EventBus"
 ], function (Controller) {
 	"use strict";
 
@@ -16,6 +16,9 @@ sap.ui.define([
 
 		onInit: function () {
 			this.oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+
+			this.bus = sap.ui.getCore().getEventBus();
+			//	this.bus = sap.ui.component(sap.ui.core.Component.getOwnerIdFor(this.getView())).getEventBus();
 
 			this.getRouter().attachRoutePatternMatched(this.onRouteMatched, this);
 		},
@@ -25,16 +28,14 @@ sap.ui.define([
 
 			if (sName === "master") {
 
-			//	this.setFunctionalItems();
+				//	this.setFunctionalItems();
 				this.setCurrentYear();
 			}
 		},
-			
+
 		setCurrentYear: function () {
 			// Get current year 
 			var currentYear = new Date().getFullYear();
-		//	var obj = {};
-		//	obj.Year = currentYear;
 			// Create an object 
 			var obj = {};
 			obj.AreaFunctional = [{
@@ -46,54 +47,32 @@ sap.ui.define([
 			oModel.setData(obj);
 			this.getView().setModel(oModel, "Functional");
 		},
-			
-		sdssetFunctionalItems: function () {
-			// Get all data 
-			var data = this.getView().getModel("Data").getData().AllData;
-
-			var allYears = [];
-			// Iterate through array
-			for (var i = 0; i < data.length; i++) {
-				// Get Created
-				var created = data[i].Created;
-				// Convert to date object 
-				var createdYear = new Date(created).getFullYear();
-				// Push to new array
-				allYears.push(createdYear);
-			}
-			
-			// Remove duplicates 
-			var uniqueYears = [];
-			$.each(allYears, function (ind, elem) {
-				if ($.inArray(elem, uniqueYears) === -1) {
-					uniqueYears.push(elem);
-				}
-			});
-
-			// Sort array
-			var sortYear = uniqueYears.sort();
-			// Get the last object 
-			var lastObj = sortYear[sortYear.length - 1];
-
-			// Create an object 
-			var obj = {};
-			obj.AreaFunctional = [{
-				"Year": lastObj,
-				"key": "funcCurYear"
-			}];
-
-			// Create a model
-			var oModel = new sap.ui.model.json.JSONModel();
-			oModel.setData(obj);
-			this.getView().setModel(oModel, "Functional");
-		},
 
 		onItemPress: function (oEvent) {
-			// Get object 
-			var obj = oEvent.getSource().getBindingContext("Global").getObject();
+			// Get the key from Global file 
+			var key = oEvent.getSource().getBindingContext("Global").getObject().key; 
+			// Navigate to the view 
+			this.getRouter().navTo("itemDetail", {
+				from: "master",
+				entity: key
+			});
+			
+		//	console.log(oItemID);
+			
+			//	this.oRouter.navTo("detail", {
+			//		Id: oItemID
+			//	});
 
+			// Get object 
+			//		var obj = oEvent.getSource().getBindingContext("Global").getObject();
+			//console.log(obj.key);
+			//	this.bus.publish("PointConsumption", "event2", obj.key, this); 
+			//		var oModel = new sap.ui.model.json.JSONModel(obj.key); 
+			//		sap.ui.getCore().setModel(oModel, "Item");
+
+			//		this.oRouter.navTo("pointConsumption"); 
 			// Navigate to the view 			
-			this.oRouter.navTo(obj.key);
+			//	this.oRouter.navTo(obj.key);
 		},
 
 		onAreaPress: function (oEvent) {
@@ -195,11 +174,11 @@ sap.ui.define([
 
 			infoDialog.open();
 		},
-		
+
 		onLinkPress: function () {
-			
-		//	window.open("https://flpnwc-bb8bd811a.dispatcher.us1.hana.ondemand.com/sites?siteId=0fad276b-74be-4bd9-bd04-877e81a76ffa#lhsusint-Display&/", "_self");
-			
+
+			//	window.open("https://flpnwc-bb8bd811a.dispatcher.us1.hana.ondemand.com/sites?siteId=0fad276b-74be-4bd9-bd04-877e81a76ffa#lhsusint-Display&/", "_self");
+
 			// get a handle on the global XAppNav service
 			/*var oCrossAppNavigator = sap.ushell.Container.getService("CrossApplicationNavigation"); 
 			oCrossAppNavigator.isIntentSupported(["lhsusint-display"])
@@ -221,7 +200,7 @@ sap.ui.define([
 			//Navigate to second app
 			sap.m.URLHelper.redirect(url, true); 	*/
 		},
-		
+
 		getEventBus: function () {
 			return sap.ui.getCore().getEventBus();
 		},

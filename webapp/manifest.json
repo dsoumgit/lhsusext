@@ -5,7 +5,7 @@
 		"type": "application",
 		"i18n": "i18n/i18n.properties",
 		"applicationVersion": {
-			"version": "2018.11.14.01"
+			"version": "2018.11.15.01"
 		},
 		"title": "{{appTitle}}",
 		"description": "{{appDescription}}",
@@ -90,29 +90,13 @@
 				"name": "detail",
 				"target": "detail"
 			}, {
-				"pattern": "ticketQuarterly",
-				"name": "ticketQuarterly",
-				"target": "ticketQuarterly"
-			}, {
-				"pattern": "ticketMonthly",
-				"name": "ticketMonthly",
-				"target": "ticketMonthly"
-			}, {
-				"pattern": "ticketWeekly",
-				"name": "ticketWeekly",
-				"target": "ticketWeekly"
-			}, {
-				"pattern": "pointQuarterly",
-				"name": "pointQuarterly",
-				"target": "pointQuarterly"
-			}, {
-				"pattern": "pointMonthly",
-				"name": "pointMonthly",
-				"target": "pointMonthly"
-			}, {
 				"pattern": "funcCurYear",
 				"name": "funcCurYear",
 				"target": "funcCurYear"
+			}, {
+				"pattern": "itemDetail/{entity}",
+				"name": "itemDetail",
+				"target": "itemDetail"
 			}],
 			"targets": {
 				"master": {
@@ -125,28 +109,12 @@
 					"viewName": "Detail",
 					"viewLevel": 1
 				},
-				"ticketQuarterly": {
-					"viewName": "TicketQuarterly",
-					"viewLevel": 2
-				},
-				"ticketMonthly": {
-					"viewName": "TicketMonthly",
-					"viewLevel": 2
-				},
-				"ticketWeekly": {
-					"viewName": "TicketWeekly",
-					"viewLevel": 2
-				},
-				"pointQuarterly": {
-					"viewName": "PointQuarterly",
-					"viewLevel": 2
-				},
-				"pointMonthly": {
-					"viewName": "PointMonthly",
-					"viewLevel": 2
-				},
 				"funcCurYear": {
 					"viewName": "FuncCurYear",
+					"viewLevel": 2
+				}, 
+				"itemDetail": {
+					"viewName": "ItemDetail",
 					"viewLevel": 2
 				}
 			}

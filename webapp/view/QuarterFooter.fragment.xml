@@ -1,0 +1,14 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:fb="sap.ui.comp.filterbar" xmlns:nav="sap.tnt"
+	xmlns:mic="sap.suite.ui.microchart" xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds" xmlns:f="sap.ui.layout.form"
+	xmlns:core="sap.ui.core" xmlns:uni="sap.ui.unified.calendar">
+	<Page>
+		<footer>
+			<OverflowToolbar id="otbFooter">
+				<ToolbarSpacer/>
+				<Button type="Emphasized" icon="sap-icon://print" text="Print" press="onPDFPressed">
+					<layoutData><OverflowToolbarLayoutData moveToOverflow="false"/></layoutData>
+				</Button>
+			</OverflowToolbar>
+		</footer>
+	</Page>
+</core:FragmentDefinition>
