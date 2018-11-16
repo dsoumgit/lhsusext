@@ -198,7 +198,7 @@ sap.ui.define([
 			// Get vizframe id 
 			var oVizFrame = this.getView().byId("idVizFrame");
 			// Set viz prop
-			oVizFrame.setVizProperties({
+			/*oVizFrame.setVizProperties({
 				yAxis: {
 					scale: {
 						fixedRange: true,
@@ -206,7 +206,7 @@ sap.ui.define([
 						maxValue: 15
 					}
 				}
-			});
+			});*/
 			// Remove all feeds first 
 			oVizFrame.removeAllFeeds();
 			// Set viz type
@@ -396,7 +396,7 @@ sap.ui.define([
 			// Get vizframe id 
 			var oVizFrame = this.getView().byId("idVizFrame");
 			// Set viz prop
-			oVizFrame.setVizProperties({
+			/*oVizFrame.setVizProperties({
 				yAxis: {
 					scale: {
 						fixedRange: true,
@@ -404,7 +404,7 @@ sap.ui.define([
 						maxValue: 10
 					}
 				}
-			});
+			});*/
 			// Remove all feeds first 
 			oVizFrame.removeAllFeeds();
 			// Set viz type 
@@ -584,14 +584,14 @@ sap.ui.define([
 						start: output[0].Week, // Get first object
 						end: output[output.length - 1] // Get last object	
 					}
-				},
-				yAxis: {
+				}
+				/*yAxis: {
 					scale: {
 						fixedRange: true,
 						minValue: 0,
 						maxValue: 10
 					}
-				}
+				}*/
 			});
 
 			// Create an object
@@ -899,14 +899,14 @@ sap.ui.define([
 							}]
 						}
 					}
-				},
-				yAxis: {
+				}
+				/*yAxis: {
 					scale: {
 						fixedRange: true,
 						minValue: 0,
 						maxValue: 1000
 					}
-				}
+				}*/
 			});
 
 			// Remove all feeds first 
@@ -1289,14 +1289,14 @@ sap.ui.define([
 							}]
 						}
 					}
-				},
-				yAxis: {
+				}
+				/*yAxis: {
 					scale: {
 						fixedRange: true,
 						minValue: 0,
 						maxValue: 600
 					}
-				}
+				}*/
 			});
 
 			// Remove all feeds first 
