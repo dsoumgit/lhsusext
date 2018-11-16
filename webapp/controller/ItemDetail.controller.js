@@ -146,16 +146,44 @@ sap.ui.define([
 
 			// Get the array from each 
 			var arrCreated = this.getEachQuarter(countCreated);
-			var arrClosed = this.getEachQuarter(countClosed);
-			var output = [];
+			var outputCreated = [];
 			for (var key in arrCreated) {
-				output.push({
+				outputCreated.push({
 					"Quarter": key,
-					"CreatedRequests": arrCreated[key],
-					"ClosedRequests": arrClosed[key]
+					"CreatedRequests": arrCreated[key]
 				});
 			}
-
+			
+			var arrClosed = this.getEachQuarter(countClosed);
+			var outputClosed = [];
+			for (var key in arrClosed) {
+				outputClosed.push({
+					"Quarter": key,
+					"ClosedRequests": arrCreated[key]
+				});
+			}
+			
+			// Make a copy of outputCreated 
+			var output = outputCreated.slice();
+			
+			// Loop through Closed output
+			outputClosed.forEach(function (obj) {
+				// Find each Quarter
+				var found = output.find(function (item) {
+					// return the match 
+					return obj.Quarter == item.Quarter; 
+				});
+				
+				// if found 
+				if (found) {
+					// update it 
+					found.ClosedRequests = obj.ClosedRequests;
+				} else {
+					// add it 
+					output.push(obj); 
+				}
+			});
+		
 			// Create a new object
 			var obj = {};
 			// Set the title 
