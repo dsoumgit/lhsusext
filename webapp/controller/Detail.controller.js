@@ -85,10 +85,10 @@ sap.ui.define([
 
 			// Create a new array to store the result 
 			var outputCreated = [];
-			var monthNames = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+		//	var monthNames = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
 			for (var key in resultCreated) {
 				outputCreated.push({
-					"Month": monthNames[key],
+					"Month": parseInt(key, 10),
 					"CreatedRequests": resultCreated[key].length
 				});
 			}
@@ -119,7 +119,7 @@ sap.ui.define([
 			var outputClosed = [];
 			for (var key in resultClosed) {
 				outputClosed.push({
-					"Month": monthNames[key],
+					"Month": parseInt(key, 10),
 					"ClosedRequests": resultClosed[key].length
 				});
 			}
@@ -145,7 +145,7 @@ sap.ui.define([
 					output.push(elem);
 				}
 			});
-
+			
 			// Get vizframe id 
 			var oVizframe = this.getView().byId("ticketFrame");
 			// Set the visibility 
@@ -160,8 +160,10 @@ sap.ui.define([
 					text: new Date().getFullYear()
 				}
 			});
-
+			
+			// Create an object 
 			var obj = {};
+			// Store data collection 
 			obj.Collection = output;
 			// Create a model and set data 
 			var oModel = new sap.ui.model.json.JSONModel(obj);
@@ -311,7 +313,7 @@ sap.ui.define([
 					}
 				});
 			}
-
+	
 			var totalServLength = [];
 			// Get the total length of each Severity
 			for (var key in result) {
@@ -365,17 +367,32 @@ sap.ui.define([
 				// Create each Serverity in a new object 
 				if (outputResult[serv] === undefined) {
 					// Get two decimal places 
-					outputResult[serv] = Number(sevTotal.toFixed(2));
+					outputResult[serv] = Number(sevTotal.toFixed(0));
 				} else {
-					outputResult[serv] = Number(sevTotal.toFixed(2));
+					outputResult[serv] = Number(sevTotal.toFixed(0));
 				}
 			});
-
+			
 			// Array of months 
 			// Define month names 
 			var monthNames = ["JANUARY", "FEBRURAY", "MARCH", "APRIL", "MAY", "JUNE",
 				"JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"
 			];
+			
+			 
+			// Check each Serverity if it is not found in an object, set it to 100%  
+			if (outputResult["1. Severity-1 (High)"] === undefined) {
+				outputResult["1. Severity-1 (High)"] = 100; 	
+			} 
+			
+			if (outputResult["2. Severity-2 (Medium)"] === undefined) {
+				outputResult["2. Severity-2 (Medium)"] = 100; 	
+			}  
+			
+			if (outputResult["3. Severity-3 (Normal)"] === undefined) {
+				outputResult["3. Severity-3 (Normal)"] = 100; 	
+			}  
+			
 			// Add current month 
 			outputResult.Month = monthNames[new Date().getMonth()] + "-" + new Date().getFullYear();
 			// Create json model

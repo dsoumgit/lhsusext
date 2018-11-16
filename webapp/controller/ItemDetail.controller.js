@@ -61,7 +61,7 @@ sap.ui.define([
 			// Check the page name 
 			if (sName === "itemDetail") {
 				// Get entity path 
-				var entityName = oEvent.getParameter("arguments").entity; 
+				var entityName = oEvent.getParameter("arguments").entity;
 				// Check each entity name and route to the module 
 				switch (entityName) {
 				case "ticketQuarterly":
@@ -84,14 +84,14 @@ sap.ui.define([
 					// Call function with all data array 
 					this.setPointMonthly(allData);
 					break;
-				default: 
+				default:
 					sap.m.MessageBox.alert("Page is not found");
-					break; 
+					break;
 				}
 			}
 		},
-		
-  		// Quarterly tickets
+
+		// Quarterly tickets
 		setTicketQuarterly: function (arr) {
 			// Copy an array 
 			var allData = arr.slice();
@@ -169,6 +169,16 @@ sap.ui.define([
 
 			// Get vizframe id 
 			var oVizFrame = this.getView().byId("idVizFrame");
+			// Set viz prop
+			oVizFrame.setVizProperties({
+				yAxis: {
+					scale: {
+						fixedRange: true,
+						minValue: 0,
+						maxValue: 15
+					}
+				}
+			});
 			// Remove all feeds first 
 			oVizFrame.removeAllFeeds();
 			// Set viz type
@@ -211,7 +221,7 @@ sap.ui.define([
 			oVizFrame.addFeed(feedCategoryAxis);
 
 			// Call method to set label visibility 
-				this.onShowData();
+			this.onShowData();
 
 			// Remove table 
 			var oPage = this.getView().byId("idPanel");
@@ -275,11 +285,11 @@ sap.ui.define([
 		// Monthly tickets
 		setTicketMonthly: function (arr) {
 			// Get Switch id 
-		//	var switchControl = this.getView().byId("idShowData");
+			//	var switchControl = this.getView().byId("idShowData");
 			// Get State 
-		//	var state = switchControl.getState();
+			//	var state = switchControl.getState();
 			// Call method to set 
-		//	this.showDataLabel(state);
+			//	this.showDataLabel(state);
 			// Get current year 
 			var curYear = new Date().getFullYear();
 			// Copy an array 
@@ -357,6 +367,16 @@ sap.ui.define([
 
 			// Get vizframe id 
 			var oVizFrame = this.getView().byId("idVizFrame");
+			// Set viz prop
+			oVizFrame.setVizProperties({
+				yAxis: {
+					scale: {
+						fixedRange: true,
+						minValue: 0,
+						maxValue: 10
+					}
+				}
+			});
 			// Remove all feeds first 
 			oVizFrame.removeAllFeeds();
 			// Set viz type 
@@ -400,7 +420,7 @@ sap.ui.define([
 			oVizFrame.addFeed(feedCategoryAxis);
 
 			// Call method to set label visibility 
-				this.onShowData();
+			this.onShowData();
 
 			// Remove table 
 			var oPage = this.getView().byId("idPanel");
@@ -526,19 +546,26 @@ sap.ui.define([
 			output.sort(function (a, b) {
 				return numWk(a) - numWk(b);
 			});
-			
+
 			// Get vizframe id 
 			var oVizframe = this.getView().byId("idVizFrame");
 			// Set viz prop
 			oVizframe.setVizProperties({
 				plotArea: {
 					window: {
-						start: output[0].Week,	// Get first object
-						end: output[output.length - 1]	// Get last object	
+						start: output[0].Week, // Get first object
+						end: output[output.length - 1] // Get last object	
+					}
+				},
+				yAxis: {
+					scale: {
+						fixedRange: true,
+						minValue: 0,
+						maxValue: 10
 					}
 				}
 			});
-			
+
 			// Create an object
 			var obj = {};
 			// Set the title 
@@ -594,7 +621,7 @@ sap.ui.define([
 			oVizFrame.addFeed(feedCategoryAxis);
 
 			// Call method to set label visibility 
-				this.onShowData();
+			this.onShowData();
 
 			// Remove table  
 			var oPage = this.getView().byId("idPanel");
@@ -844,8 +871,16 @@ sap.ui.define([
 							}]
 						}
 					}
+				},
+				yAxis: {
+					scale: {
+						fixedRange: true,
+						minValue: 0,
+						maxValue: 1000
+					}
 				}
 			});
+
 			// Remove all feeds first 
 			oVizFrame.removeAllFeeds();
 			// Set viz type 
@@ -932,7 +967,7 @@ sap.ui.define([
 			newObj.RolloverPoints = Math.abs(rolloverPoints);
 
 			// Call method to set label visibility 
-				this.onShowData();
+			this.onShowData();
 
 			// Display table fragment 
 			this._showTableFragment("QuarterSummary");
@@ -1206,6 +1241,36 @@ sap.ui.define([
 
 			// Get vizframe id 
 			var oVizFrame = this.getView().byId("idVizFrame");
+			// Get Monthly Points from global file 
+			var monthlyPoints = this.getView().getModel("Global").getData().MonthlyPoints;
+			// Add reference line
+			oVizFrame.setVizProperties({
+				plotArea: {
+					referenceLine: {
+						line: {
+							valueAxis: [{
+								value: smdPoints + monthlyPoints,
+								visible: true,
+								size: 3,
+								type: "solid",
+								color: "#FF0000",
+								label: {
+									text: smdPoints + monthlyPoints,
+									visible: true
+								}
+							}]
+						}
+					}
+				},
+				yAxis: {
+					scale: {
+						fixedRange: true,
+						minValue: 0,
+						maxValue: 600
+					}
+				}
+			});
+
 			// Remove all feeds first 
 			oVizFrame.removeAllFeeds();
 			// Set viz type
@@ -1245,7 +1310,7 @@ sap.ui.define([
 			oVizFrame.addFeed(feedCategoryAxis);
 
 			// Call method to set label visibility 
-				this.onShowData();
+			this.onShowData();
 
 			// Remove table 
 			var oPage = this.getView().byId("idPanel");
@@ -1257,36 +1322,6 @@ sap.ui.define([
 
 		// Function to show the label
 		onShowData: function (oEvent) {
-			// Get the entity name  
-			/*var entityName = oEvent.getParameter("arguments").entity;
-			// Get Switch id 
-			var switchControl = this.getView().byId("idShowData"); 
-			// Get State 
-			var switchState = switchControl.getState();
-			console.log(switchState);
-			// Check each entity name and route to the module 
-			switch (entityName) {
-			case "ticketQuarterly":
-				switchControl.setStates(switchState); 
-				break;
-			case "ticketMonthly":
-				switchControl.setStates(switchState);
-				break;
-			case "ticketWeekly":
-				switchControl.setStates(switchState);
-				break;
-			case "pointQuarterly":
-				switchControl.setStates(switchState);
-				break;
-			case "pointMonthly":
-				switchControl.setStates(switchState);
-				break;
-			default:
-				sap.m.MessageBox.alert("Page is not found");
-				break;
-			}*/
-			// Show busy indicator
-			//	sap.ui.core.BusyIndicator.show();
 			// Get selected state 
 			var selected = this.getView().byId("idShowData").getState();
 			// Get vizframe id 
@@ -1294,8 +1329,6 @@ sap.ui.define([
 
 			// Define a variable to store the switch 
 			var labelOn = "";
-			// simulate delayed end of operation
-			//	jQuery.sap.delayedCall(2000, this, function () {
 			// Check if selected 
 			if (selected === true) {
 				// Show the labels

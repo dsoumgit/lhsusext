@@ -71,29 +71,29 @@ lhsusext.util.formatter = {
 
 	formatMonth: function (oMonth) {
     	var month;
-    	if (oMonth === 1) {
+    	if (oMonth === 0) {
     		month = "JAN";
-    	} else if (oMonth === 2) {
+    	} else if (oMonth === 1) {
     		month = "FEB";
-    	} else if (oMonth === 3) {
+    	} else if (oMonth === 2) {
     		month = "MAR";
-    	} else if (oMonth === 4) {
+    	} else if (oMonth === 3) {
     		month = "APR";
-    	} else if (oMonth === 5) {
+    	} else if (oMonth === 4) {
     		month = "MAY";
-    	} else if (oMonth === 6) {
+    	} else if (oMonth === 5) {
     		month = "JUN";
-    	} else if (oMonth === 7) {
+    	} else if (oMonth === 6) {
     		month = "JUL";
-    	} else if (oMonth === 8) {
+    	} else if (oMonth === 7) {
     		month = "AUG";
-    	} else if (oMonth === 9) {
+    	} else if (oMonth === 8) {
     		month = "SEP";
-    	} else if (oMonth === 10) {
+    	} else if (oMonth === 9) {
     		month = "OCT";
-    	} else if (oMonth === 11) {
+    	} else if (oMonth === 10) {
     		month = "NOV";
-    	} else if (oMonth === 12) {
+    	} else if (oMonth === 11) {
     		month = "DEC";
     	}
     	
