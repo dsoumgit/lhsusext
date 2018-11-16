@@ -752,14 +752,14 @@ sap.ui.define([
 								arrClosed.push({
 									Quarter: s,
 									Key: "Q" + s,
-									SDMPoints: sdmPoints * 3,
+									BMAPoints: sdmPoints * 3,
 									TotalPoints: 0
 								});
 							} else {
 								arrClosed.push({
 									Quarter: s,
 									Key: "Q" + s,
-									SDMPoints: sdmPoints * (currentMonth % 3),
+									BMAPoints: sdmPoints * (currentMonth % 3),
 									TotalPoints: 0
 								});
 							}
@@ -767,7 +767,7 @@ sap.ui.define([
 							arrClosed.push({
 								Quarter: s,
 								Key: "Q" + s,
-								SDMPoints: sdmPoints * 3,
+								BMAPoints: sdmPoints * 3,
 								TotalPoints: 0
 							});
 						}
@@ -779,14 +779,14 @@ sap.ui.define([
 								arrClosed.push({
 									Quarter: j,
 									Key: "Q" + j,
-									SDMPoints: sdmPoints,
+									BMAPoints: sdmPoints,
 									TotalPoints: 0
 								});
 							} else {
 								arrClosed.push({
 									Quarter: j,
 									Key: "Q" + j,
-									SDMPoints: sdmPoints * (currentMonth % 3),
+									BMAPoints: sdmPoints * (currentMonth % 3),
 									TotalPoints: 0
 								});
 							}
@@ -794,7 +794,7 @@ sap.ui.define([
 							arrClosed.push({
 								Quarter: j,
 								Key: "Q" + j,
-								SDMPoints: sdmPoints * 3,
+								BMAPoints: sdmPoints * 3,
 								TotalPoints: 0
 							});
 						}
@@ -807,14 +807,14 @@ sap.ui.define([
 							arrClosed.push({
 								Quarter: j,
 								Key: "Q" + j,
-								SDMPoints: sdmPoints * 3,
+								BMAPoints: sdmPoints * 3,
 								TotalPoints: 0
 							});
 						} else {
 							arrClosed.push({
 								Quarter: j,
 								Key: "Q" + j,
-								SDMPoints: sdmPoints * (currentMonth % 3),
+								BMAPoints: sdmPoints * (currentMonth % 3),
 								TotalPoints: 0
 							});
 						}
@@ -822,7 +822,7 @@ sap.ui.define([
 						arrClosed.push({
 							Quarter: j,
 							Key: "Q" + j,
-							SDMPoints: sdmPoints * 3,
+							BMAPoints: sdmPoints * 3,
 							TotalPoints: 0
 						});
 					}
@@ -887,26 +887,19 @@ sap.ui.define([
 					referenceLine: {
 						line: {
 							valueAxis: [{
-								value: monthlyPointsQuarterly,
+								value: (sdmPoints + monthlyPoints) * 3,
 								visible: true,
 								size: 3,
 								type: "solid",
 								color: "#FF0000",
 								label: {
-									text: "Points Allowed: " + monthlyPointsQuarterly,
-									visible: false
+									text: (sdmPoints + monthlyPoints) * 3,
+									visible: true
 								}
 							}]
 						}
 					}
 				}
-				/*yAxis: {
-					scale: {
-						fixedRange: true,
-						minValue: 0,
-						maxValue: 1000
-					}
-				}*/
 			});
 
 			// Remove all feeds first 
@@ -923,8 +916,8 @@ sap.ui.define([
 					name: "TotalPoints",
 					value: "{TotalPoints}"
 				}, {
-					name: "SDMPoints",
-					value: "{SDMPoints}"
+					name: "BMAPoints",
+					value: "{BMAPoints}"
 				}],
 				data: {
 					path: "/Collection"
@@ -938,7 +931,7 @@ sap.ui.define([
 			var feedValueAxis = new sap.viz.ui5.controls.common.feeds.FeedItem({
 					"uid": "valueAxis",
 					"type": "Measure",
-					"values": ["TotalPoints", "SDMPoints"]
+					"values": ["TotalPoints", "BMAPoints"]
 				}),
 				feedCategoryAxis = new sap.viz.ui5.controls.common.feeds.FeedItem({
 					"uid": "categoryAxis",
@@ -991,9 +984,9 @@ sap.ui.define([
 			newObj.TotalPoints = totalPoints;
 			newObj.RevealSDM = revealSDMQuarterly;
 			newObj.GrandTotal = grandTotal;
-			newObj.MonthlyPoints = monthlyPointsQuarterly;
+			newObj.MonthlyPoints = (sdmPoints + monthlyPoints) * 3;
 			newObj.RolloverPoints = Math.abs(rolloverPoints);
-
+	
 			// Call method to set label visibility 
 			this.onShowData();
 
@@ -1119,7 +1112,7 @@ sap.ui.define([
 				obj.TotalPoints = totalPoints;
 				obj.RevealSDM = revealSDMQuarterly;
 				obj.GrandTotal = grandTotal;
-				obj.MonthlyPoints = monthlyPointsQuarterly;
+				obj.MonthlyPoints = (smdPoints + monthlyPoints) * 3;
 				obj.RolloverPoints = Math.abs(rolloverPoints);
 
 				// Create a model

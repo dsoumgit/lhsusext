@@ -89,7 +89,7 @@
 					<FlexBox height="40px" alignItems="Start" justifyContent="End">
 						<items>
 							<Label class="sapUiSmallMargin" text="" design="Bold"/>
-							<Label class="sapUiSmallMargin" text="Reveal SDM"/>
+							<Label class="sapUiSmallMargin" text="Reveal BMA"/>
 							<Label class="sapUiSmallMargin" text="{ReportModel>/RevealSDM}"/>
 						</items>
 					</FlexBox>

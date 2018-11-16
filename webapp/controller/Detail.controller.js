@@ -10,7 +10,7 @@
  *			SEV 3 = 1 day = 1440 mins
  *		We filter by each SEV and count the number of entries then filter by FirstResponseInMin column that meet each condition 
  *		above. See the calculation below:
- *			(Total Entries of ResponseTime * 100) / (ResponseInMin	< each SEV) 	
+ *			(Total Entries of ResponseTime * 100) / (ResponseInMin	< each SEV) 
  *		In the Excel file, we'll see the FirstResponseInMin column. This value will give the time in minutes when the
  *			ticket was first responded to. This will need to be compared to the SEV x time above. 
  *  The current points consumption for the current month. This will have three parts to it, it will combine innovation
@@ -251,14 +251,30 @@ sap.ui.define([
 		// SLA Tracker 
 		SLATracker: function (arr) {
 			// Get all the data 
-			var allDataArr = arr.AllData;
+			var dataArr = arr.AllData;
+			var allDataArr = dataArr.slice(); 
+			// Today's month 
+			var currentMonth = new Date().getMonth(); 
+			// Add 1 to the month 
+			if (currentMonth < 12) {
+				currentMonth += 1; 
+			}
+			
 			// Filter by Created in the current year and Priority (not including Innovation)
 			allDataArr = allDataArr.filter(function (obj) {
 				// Get Priority 
 				var priority = obj.Priority;
-				return (new Date(obj.Created).getFullYear() === new Date().getFullYear() && priority !== "4. Innovation (Enhancement)");
+				// Created 
+				var createdMonth = new Date(obj.Created).getMonth(); 
+				// Add 1 to the month 
+				if (createdMonth < 12) {
+					createdMonth += 1; 
+				}
+				
+				return (new Date(obj.Created).getFullYear() === new Date().getFullYear() && 
+					currentMonth === createdMonth && priority !== "4. Innovation (Enhancement)");
 			});
-
+		
 			// Store each Serverity 
 			var result = {};
 			allDataArr.forEach(function (elem) {
@@ -475,7 +491,7 @@ sap.ui.define([
 			// Add Month to the object 
 			result["Month"] = monthNames[new Date().getMonth()];
 			// Add SDM to the object 
-			result["SDM"] = sdmPoints;
+			result["BMAPoints"] = sdmPoints;
 				
 			// Get vizframe for Tickets
 			var pointFrame = this.getView().byId("pointFrame");
