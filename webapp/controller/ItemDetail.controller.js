@@ -1082,10 +1082,12 @@ sap.ui.define([
 				var revealSDMQuarterly = smdPoints * 3;
 				// Get Monthly Points 
 				var monthlyPoints = this.getView().getModel("Global").getData().MonthlyPoints;
+				// Total monthly points 
+				var totalMonthlyPoints = (smdPoints + monthlyPoints) * 3; 
 				// Calculate Monthly Points quarterly multiplying by 3 
-				var monthlyPointsQuarterly = monthlyPoints * 3;
+			//	var monthlyPointsQuarterly = monthlyPoints * 3;
 				var grandTotal = totalPoints + revealSDMQuarterly;
-				var rolloverPoints = grandTotal - monthlyPointsQuarterly;
+				var rolloverPoints = totalMonthlyPoints - grandTotal;
 				// Create a new object
 				var obj = {};
 				// Store as a collection
@@ -1096,7 +1098,7 @@ sap.ui.define([
 				obj.RevealSDM = revealSDMQuarterly;
 				obj.GrandTotal = grandTotal;
 				obj.MonthlyPoints = (smdPoints + monthlyPoints) * 3;
-				obj.RolloverPoints = Math.abs(rolloverPoints);
+				obj.RolloverPoints = rolloverPoints;
 
 				// Create a model
 				var oModel = new sap.ui.model.json.JSONModel(obj);
