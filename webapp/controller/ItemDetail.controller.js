@@ -197,16 +197,6 @@ sap.ui.define([
 
 			// Get vizframe id 
 			var oVizFrame = this.getView().byId("idVizFrame");
-			// Set viz prop
-			/*oVizFrame.setVizProperties({
-				yAxis: {
-					scale: {
-						fixedRange: true,
-						minValue: 0,
-						maxValue: 15
-					}
-				}
-			});*/
 			// Remove all feeds first 
 			oVizFrame.removeAllFeeds();
 			// Set viz type
@@ -312,12 +302,6 @@ sap.ui.define([
 
 		// Monthly tickets
 		setTicketMonthly: function (arr) {
-			// Get Switch id 
-			//	var switchControl = this.getView().byId("idShowData");
-			// Get State 
-			//	var state = switchControl.getState();
-			// Call method to set 
-			//	this.showDataLabel(state);
 			// Get current year 
 			var curYear = new Date().getFullYear();
 			// Copy an array 
@@ -875,8 +859,6 @@ sap.ui.define([
 			var oVizFrame = this.getView().byId("idVizFrame");
 			// Get Monthly Points 
 			var monthlyPoints = this.getView().getModel("Global").getData().MonthlyPoints;
-			// Calculate Monthly Points quarterly multiplying by 3 
-			var monthlyPointsQuarterly = monthlyPoints * 3;
 			// Set viz properties 
 			oVizFrame.setVizProperties({
 				plotArea: {
@@ -974,8 +956,9 @@ sap.ui.define([
 
 			// Calculate Reveal SDM points multiplying by 3 
 			var revealSDMQuarterly = sdmPoints * 3;
-			var grandTotal = totalPoints + revealSDMQuarterly;
-			var rolloverPoints = grandTotal - monthlyPointsQuarterly;
+			var totalMonthlyPoints = (sdmPoints + monthlyPoints) * 3;
+			var grandTotal = (totalPoints + revealSDMQuarterly);
+			var rolloverPoints = (totalMonthlyPoints - grandTotal);
 			// Create a new object 
 			var newObj = {};
 			newObj.DataCollection = output;
@@ -984,8 +967,8 @@ sap.ui.define([
 			newObj.TotalPoints = totalPoints;
 			newObj.RevealSDM = revealSDMQuarterly;
 			newObj.GrandTotal = grandTotal;
-			newObj.MonthlyPoints = (sdmPoints + monthlyPoints) * 3;
-			newObj.RolloverPoints = Math.abs(rolloverPoints);
+			newObj.MonthlyPoints = totalMonthlyPoints;
+			newObj.RolloverPoints = rolloverPoints;
 	
 			// Call method to set label visibility 
 			this.onShowData();

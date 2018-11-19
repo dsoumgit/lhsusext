@@ -75,7 +75,7 @@
 					<FlexBox height="40px" alignItems="Start" justifyContent="End">
 						<items>
 							<Label class="sapUiSmallMargin" text="Points" design="Bold"/>
-							<Label class="sapUiSmallMargin" text="Support Ticket Points"/>
+							<Label class="sapUiSmallMargin" text="Sustainment Request Points"/>
 							<Label class="sapUiSmallMargin" text="{ReportModel>/TotalPoints}"/>
 						</items>
 					</FlexBox>
