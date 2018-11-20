@@ -17,8 +17,11 @@
 					</Toolbar>
 				</headerToolbar>
 				<columns>
-					<Column width="4em">
+					<Column width="8em">
 						<Text text="Request Number"/>
+						<footer>
+							<Label text="Total Points" design="Bold"/>
+						</footer>
 					</Column>
 					<Column hAlign="Center">
 						<Text text="Description"/>
@@ -43,6 +46,9 @@
 					</Column>
 					<Column hAlign="Center">
 						<Text text="Points"/>
+						<footer>
+							<Label text="{ReportModel>/TotalPoints}" design="Bold"/>
+						</footer>
 					</Column>
 				</columns>
 				<items>
@@ -65,13 +71,6 @@
 		<l:VerticalLayout width="100%">
 			<l:content>
 				<Panel>
-					<headerToolbar>
-						<Toolbar>
-							<Title level="H2" text="Total Points"/>
-							<ToolbarSpacer/>
-							<Label text="{ReportModel>/TotalPoints}" design="Bold"/>
-						</Toolbar>
-					</headerToolbar>
 					<FlexBox height="40px" alignItems="Start" justifyContent="End">
 						<items>
 							<!--<Label class="sapUiSmallMargin" text="Points" design="Bold"/>-->
