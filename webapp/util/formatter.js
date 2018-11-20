@@ -166,5 +166,11 @@ lhsusext.util.formatter = {
 	dateFormat: function (oDate) {
 		// Format the date
 		return moment(oDate).format("MM/DD/YYYY");
+	},
+	
+	nameFormatter: function (oName) {
+		console.log(oName); 
+		
+		return "boldName"; 
 	}
 };

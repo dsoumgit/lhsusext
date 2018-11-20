@@ -17,11 +17,8 @@
 					</Toolbar>
 				</headerToolbar>
 				<columns>
-					<Column width="8em">
+					<Column width="4em">
 						<Text text="Request Number"/>
-						<footer>
-							<Label text="Total Points" design="Bold"/>
-						</footer>
 					</Column>
 					<Column hAlign="Center">
 						<Text text="Description"/>
@@ -46,9 +43,6 @@
 					</Column>
 					<Column hAlign="Center">
 						<Text text="Points"/>
-						<footer>
-							<Label text="{ReportModel>/TotalPoints}" design="Bold"/>
-						</footer>
 					</Column>
 				</columns>
 				<items>
@@ -70,67 +64,33 @@
 		</content>
 		<l:VerticalLayout width="100%">
 			<l:content>
-				<Panel class="sapUiMediumMarginTop">
+				<Panel>
 					<headerToolbar>
 						<Toolbar>
-							<Title level="H2" text="Summary"/>
+							<Title level="H2" text="Total Points"/>
+							<ToolbarSpacer/>
+							<Label text="{ReportModel>/TotalPoints}" design="Bold"/>
 						</Toolbar>
 					</headerToolbar>
-					<FlexBox height="30px" alignItems="Start" justifyContent="End">
+					<FlexBox height="40px" alignItems="Start" justifyContent="End">
 						<items>
-							<Text text="Sustainment Request Points" class="sapUiSmallMarginEnd"/>
-							<Text text="{ReportModel>/TotalPoints}" class="sapUiSmallMarginEnd"/>
+							<!--<Label class="sapUiSmallMargin" text="Points" design="Bold"/>-->
+							<Label class="sapUiSmallMargin" text="Sustainment Request Points"/>
+							<Label class="sapUiSmallMargin" text="{ReportModel>/TotalPoints}"/>
 						</items>
 					</FlexBox>
-					<FlexBox height="30px" alignItems="Start" justifyContent="End">
+					<FlexBox height="40px" alignItems="Start" justifyContent="End">
 						<items>
-							<Text text="Other Points" class="sapUiSmallMarginEnd"/>
-							<Text text="0" class="sapUiSmallMarginEnd"/>
+							<Label class="sapUiSmallMargin" text="" design="Bold"/>
+							<Label class="sapUiSmallMargin" text="Other Points"/>
+							<Label class="sapUiSmallMargin" text="0"/>
 						</items>
 					</FlexBox>
-					<FlexBox height="30px" alignItems="Start" justifyContent="End">
+					<FlexBox height="40px" alignItems="Start" justifyContent="End">
 						<items>
-							<Text text="Reveal BMA Points" class="sapUiSmallMarginEnd"/>
-							<Text text="{ReportModel>/RevealSDM}" class="sapUiSmallMarginEnd"/>
-						</items>
-					</FlexBox>
-					<FlexBox height="30px" alignItems="Start" justifyContent="End">
-						<items>
-							<Label text="Grand Total" design="Bold" class="sapUiSmallMarginEnd"/>
-							<Label text="{ReportModel>/GrandTotal}" design="Bold" class="sapUiSmallMarginEnd"/>
-						</items>
-					</FlexBox>
-					<FlexBox height="30px" alignItems="Start" justifyContent="End">
-						<items>
-							<Text text="Points Consumed" class="sapUiSmallMarginEnd"/>
-							<Text text="{ReportModel>/GrandTotal}" class="sapUiSmallMarginEnd"/>
-						</items>
-					</FlexBox>
-					<FlexBox height="30px" alignItems="Start" justifyContent="End">
-						<items>
-							<Text text="Points Allowed" class="sapUiSmallMarginEnd"/>
-							<Text text="{ReportModel>/MonthlyPoints}" class="sapUiSmallMarginEnd"/>
-						</items>
-					</FlexBox>
-					<FlexBox height="30px" alignItems="Start" justifyContent="End">
-						<items>
-							<Label text="Rollover Points" design="Bold" class="sapUiSmallMarginEnd"/>
-							<Label text="{ReportModel>/RolloverPoints}" design="Bold" class="sapUiSmallMarginEnd"/>
-						</items>
-					</FlexBox>
-				</Panel>
-				<!--<Panel class="sapUiMediumMarginTop">
-					<headerToolbar>
-						<Toolbar height="3rem">
-							<Title text="Summary"/>
-						</Toolbar>
-					</headerToolbar>
-				</Panel>-->
-				<!--<Panel>
-					<FlexBox height="100px" alignItems="Center" justifyContent="End">
-						<items>
-							<Text text="Other Points" class="sapUiSmallMarginEnd"/>
-							<Text text="0"/>
+							<Label class="sapUiSmallMargin" text="" design="Bold"/>
+							<Label class="sapUiSmallMargin" text="Reveal BMA Points"/>
+							<Label class="sapUiSmallMargin" text="{ReportModel>/RevealSDM}"/>
 						</items>
 					</FlexBox>
 				</Panel>
@@ -147,12 +107,14 @@
 					<FlexBox height="40px" alignItems="Start" justifyContent="End">
 						<items>
 							<Label class="sapUiSmallMargin" text="Points Consumed"/>
+							<Label class="sapUiSmallMargin" text=""/>
 							<Label class="sapUiSmallMargin" text="{ReportModel>/GrandTotal}"/>
 						</items>
 					</FlexBox>
 					<FlexBox height="40px" alignItems="Start" justifyContent="End">
 						<items>
 							<Label class="sapUiSmallMargin" text="Points Allowed"/>
+							<Label class="sapUiSmallMargin" text=""/>
 							<Label class="sapUiSmallMargin" text="{ReportModel>/MonthlyPoints}"/>
 						</items>
 					</FlexBox>
@@ -165,7 +127,7 @@
 							<Label class="sapUiSmallMargin" text="{ReportModel>/RolloverPoints}" design="Bold"/>
 						</items>
 					</FlexBox>
-				</Panel>-->
+				</Panel>
 			</l:content>
 		</l:VerticalLayout>
 	</Panel>

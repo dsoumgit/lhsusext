@@ -153,7 +153,7 @@ sap.ui.define([
 					"CreatedRequests": arrCreated[key]
 				});
 			}
-			
+
 			var arrClosed = this.getEachQuarter(countClosed);
 			var outputClosed = [];
 			for (var key in arrClosed) {
@@ -162,28 +162,28 @@ sap.ui.define([
 					"ClosedRequests": arrCreated[key]
 				});
 			}
-			
+
 			// Make a copy of outputCreated 
 			var output = outputCreated.slice();
-			
+
 			// Loop through Closed output
 			outputClosed.forEach(function (obj) {
 				// Find each Quarter
 				var found = output.find(function (item) {
 					// return the match 
-					return obj.Quarter == item.Quarter; 
+					return obj.Quarter == item.Quarter;
 				});
-				
+
 				// if found 
 				if (found) {
 					// update it 
 					found.ClosedRequests = obj.ClosedRequests;
 				} else {
 					// add it 
-					output.push(obj); 
+					output.push(obj);
 				}
 			});
-		
+
 			// Create a new object
 			var obj = {};
 			// Set the title 
@@ -969,7 +969,34 @@ sap.ui.define([
 			newObj.GrandTotal = grandTotal;
 			newObj.MonthlyPoints = totalMonthlyPoints;
 			newObj.RolloverPoints = rolloverPoints;
-	
+
+			/*var dataObj = {};
+			dataObj.SelectedYear = currentYear;
+			dataObj.DataCollection = output;
+			dataObj.TotalPoints = totalPoints; 
+			dataObj.Collection = [{
+				Description: "Sustainment Request Points",
+				Points: totalPoints
+			}, {
+				Description: "Other Points",
+				Points: 0
+			}, {
+				Description: "Reveal BMA Points",
+				Points: revealSDMQuarterly
+			}, {
+				Description: "Grand Total",
+				Points: grandTotal
+			}, {
+				Description: "Points Consumed",
+				Points: grandTotal
+			}, {
+				Description: "Points Allowed",
+				Points: totalMonthlyPoints
+			}, {
+				Description: "Rollover Points",
+				Points: rolloverPoints
+			}];*/
+
 			// Call method to set label visibility 
 			this.onShowData();
 
@@ -1083,15 +1110,14 @@ sap.ui.define([
 				// Get Monthly Points 
 				var monthlyPoints = this.getView().getModel("Global").getData().MonthlyPoints;
 				// Total monthly points 
-				var totalMonthlyPoints = (smdPoints + monthlyPoints) * 3; 
+				var totalMonthlyPoints = (smdPoints + monthlyPoints) * 3;
 				// Calculate Monthly Points quarterly multiplying by 3 
-			//	var monthlyPointsQuarterly = monthlyPoints * 3;
+				//	var monthlyPointsQuarterly = monthlyPoints * 3;
 				var grandTotal = totalPoints + revealSDMQuarterly;
 				var rolloverPoints = totalMonthlyPoints - grandTotal;
 				// Create a new object
 				var obj = {};
 				// Store as a collection
-				//	obj.Collection = arrClosed;
 				obj.DataCollection = output;
 				obj.SelectedYear = selectedYear;
 				obj.TotalPoints = totalPoints;
@@ -1099,7 +1125,35 @@ sap.ui.define([
 				obj.GrandTotal = grandTotal;
 				obj.MonthlyPoints = (smdPoints + monthlyPoints) * 3;
 				obj.RolloverPoints = rolloverPoints;
-
+				
+			/*	
+				var dataObj = {};
+				dataObj.SelectedYear = selectedYear;
+				dataObj.TotalPoints = totalPoints;
+				dataObj.DataCollection = output;
+				dataObj.Collection = [{
+					Description: "Sustainment Request Points",
+					Points: totalPoints
+				}, {
+					Description: "Other Points",
+					Points: 0
+				}, {
+					Description: "Reveal BMA Points",
+					Points: revealSDMQuarterly
+				}, {
+					Description: "Grand Total",
+					Points: grandTotal
+				}, {
+					Description: "Points Consumed",
+					Points: grandTotal
+				}, {
+					Description: "Points Allowed",
+					Points: totalMonthlyPoints
+				}, {
+					Description: "Rollover Points",
+					Points: rolloverPoints
+				}]; */
+	
 				// Create a model
 				var oModel = new sap.ui.model.json.JSONModel(obj);
 				// Set size limit

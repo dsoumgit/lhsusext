@@ -66,3 +66,7 @@
     
     /* custom css prototypes for addtional used containers */
 }
+
+.boldName {
+	font-weight: bold;
+}
