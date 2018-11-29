@@ -1125,35 +1125,35 @@ sap.ui.define([
 				obj.GrandTotal = grandTotal;
 				obj.MonthlyPoints = (smdPoints + monthlyPoints) * 3;
 				obj.RolloverPoints = rolloverPoints;
-				
-			/*	
-				var dataObj = {};
-				dataObj.SelectedYear = selectedYear;
-				dataObj.TotalPoints = totalPoints;
-				dataObj.DataCollection = output;
-				dataObj.Collection = [{
-					Description: "Sustainment Request Points",
-					Points: totalPoints
-				}, {
-					Description: "Other Points",
-					Points: 0
-				}, {
-					Description: "Reveal BMA Points",
-					Points: revealSDMQuarterly
-				}, {
-					Description: "Grand Total",
-					Points: grandTotal
-				}, {
-					Description: "Points Consumed",
-					Points: grandTotal
-				}, {
-					Description: "Points Allowed",
-					Points: totalMonthlyPoints
-				}, {
-					Description: "Rollover Points",
-					Points: rolloverPoints
-				}]; */
-	
+
+				/*	
+					var dataObj = {};
+					dataObj.SelectedYear = selectedYear;
+					dataObj.TotalPoints = totalPoints;
+					dataObj.DataCollection = output;
+					dataObj.Collection = [{
+						Description: "Sustainment Request Points",
+						Points: totalPoints
+					}, {
+						Description: "Other Points",
+						Points: 0
+					}, {
+						Description: "Reveal BMA Points",
+						Points: revealSDMQuarterly
+					}, {
+						Description: "Grand Total",
+						Points: grandTotal
+					}, {
+						Description: "Points Consumed",
+						Points: grandTotal
+					}, {
+						Description: "Points Allowed",
+						Points: totalMonthlyPoints
+					}, {
+						Description: "Rollover Points",
+						Points: rolloverPoints
+					}]; */
+
 				// Create a model
 				var oModel = new sap.ui.model.json.JSONModel(obj);
 				// Set size limit
@@ -1194,7 +1194,7 @@ sap.ui.define([
 			// Create new arrays
 			var arrClosed = [];
 			// Get SDM Points from global file 
-			var smdPoints = this.getView().getModel("Global").getData().SDMPoints;
+			var sdmPoints = this.getView().getModel("Global").getData().SDMPoints;
 			// Get Sustain Start Date 
 			var startDate = this.getView().getModel("Global").getData().SustainStartDate;
 			// Convert to Date object
@@ -1226,15 +1226,19 @@ sap.ui.define([
 			if (sustainYear === currentYear) {
 				for (i = sustainMonth; i <= currentMonth; i++) {
 					arrClosed.push({
-						Month: i,
-						TotalPoints: smdPoints
+						Month: this.getMonth(i),
+						Key: i,
+						BMAPoints: sdmPoints,
+						TotalPoints: 0
 					});
 				}
 			} else {
 				while (i <= currentMonth) {
 					arrClosed.push({
-						Month: i,
-						TotalPoints: smdPoints
+						Month: this.getMonth(i),
+						Key: i,
+						BMAPoints: sdmPoints,
+						TotalPoints: 0
 					});
 					i++;
 				}
@@ -1264,7 +1268,7 @@ sap.ui.define([
 					// Iterate through array
 					for (var j = 0; j < arrClosed.length; j++) {
 						// Get month
-						var month = arrClosed[j].Month;
+						var month = arrClosed[j].Key;
 						if (month === monthClosed) {
 							// Get points 
 							arrClosed[j].TotalPoints += allData[k].Points;
@@ -1273,24 +1277,25 @@ sap.ui.define([
 				}
 			}
 
-			// Array of month names 
-			var monthNames = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
-			// Create a new array 
-			var output = [];
-			// Convert month number to name 
-			for (var key in arrClosed) {
-				output.push({
-					Month: monthNames[key],
-					TotalPoints: arrClosed[key].TotalPoints
-				});
-			}
+			/*			// Array of month names 
+						var monthNames = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+						// Create a new array 
+						var output = [];
+						// Convert month number to name 
+						for (var key in arrClosed) {
+							output.push({
+								Month: monthNames[key],
+								TotalPoints: arrClosed[key].TotalPoints
+							});
+						}*/
 
 			// Create a new object
 			var obj = {};
 			// Set the title 
 			obj.Title = "Points Consumption by Month";
 			// Store as a collection
-			obj.Collection = output;
+			//obj.Collection = output;
+			obj.Collection = arrClosed;
 
 			// Create a model
 			var oModel = new sap.ui.model.json.JSONModel();
@@ -1306,16 +1311,19 @@ sap.ui.define([
 			// Add reference line
 			oVizFrame.setVizProperties({
 				plotArea: {
+					dataLabel: {
+						showTotal: true
+					},
 					referenceLine: {
 						line: {
 							valueAxis: [{
-								value: smdPoints + monthlyPoints,
+								value: sdmPoints + monthlyPoints,
 								visible: true,
 								size: 3,
 								type: "solid",
 								color: "#FF0000",
 								label: {
-									text: smdPoints + monthlyPoints,
+									text: sdmPoints + monthlyPoints,
 									visible: true
 								}
 							}]
@@ -1334,7 +1342,7 @@ sap.ui.define([
 			// Remove all feeds first 
 			oVizFrame.removeAllFeeds();
 			// Set viz type
-			oVizFrame.setVizType("column");
+			oVizFrame.setVizType("stacked_column");
 			// Create dataset 
 			var oDataset = new sap.viz.ui5.data.FlattenedDataset({
 				dimensions: [{
@@ -1344,6 +1352,9 @@ sap.ui.define([
 				measures: [{
 					name: "TotalPoints",
 					value: "{TotalPoints}"
+				}, {
+					name: "BMAPoints",
+					value: "{BMAPoints}"
 				}],
 				data: {
 					path: "/Collection"
@@ -1358,7 +1369,7 @@ sap.ui.define([
 			var feedValueAxis = new sap.viz.ui5.controls.common.feeds.FeedItem({
 					"uid": "valueAxis",
 					"type": "Measure",
-					"values": ["TotalPoints"]
+					"values": ["TotalPoints", "BMAPoints"]
 				}),
 				feedCategoryAxis = new sap.viz.ui5.controls.common.feeds.FeedItem({
 					"uid": "categoryAxis",
@@ -1411,6 +1422,37 @@ sap.ui.define([
 		// Back to home page
 		onHomePress: function () {
 			this.getRouter().navTo("master");
+		},
+
+		getMonth: function (oMonth) {
+			var month;
+			if (oMonth === 1) {
+				month = "JAN";
+			} else if (oMonth === 2) {
+				month = "FEB";
+			} else if (oMonth === 3) {
+				month = "MAR";
+			} else if (oMonth === 4) {
+				month = "APR";
+			} else if (oMonth === 5) {
+				month = "MAY";
+			} else if (oMonth === 6) {
+				month = "JUN";
+			} else if (oMonth === 7) {
+				month = "JUL";
+			} else if (oMonth === 8) {
+				month = "AUG";
+			} else if (oMonth === 9) {
+				month = "SEP";
+			} else if (oMonth === 10) {
+				month = "OCT";
+			} else if (oMonth === 11) {
+				month = "NOV";
+			} else if (oMonth === 12) {
+				month = "DEC";
+			}
+
+			return month;
 		}
 	});
 });
