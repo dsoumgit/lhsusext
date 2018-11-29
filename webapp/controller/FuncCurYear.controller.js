@@ -70,7 +70,7 @@ sap.ui.define([
 					// Get Created month 
 					var createdMonth = createdDate.getMonth();
 					// Add 1 to the month 
-					if (createdMonth < 10) {
+					if (createdMonth < 12) {
 						createdMonth += 1;
 					}
 
@@ -104,7 +104,7 @@ sap.ui.define([
 				groups["Month"] = monthName[key];
 				// Store groups to new array 
 				mappedResult.push(groups);
-
+				
 				// Create dynamic queue 
 				result[key].forEach(function (obj) {
 					queueArr.push(obj);

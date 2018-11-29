@@ -436,7 +436,7 @@ sap.ui.define([
 				var closeTimeMonth = new Date(obj["Close Time"]).getMonth();
 				//	console.log(closeTimeMonth);
 				// Add 1 to the month from 1 - 12
-				if (closeTimeMonth < 10) {
+				if (closeTimeMonth < 12) {
 					closeTimeMonth += 1;
 				}
 
