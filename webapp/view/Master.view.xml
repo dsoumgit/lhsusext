@@ -1,0 +1,102 @@
+<mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc"
+       	xmlns:m="sap.m" xmlns="sap.tnt"
+		controllerName="lhsusext.controller.Master" xmlns:html="http://www.w3.org/1999/xhtml">
+	<m:Page
+		id="app"
+		title="Menu"
+		showHeader="true" >
+		<m:subHeader>
+			<!--<m:Toolbar>
+				<m:SearchField width="100%" />
+			</m:Toolbar>-->
+		</m:subHeader>
+		<m:content>
+			<m:Panel expandable="true" expanded="true" width="auto" class="sapUiResponsiveMargin">
+				<m:headerToolbar>
+					<m:Toolbar height="3rem">
+						<m:Title text="Created vs Closed Sustainment Request"/>
+					</m:Toolbar>
+				</m:headerToolbar>
+				<m:content>
+					<m:List
+						items="{
+							path: 'Global>/SustainExternal/Tickets'
+						}">
+						<m:items>
+							<m:StandardListItem
+								title="{Global>title}" type="Navigation" press="onItemPress" />
+						</m:items>
+					</m:List>
+				</m:content>
+			</m:Panel>
+			<m:Panel expandable="true" expanded="true" width="auto" class="sapUiResponsiveMargin">
+				<m:headerToolbar>
+					<m:Toolbar height="3rem">
+						<m:Title text="Points Consumption"/>
+					</m:Toolbar>
+				</m:headerToolbar>
+				<m:content>
+					<m:List
+						items="{
+							path: 'Global>/SustainExternal/PointConsumption'
+						}">
+						<m:items>
+							<m:StandardListItem
+								title="{Global>title}" type="Navigation" press="onItemPress" />
+						</m:items>
+					</m:List>
+				</m:content>
+			</m:Panel>
+			<m:Panel expandable="true" expanded="true" width="auto" class="sapUiResponsiveMargin">
+				<m:headerToolbar>
+					<m:Toolbar height="3rem">
+						<m:Title text="Functional Area Analysis"/>
+					</m:Toolbar>
+				</m:headerToolbar>
+				<m:content>
+					<m:List
+						items="{
+							path: 'Functional>/AreaFunctional'
+						}">
+						<m:items>
+							<m:StandardListItem
+								title="{Functional>Year} Analysis" type="Navigation" press="onAreaPress" />
+						</m:items>
+					</m:List>
+				</m:content>
+			</m:Panel>
+			<m:Panel expandable="true" expanded="true" width="auto" class="sapUiResponsiveMargin">
+				<m:headerToolbar>
+					<m:Toolbar height="3rem">
+						<m:Title text="About"/>
+					</m:Toolbar>
+				</m:headerToolbar>
+				<m:content>
+					<m:List>
+						<m:items>
+							<m:StandardListItem
+								title="Contact Us" type="Navigation" press="onContactPress" />
+							<m:StandardListItem
+								title="Information" type="Navigation" press="onInfoPress" />
+						</m:items>
+					</m:List>
+				</m:content>
+			</m:Panel>
+			<!--<m:Panel expandable="true" expanded="true" width="auto" class="sapUiResponsiveMargin">
+				<m:headerToolbar>
+					<m:Toolbar height="3rem">
+						<m:Title text="Test"/>
+					</m:Toolbar>
+				</m:headerToolbar>
+				<m:content>
+					<m:List>
+						<m:items>
+							<m:StandardListItem
+								title="Link Navigation" type="Navigation" press="onLinkPress" />
+						</m:items>
+					</m:List>
+				</m:content>
+			</m:Panel>-->
+		</m:content>
+	</m:Page>
+</mvc:View>

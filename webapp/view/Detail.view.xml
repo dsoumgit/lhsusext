@@ -1,0 +1,176 @@
+<mvc:View height="100%" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:com="sap.suite.ui.commons"
+	xmlns:viz.data="sap.viz.ui5.data" xmlns:viz="sap.viz.ui5.controls" xmlns:l="sap.ui.layout" xmlns:form="sap.ui.layout.form"
+	xmlns:mic="sap.suite.ui.microchart" xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds" controllerName="lhsusext.controller.Detail"
+	xmlns:semantic="sap.m.semantic" xmlns:nav="sap.tnt" displayBlock="true">
+	<Page id="idPage" title="{Global>/ClientName} oVo Sustainment" navButtonPress="onNavBack" showNavButton="false">
+		<content>
+			<l:VerticalLayout class="sapUiContentPadding" width="100%">
+				<l:content>
+					<Panel width="auto" class="sapUiResponsiveMargin" id="mainPanel" visible="true">
+						<Panel height="auto" width="90%" class="sapUiResponsiveMargin">
+							<headerToolbar>
+								<Toolbar height="3rem">
+									<Title text="Sustainment Request Tracker - Created vs Closed"/>
+								</Toolbar>
+							</headerToolbar>
+							<content>
+								<com:ChartContainer showFullScreen="true" showPersonalization="false" autoAdjustHeight="false" showLegend="true" showZoom="true"
+									personalizationPress="attachPersonalizationPress" showLegendButton="true" contentChange="attachContentChange" visible="true">
+									<com:dimensionSelectors>
+										<Label text="Value Label:" design="Bold"></Label>
+										<Switch state="true" id="idShowData" change="onShowData">
+											<layoutData>
+												<FlexItemData growFactor="1"/>
+											</layoutData>
+										</Switch>
+									</com:dimensionSelectors>
+									<com:content>
+										<com:ChartContainerContent icon="sap-icon://vertical-bar-chart">
+											<com:content>
+												<viz:Popover id="idPopOver"></viz:Popover>
+												<viz:VizFrame id="ticketFrame" uiConfig="{applicationSet:'fiori'}" height='450px' width="100%" 
+													vizType='column'>
+													<viz:dataset>
+														<viz.data:FlattenedDataset data="{path: '/Collection', sorter: { path: 'Month'} }">
+															<viz.data:dimensions>
+																<viz.data:DimensionDefinition name="Month" value="{path: 'Month', formatter: 'lhsusext.util.formatter.formatMonth'}"/>
+															</viz.data:dimensions>
+															<viz.data:measures>
+																<viz.data:MeasureDefinition name="CreatedRequests" value="{CreatedRequests}"/>
+																<viz.data:MeasureDefinition name="ClosedRequests" value="{ClosedRequests}"/>
+															</viz.data:measures>
+														</viz.data:FlattenedDataset>
+													</viz:dataset>
+													<viz:feeds>
+														<viz.feeds:FeedItem id='valueAxisFeed' uid="valueAxis" type="Measure" values="CreatedRequests"/>
+														<viz.feeds:FeedItem uid="valueAxis" type="Measure" values="ClosedRequests"/>
+														<viz.feeds:FeedItem id='categoryAxisFeed' uid="categoryAxis" type="Dimension" values="Month"/>
+													</viz:feeds>
+												</viz:VizFrame>
+											</com:content>
+										</com:ChartContainerContent>
+									</com:content>
+								</com:ChartContainer>
+							</content>
+						</Panel>
+						<Panel height="auto" width="auto" class="sapUiResponsiveMargin">
+							<content>
+								<Table id="idProductsTable" inset="false" items="{ path: 'OldData>/DataCollection' }">
+									<headerToolbar>
+										<Toolbar>
+											<Title text="Aging Report" level="H2"/>
+										</Toolbar>
+									</headerToolbar>
+									<columns>
+										<Column width="4em">
+											<Text text="Request Number"/>
+										</Column>
+										<Column minScreenWidth="Tablet" width="12em" demandPopin="true">
+											<Text text="Description"/>
+										</Column>
+										<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+											<Text text="Created On"/>
+										</Column>
+										<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+											<Text text="Status"/>
+										</Column>
+										<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+											<Text text="Customer User"/>
+										</Column>
+										<Column hAlign="Center">
+											<Text text="Functional Area"/>
+										</Column>
+									</columns>
+									<items>
+										<ColumnListItem>
+											<cells>
+												<Text text="{OldData>Ticket#}"/>
+												<Text text="{OldData>Title}"/>
+												<Text text="{path: 'OldData>Created', formatter: 'lhsusext.util.formatter.dateFormat'}"/>
+												<Text text="{OldData>State}"/>
+												<Text text="{OldData>Customer User}"/>
+												<Text text="{OldData>Functional Area}"/>
+											</cells>
+										</ColumnListItem>
+									</items>
+								</Table>
+							</content>
+						</Panel>
+						<Panel height="auto" width="auto" class="sapUiResponsiveMargin">
+							<headerToolbar>
+								<Toolbar height="3rem">
+									<Title text="SLA Tracker"/>
+								</Toolbar>
+							</headerToolbar>
+							<content>
+								<l:Grid defaultSpan="L4 M6 S6" class="sapUiSmallMarginTop">
+									<l:content>
+										<VBox alignContent="Center" alignItems="Center">
+											<Title text=""/>
+											<Text text="SEV 1" class="sapUiLargeMarginTop"/>
+											<mic:RadialMicroChart size="L" percentage="{path: 'SLA>/1. Severity-1 (High)'}" press="press" class="sapUiSmallMargin"/>
+										</VBox>
+									</l:content>
+									<l:content>
+										<VBox alignContent="Center" alignItems="Center">
+											<Title text="{SLA>/Month}" class="boldTitle"/>
+											<Text text="SEV 2" class="sapUiLargeMarginTop"/>
+											<mic:RadialMicroChart size="L" percentage="{path: 'SLA>/2. Severity-2 (Medium)'}" press="press" class="sapUiSmallMargin"/>
+										</VBox>
+									</l:content>
+									<l:content>
+										<VBox alignContent="Center" alignItems="Center">
+											<Title text=""/>
+											<Text text="SEV 3" class="sapUiLargeMarginTop"/>
+											<mic:RadialMicroChart size="L" percentage="{path: 'SLA>/3. Severity-3 (Normal)'}" press="press" class="sapUiSmallMargin"/>
+										</VBox>
+									</l:content>
+								</l:Grid>
+							</content>
+						</Panel>
+						<Panel height="auto" width="auto" class="sapUiResponsiveMargin">
+							<headerToolbar>
+								<Toolbar height="3rem">
+									<Title text="Points Tracker"/>
+								</Toolbar>
+							</headerToolbar>
+							<content>
+								<com:ChartContainer showFullScreen="true" showPersonalization="false" autoAdjustHeight="false" showLegend="true" showZoom="true"
+									personalizationPress="attachPersonalizationPress" showLegendButton="true" contentChange="attachContentChange" visible="true">
+									<com:content>
+										<com:ChartContainerContent icon="sap-icon://vertical-bar-chart">
+											<com:content>
+												<viz:Popover id="idPopOverPoint"></viz:Popover>
+												<viz:VizFrame id="pointFrame" uiConfig="{applicationSet:'fiori'}" height='200px' width="100%" vizType='stacked_bar'
+													vizProperties="{plotArea: {dataLabel: {visible: true} }}">
+													<viz:dataset>
+														<viz.data:FlattenedDataset data="{ path: 'PointModel>/Collection' }">
+															<viz.data:dimensions>
+																<viz.data:DimensionDefinition name="Month" value="{PointModel>Month}"/>
+															</viz.data:dimensions>
+															<viz.data:measures>
+																<viz.data:MeasureDefinition name="BMAPoints" value="{PointModel>BMAPoints}"/>
+																<viz.data:MeasureDefinition name="ClosedRequests" value="{PointModel>ClosedRequests}"/>
+																<viz.data:MeasureDefinition name="Innovation" value="{PointModel>Innovation}"/>
+															</viz.data:measures>
+														</viz.data:FlattenedDataset>
+													</viz:dataset>
+													<viz:feeds>
+														<viz.feeds:FeedItem uid="valueAxis" type="Measure" values="ClosedRequests"/>
+														<viz.feeds:FeedItem uid="valueAxis" type="Measure" values="BMAPoints"/>
+														<viz.feeds:FeedItem uid="valueAxis" type="Measure" values="Innovation"/>
+														<viz.feeds:FeedItem uid="categoryAxis" type="Dimension" values="Month"/>
+													</viz:feeds>
+												</viz:VizFrame>
+											</com:content>
+										</com:ChartContainerContent>
+									</com:content>
+								</com:ChartContainer>
+							</content>
+						</Panel>
+					</Panel>
+				</l:content>
+			</l:VerticalLayout>
+		</content>
+	</Page>
+</mvc:View>

@@ -1,0 +1,35 @@
+{
+	"welcomeFile": "/webapp/index.html",
+	"routes": [{
+		"path": "/resources",
+		"target": {
+			"type": "service",
+			"name": "sapui5",
+			"entryPath": "/resources"
+		},
+		"description": "SAPUI5 Resources"
+	}, {
+		"path": "/test-resources",
+		"target": {
+			"type": "service",
+			"name": "sapui5",
+			"entryPath": "/test-resources"
+		},
+		"description": "SAPUI5 Test Resources"
+	}, {
+		"path": "/cmis",
+		"target": {
+			"type": "destination",
+			"name": "documentservice"
+		},
+		"description": "oVo Lighthouse Document Service"
+	}, {
+		"path": "/repoid",
+		"target": {
+			"type": "destination",
+			"name": "getrepoid"
+		},
+		"description": "oVo Lighthouse Document Service"
+	}],
+	"sendWelcomeFileRedirect": true
+}

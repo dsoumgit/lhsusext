@@ -1,0 +1,128 @@
+{
+	"_version": "1.7.0",
+	"sap.app": {
+		"id": "lhsusext",
+		"type": "application",
+		"i18n": "i18n/i18n.properties",
+		"applicationVersion": {
+			"version": "2018.11.20.02"
+		},
+		"title": "{{appTitle}}",
+		"description": "{{appDescription}}",
+		"sourceTemplate": {
+			"id": "ui5template.basicSAPUI5ApplicationProject",
+			"version": "1.40.12"
+		},
+		"crossNavigation": {
+			"inbounds": {
+				"intent1": {
+					"signature": {
+						"parameters": {},
+						"additionalParameters": "allowed"
+					},
+					"semanticObject": "lhsusint",
+					"action": "display"
+				}
+			}
+		}
+	},
+	"sap.ui": {
+		"technology": "UI5",
+		"icons": {
+			"icon": "",
+			"favIcon": "",
+			"phone": "",
+			"phone@2": "",
+			"tablet": "",
+			"tablet@2": ""
+		},
+		"deviceTypes": {
+			"desktop": true,
+			"tablet": false,
+			"phone": false
+		},
+		"supportedThemes": ["sap_belize"]
+	},
+	"sap.ui5": {
+		"rootView": {
+			"viewName": "lhsusext.view.App",
+			"type": "XML"
+		},
+		"dependencies": {
+			"minUI5Version": "1.30.0",
+			"libs": {
+				"sap.ui.core": {},
+				"sap.m": {},
+				"sap.ui.layout": {},
+				"sap.ushell": {},
+				"sap.collaboration": {},
+				"sap.ui.comp": {},
+				"sap.uxap": {}
+			}
+		},
+		"contentDensities": {
+			"compact": true,
+			"cozy": true
+		},
+		"models": {
+			"i18n": {
+				"type": "sap.ui.model.resource.ResourceModel",
+				"settings": {
+					"bundleName": "lhsusext.i18n.i18n"
+				}
+			}
+		},
+		"routing": {
+			"config": {
+				"routerClass": "sap.m.routing.Router",
+				"viewType": "XML",
+				"viewPath": "lhsusext.view",
+				"transition": "slide",
+				"controlAggregation": "detailPages",
+				"controlId": "rootSusext"
+			},
+			"routes": [{
+				"pattern": "",
+				"name": "master",
+				"target": ["detail", "master"]
+			}, {
+				"pattern": "detail/{entity}",
+				"name": "detail",
+				"target": "detail"
+			}, {
+				"pattern": "funcCurYear",
+				"name": "funcCurYear",
+				"target": "funcCurYear"
+			}, {
+				"pattern": "itemDetail/{entity}",
+				"name": "itemDetail",
+				"target": "itemDetail"
+			}],
+			"targets": {
+				"master": {
+					"viewName": "Master",
+					"viewLevel": 1,
+					"viewId": "master",
+					"controlAggregation": "masterPages"
+				},
+				"detail": {
+					"viewName": "Detail",
+					"viewLevel": 1
+				},
+				"funcCurYear": {
+					"viewName": "FuncCurYear",
+					"viewLevel": 2
+				}, 
+				"itemDetail": {
+					"viewName": "ItemDetail",
+					"viewLevel": 2
+				}
+			}
+		},
+		"resources": {
+			"css": [{
+				"uri": "css/style.css"
+			}]
+		}
+	}
+}

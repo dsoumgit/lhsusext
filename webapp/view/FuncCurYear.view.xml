@@ -1,0 +1,80 @@
+<mvc:View controllerName="lhsusext.controller.FuncCurYear" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:com="sap.suite.ui.commons"
+	xmlns:viz.data="sap.viz.ui5.data" xmlns:viz="sap.viz.ui5.controls" xmlns:l="sap.ui.layout" xmlns:form="sap.ui.layout.form"
+	xmlns:mic="sap.suite.ui.microchart" xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds">
+	<Page id="idPage" navButtonPress="onNavBack" showNavButton="false">
+		<customHeader>
+			<Bar>
+				<contentLeft>
+					<!--<Image src="img/Reveal-Logo.png" tooltip="Reveal Logo"/>-->
+				</contentLeft>
+				<contentMiddle>
+					<Text text="{Global>/ClientName} oVo Sustainment"/>
+				</contentMiddle>
+				<contentRight>
+					<Button icon="sap-icon://home" press="onHomePress" type="Default"/>
+				</contentRight>
+			</Bar>
+		</customHeader>
+		<content>
+			<Panel width="auto" class="sapUiResponsiveMargin" visible="true">
+				<Panel height="auto" width="auto" class="sapUiResponsiveMargin">
+					<headerToolbar>
+						<Toolbar height="3rem">
+							<Title text="Sustainment Request Created by Functional Area"/>
+						</Toolbar>
+					</headerToolbar>
+					<content>
+						<com:ChartContainer id="idChartContainer" showFullScreen="true" showPersonalization="false" autoAdjustHeight="false" showLegend="true"
+							showZoom="true" personalizationPress="attachPersonalizationPress" showLegendButton="true" contentChange="attachContentChange" visible="true">
+							<com:dimensionSelectors>
+								<Label text="Value Label:" design="Bold"></Label>
+								<Switch state="true" id="idShowData" change="onShowData">
+									<layoutData>
+										<FlexItemData growFactor="1"/>
+									</layoutData>
+								</Switch>
+							</com:dimensionSelectors>
+							<com:content>
+								<com:ChartContainerContent icon="sap-icon://vertical-bar-chart">
+									<com:content>
+										<viz:Popover id="idPopOver"></viz:Popover>
+										<viz:VizFrame id="idVizFrame" uiConfig="{applicationSet:'fiori'}" height='590px' width="100%" vizType='stacked_bar'>
+											<!--<viz:dataset>
+												<viz.data:FlattenedDataset data="{path: '/Collection'}">
+													<viz.data:dimensions>
+														<viz.data:DimensionDefinition name="Month" value="{Month}"/>
+													</viz.data:dimensions>
+													<viz.data:measures>
+														<viz.data:MeasureDefinition name="ABAP" value="{ABAP}" />
+														<viz.data:MeasureDefinition name="SD" value="{SD}"/>
+														<viz.data:MeasureDefinition name="MM" value="{MM}"/>
+														<viz.data:MeasureDefinition name="WM" value="{WM}"/>
+														<viz.data:MeasureDefinition name="EDI" value="{EDI}"/>
+														<viz.data:MeasureDefinition name="PP" value="{PP}"/>
+														<viz.data:MeasureDefinition name="BASIS" value="{BASIS}"/>
+														<viz.data:MeasureDefinition name="FICO" value="{FICO}"/>
+													</viz.data:measures>
+												</viz.data:FlattenedDataset>
+											</viz:dataset>
+											<viz:feeds>
+												<viz.feeds:FeedItem uid="valueAxis" type="Measure" values="ABAP" />
+												<viz.feeds:FeedItem uid="valueAxis" type="Measure" values="SD"/>
+												<viz.feeds:FeedItem uid="valueAxis" type="Measure" values="MM"/>
+												<viz.feeds:FeedItem uid="valueAxis" type="Measure" values="WM"/>
+												<viz.feeds:FeedItem uid="valueAxis" type="Measure" values="EDI"/>
+												<viz.feeds:FeedItem uid="valueAxis" type="Measure" values="PP"/>
+												<viz.feeds:FeedItem uid="valueAxis" type="Measure" values="BASIS"/>
+												<viz.feeds:FeedItem uid="valueAxis" type="Measure" values="FICO"/>
+												<viz.feeds:FeedItem uid="categoryAxis" type="Dimension" values="Month"/>
+											</viz:feeds>-->
+										</viz:VizFrame>
+									</com:content>
+								</com:ChartContainerContent>
+							</com:content>
+						</com:ChartContainer>
+					</content>
+				</Panel>
+			</Panel>
+		</content>
+	</Page>
+</mvc:View>
