@@ -1380,15 +1380,153 @@ sap.ui.define([
 			oVizFrame.addFeed(feedValueAxis);
 			oVizFrame.addFeed(feedCategoryAxis);
 
+			// Data table
+			// Variable to store the total points 
+			var totalPoints = 0;
+			// Create a new array 
+			var output = [];
+
+			// Iterate through array 
+			allData.forEach(function (obj2) {
+				// Close Time column 
+				var closeTimeDate = new Date(obj2["Close Time"]);
+				var m = closeTimeDate.getMonth();
+				if (m < 12) {
+					m += 1;
+				}
+				// State column
+				var closedState = obj2.State;
+
+				if (closedState === "closed successful" && parseInt(currentYear, 10) === closeTimeDate.getFullYear() && currentMonth === m) {
+					// Store each element to a new array 
+					totalPoints += obj2.Points;
+					// Store new data 
+					output.push(obj2);
+
+				}
+			});
+
+			// Sort by Close Time dates 
+			output = output.sort(function (a, b) {
+				return (new Date(a["Close Time"]) - new Date(b["Close Time"]));
+			});
+
+			// Calculate Reveal SDM points multiplying by 3 
+			var revealSDMMonthly = sdmPoints;
+			var totalMonthlyPoints = (sdmPoints + monthlyPoints);
+			var grandTotal = (totalPoints + revealSDMMonthly);
+			var rolloverPoints = (totalMonthlyPoints - grandTotal);
+			// Create a new object 
+			var newObj = {};
+			newObj.DataCollection = output;
+			newObj.SelectedYear = currentYear;
+			newObj.CurrentMonth = currentMonth;
+			newObj.TotalPoints = totalPoints;
+			newObj.RevealSDM = revealSDMMonthly;
+			newObj.GrandTotal = grandTotal;
+			newObj.MonthlyPoints = totalMonthlyPoints;
+			newObj.RolloverPoints = rolloverPoints;
+
 			// Call method to set label visibility 
 			this.onShowData();
+			// Display table fragment 
+			this._showTableFragment("MonthlySummary");
+			// Display footer fragment
+			this._showFooterFragment("QuarterFooter");
 
-			// Remove table 
-			var oPage = this.getView().byId("idPanel");
-			oPage.removeAllContent();
-			// Remove footer 
-			var footer = this.getView().byId("footer");
-			footer.removeAllContent();
+			//* Default the selected key on drop down 
+
+			// Get Combo id 	
+			var comboMonth = this.getView().byId("comboMonth");
+			comboMonth.setSelectedKey([currentMonth]);
+
+			// Create a model and set data 
+			var reportModel = new sap.ui.model.json.JSONModel(newObj);
+			// Set size limit
+			reportModel.setSizeLimit(9999999999);
+			// Set model to the view
+			this.getView().setModel(reportModel, "ReportModel");
+			/*			// Remove table 
+						var oPage = this.getView().byId("idPanel");
+						oPage.removeAllContent();
+						// Remove footer 
+						var footer = this.getView().byId("footer");
+						footer.removeAllContent();*/
+		},
+
+		handleMonthSelectionChange: function (oEvent) {
+			// Hide busy indicator
+			sap.ui.core.BusyIndicator.show();
+			// Get selected quarters
+			var selectedKey = oEvent.getSource().getSelectedKey();
+			// simulate delayed end of operation
+			jQuery.sap.delayedCall(2000, this, function () {
+				// Get Data model 
+				var dataModel = this.getOwnerComponent().getModel("Data");
+				// Get data 
+				var allData = dataModel.getData().AllData;
+				// Create a new array 
+				var output = [];
+				// Variable to store the total points 
+				var totalPoints = 0;
+				// Get id from selected year 
+				var selectedYear = this.getView().byId("idSelectedYear").getText();
+
+				// Iterate through array 
+				allData.forEach(function (obj) {
+					// Close Time column 
+					var closeTimeDate = new Date(obj["Close Time"]);
+					// State column
+					var closedState = obj.State;
+					// Convert to quarter 
+					var m = closeTimeDate.getMonth();
+					if (m < 12) {
+						m += 1;
+					}
+					if (closedState === "closed successful" && parseInt(selectedKey, 10) === m && parseInt(selectedYear, 10) === closeTimeDate.getFullYear()) {
+						// Sum the points 
+						totalPoints += obj.Points;
+						// Store each element to a new array 
+						output.push(obj);
+					}
+				});
+
+				// Sort by Close Time dates 
+				output = output.sort(function (a, b) {
+					return (new Date(a["Close Time"]) - new Date(b["Close Time"]));
+				});
+
+				// Get SDM Points from global file 
+				var sdmPoints = this.getView().getModel("Global").getData().SDMPoints;
+				// Calculate Reveal SDM points multiplying by 3 
+				var revealSDMMonthly = sdmPoints;
+				// Get Monthly Points 
+				var monthlyPoints = this.getView().getModel("Global").getData().MonthlyPoints;
+				// Total monthly points 
+				var totalMonthlyPoints = (sdmPoints + monthlyPoints);
+				var grandTotal = totalPoints + revealSDMMonthly;
+				var rolloverPoints = totalMonthlyPoints - grandTotal;
+				// Create a new object
+				var obj = {};
+				// Store as a collection
+				obj.DataCollection = output;
+				obj.SelectedYear = selectedYear;
+				obj.TotalPoints = totalPoints;
+				obj.RevealSDM = revealSDMMonthly;
+				obj.GrandTotal = grandTotal;
+				obj.MonthlyPoints = (sdmPoints + monthlyPoints);
+				obj.RolloverPoints = rolloverPoints;
+
+				// Create a model
+				var oModel = new sap.ui.model.json.JSONModel(obj);
+				// Set size limit
+				oModel.setSizeLimit(99999999);
+				// Set model to the view
+				this.getView().setModel(oModel, "ReportModel");
+
+				// Hide busy indicator
+				sap.ui.core.BusyIndicator.hide();
+			});
 		},
 
 		// Function to show the label
