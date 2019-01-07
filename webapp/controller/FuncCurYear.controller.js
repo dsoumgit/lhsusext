@@ -97,6 +97,8 @@ sap.ui.define([
 			// later we would match these two array indexes to get the number of requests created total
 			var monthName = ["UND", "JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
 
+			// Create unique names
+			var uniqueNames = [];
 			for (var key in result) {
 
 				var groups = this.groupBy(result[key]);
@@ -104,103 +106,101 @@ sap.ui.define([
 				groups["Month"] = monthName[key];
 				// Store groups to new array 
 				mappedResult.push(groups);
-				
+
 				// Create dynamic queue 
 				result[key].forEach(function (obj) {
-					queueArr.push(obj);
+					//	queueArr.push(obj);
+					// Check the element if it is not in array
+					if ($.inArray(obj, uniqueNames) === -1 || $.inArray(obj, uniqueNames) === "") {
+						// Add to the new array
+						uniqueNames.push(obj);
+					}
 				});
 			}
 
-			// Create a new object
-			var obj = {};
-			// Store collection 
-			obj.Collection = mappedResult;
+			if (mappedResult.length !== 0) {
+				// Create a new object
+				var obj = {};
+				// Store collection 
+				obj.Collection = mappedResult;
+				// Create a new json model
+				var oModel = new sap.ui.model.json.JSONModel();
+				// Set data to the model
+				oModel.setData(obj);
+				// Set the model to the view 
+				this.getView().setModel(oModel);
 
-			// Create a new json model
-			var oModel = new sap.ui.model.json.JSONModel();
-			// Set data to the model
-			oModel.setData(obj);
-			// Set the model to the view 
-			this.getView().setModel(oModel);
-
-			// Get viz frame id 
-			var oVizFrame = this.getView().byId("idVizFrame");
-			// Set the chart title 
-			var idVizFrame = this.getView().byId("idVizFrame");
-			// Format the data 		
-			Format.numericFormatter(ChartFormatter.getInstance());
-			var formatPattern = ChartFormatter.DefaultPattern;
-			// Create tool tip control
-			var oTooltip = new sap.viz.ui5.controls.VizTooltip({});
-			oTooltip.connect(idVizFrame.getVizUid());
-			oTooltip.setFormatString(formatPattern.STANDARDFLOAT);
-			// Get pop over id for Essential 1 
-			var oPopover = this.getView().byId("idPopOver");
-			oPopover.connect(idVizFrame.getVizUid());
-			oPopover.setFormatString(ChartFormatter.DefaultPattern.Integer);
-			// Set title to the chart 
-			idVizFrame.setVizProperties({
-				plotArea: {
-					colorPalette: ["rgb(88, 153, 218)", "rgb(0, 153, 0)", "rgb(255, 128, 0)",
-						"rgb(178, 102, 255)", "rgb(255, 153, 255)", "rgb(0, 255, 255)", "rgb(204, 0, 0)",
-						"rgb(255, 255, 0)", "rgb(51, 0, 25)"
-					]
-				},
-				title: {
-					text: today.getFullYear()
+				// Create a new array to store data of Measures 
+				var measureArr = [];
+				// Add name property 
+				for (var key in uniqueNames) {
+					measureArr.push({
+						"name": uniqueNames[key],
+						"value": "{" + uniqueNames[key] + "}"
+					});
 				}
-			});
 
-			// Create unique names
-			var uniqueNames = [];
-			// Remove duplicate elements 
-			$.each(queueArr, function (ind, ele) {
-				// Check the element if it is not in array
-				if ($.inArray(ele, uniqueNames) === -1 || $.inArray(ele, uniqueNames) === "") {
-					// Add to the new array
-					uniqueNames.push(ele);
-				}
-			});
-
-			// Create a new array to store data of Measures 
-			var measureArr = [];
-			// Add name property 
-			for (var key in uniqueNames) {
-				measureArr.push({
-					"name": uniqueNames[key],
-					"value": "{" + uniqueNames[key] + "}"
+				// Get viz frame id 
+				var oVizFrame = this.getView().byId("idVizFrame");
+				// Set the chart title 
+				var idVizFrame = this.getView().byId("idVizFrame");
+				// Format the data 		
+				Format.numericFormatter(ChartFormatter.getInstance());
+				var formatPattern = ChartFormatter.DefaultPattern;
+				// Create tool tip control
+				var oTooltip = new sap.viz.ui5.controls.VizTooltip({});
+				oTooltip.connect(idVizFrame.getVizUid());
+				oTooltip.setFormatString(formatPattern.STANDARDFLOAT);
+				// Get pop over id for Essential 1 
+				var oPopover = this.getView().byId("idPopOver");
+				oPopover.connect(idVizFrame.getVizUid());
+				oPopover.setFormatString(ChartFormatter.DefaultPattern.Integer);
+				// Set title to the chart 
+				idVizFrame.setVizProperties({
+					plotArea: {
+						colorPalette: ["rgb(88, 153, 218)", "rgb(0, 153, 0)", "rgb(255, 128, 0)",
+							"rgb(178, 102, 255)", "rgb(255, 153, 255)", "rgb(0, 255, 255)", "rgb(204, 0, 0)",
+							"rgb(255, 255, 0)", "rgb(51, 0, 25)"
+						]
+					},
+					title: {
+						text: today.getFullYear()
+					}
 				});
+
+				// Create dataset
+				var oDataset = new sap.viz.ui5.data.FlattenedDataset({
+					dimensions: [{
+						name: "Month",
+						value: "{Month}"
+					}],
+					measures: measureArr,
+					data: {
+						path: "/Collection"
+					}
+				});
+
+				oVizFrame.setDataset(oDataset);
+				oVizFrame.setModel(oModel);
+
+				var feedValueAxis = new sap.viz.ui5.controls.common.feeds.FeedItem({
+						"uid": "valueAxis",
+						"type": "Measure",
+						"values": uniqueNames
+					}),
+					feedCategoryAxis = new sap.viz.ui5.controls.common.feeds.FeedItem({
+						"uid": "categoryAxis",
+						"type": "Dimension",
+						"values": ["Month"]
+					});
+
+				// Resolve an issue after second time 	
+				oVizFrame.destroyFeeds();
+
+				oVizFrame.addFeed(feedValueAxis);
+				oVizFrame.addFeed(feedCategoryAxis);
 			}
-			// Create dataset
-			var oDataset = new sap.viz.ui5.data.FlattenedDataset({
-				dimensions: [{
-					name: "Month",
-					value: "{Month}"
-				}],
-				measures: measureArr,
-				data: {
-					path: "/Collection"
-				}
-			});
 
-			oVizFrame.setDataset(oDataset);
-
-			var feedValueAxis = new sap.viz.ui5.controls.common.feeds.FeedItem({
-					"uid": "valueAxis",
-					"type": "Measure",
-					"values": uniqueNames
-				}),
-				feedCategoryAxis = new sap.viz.ui5.controls.common.feeds.FeedItem({
-					"uid": "categoryAxis",
-					"type": "Dimension",
-					"values": ["Month"]
-				});
-
-			// Resolve an issue after second time 	
-			oVizFrame.destroyFeeds();
-
-			oVizFrame.addFeed(feedValueAxis);
-			oVizFrame.addFeed(feedCategoryAxis);
 		},
 
 		groupBy: function (list) {

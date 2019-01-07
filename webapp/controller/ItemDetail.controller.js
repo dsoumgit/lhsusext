@@ -183,7 +183,7 @@ sap.ui.define([
 					output.push(obj);
 				}
 			});
-
+			
 			// Create a new object
 			var obj = {};
 			// Set the title 
@@ -558,35 +558,33 @@ sap.ui.define([
 			output.sort(function (a, b) {
 				return numWk(a) - numWk(b);
 			});
-
-			// Get vizframe id 
-			var oVizframe = this.getView().byId("idVizFrame");
-			// Set viz prop
-			oVizframe.setVizProperties({
-				plotArea: {
-					window: {
-						start: output[0].Week, // Get first object
-						end: output[output.length - 1] // Get last object	
+		
+			// If no data is found 
+			if (output.length !== 0) {
+				// Get vizframe id 
+				var oVizframe = this.getView().byId("idVizFrame");
+				// Set viz prop
+				oVizframe.setVizProperties({
+					plotArea: {
+						window: {
+							start: output[0].Week, // Get first object
+							end: output[output.length - 1] // Get last object	
+						}
 					}
-				}
-				/*yAxis: {
-					scale: {
-						fixedRange: true,
-						minValue: 0,
-						maxValue: 10
-					}
-				}*/
-			});
+				});
+			}
 
 			// Create an object
 			var obj = {};
 			// Set the title 
 			obj.Title = "Overview of Open vs Closed Sustainment Request by Week";
+			// Create a model and set data 
+			var oModel = new sap.ui.model.json.JSONModel();
 			// Store data collection 
 			obj.Collection = output;
 
 			// Create a model and set data 
-			var oModel = new sap.ui.model.json.JSONModel(obj);
+			oModel.setData(obj);
 			// Set model to the view
 			this.getView().setModel(oModel);
 
@@ -953,7 +951,7 @@ sap.ui.define([
 			output = output.sort(function (a, b) {
 				return (new Date(a["Close Time"]) - new Date(b["Close Time"]));
 			});
-
+			
 			// Calculate Reveal SDM points multiplying by 3 
 			var revealSDMQuarterly = sdmPoints * 3;
 			var totalMonthlyPoints = (sdmPoints + monthlyPoints) * 3;
@@ -970,38 +968,11 @@ sap.ui.define([
 			newObj.MonthlyPoints = totalMonthlyPoints;
 			newObj.RolloverPoints = rolloverPoints;
 
-			/*var dataObj = {};
-			dataObj.SelectedYear = currentYear;
-			dataObj.DataCollection = output;
-			dataObj.TotalPoints = totalPoints; 
-			dataObj.Collection = [{
-				Description: "Sustainment Request Points",
-				Points: totalPoints
-			}, {
-				Description: "Other Points",
-				Points: 0
-			}, {
-				Description: "Reveal BMA Points",
-				Points: revealSDMQuarterly
-			}, {
-				Description: "Grand Total",
-				Points: grandTotal
-			}, {
-				Description: "Points Consumed",
-				Points: grandTotal
-			}, {
-				Description: "Points Allowed",
-				Points: totalMonthlyPoints
-			}, {
-				Description: "Rollover Points",
-				Points: rolloverPoints
-			}];*/
-
 			// Call method to set label visibility 
 			this.onShowData();
 
 			// Display table fragment 
-			this._showTableFragment("QuarterSummary");
+			this._showQuarterFragment("QuarterSummary");
 			// Display footer fragment
 			this._showFooterFragment("QuarterFooter");
 
@@ -1021,21 +992,21 @@ sap.ui.define([
 
 		},
 
-		_showTableFragment: function (sFragmentName) {
+		_showQuarterFragment: function (sFragmentName) {
 			var oPage = this.getView().byId("idPanel");
 
 			oPage.removeAllContent();
 
-			oPage.insertContent(this._getTableFragment(sFragmentName));
+			oPage.insertContent(this._getQuarterFragment(sFragmentName));
 		},
 
-		_getTableFragment: function (sFragmentName) {
+		_getQuarterFragment: function (sFragmentName) {
 			var oFormFragment = this._formFragments[sFragmentName];
 
 			if (oFormFragment) {
 				return oFormFragment;
 			}
-
+			
 			oFormFragment = sap.ui.xmlfragment(this.getView().getId(), "lhsusext.view." + sFragmentName, this.getView().getController());
 
 			return this._formFragments[sFragmentName] = oFormFragment;
@@ -1062,8 +1033,8 @@ sap.ui.define([
 
 			return this._formFragments[sFragmentName] = oFormFragment;
 		},
-
-		handleSelectionChange: function (oEvent) {
+		
+		handleQuarterSelectionChange: function (oEvent) {
 			// Hide busy indicator
 			sap.ui.core.BusyIndicator.show();
 			// Get selected quarters
@@ -1079,8 +1050,8 @@ sap.ui.define([
 				// Variable to store the total points 
 				var totalPoints = 0;
 				// Get id from selected year 
-				var selectedYear = this.getView().byId("idSelectedYear").getText();
-
+				var selectedYear = this.getView().byId("idYearQuarterly").getText();
+		
 				// Iterate through array 
 				allData.forEach(function (obj) {
 					// Close Time column 
@@ -1125,34 +1096,6 @@ sap.ui.define([
 				obj.GrandTotal = grandTotal;
 				obj.MonthlyPoints = (smdPoints + monthlyPoints) * 3;
 				obj.RolloverPoints = rolloverPoints;
-
-				/*	
-					var dataObj = {};
-					dataObj.SelectedYear = selectedYear;
-					dataObj.TotalPoints = totalPoints;
-					dataObj.DataCollection = output;
-					dataObj.Collection = [{
-						Description: "Sustainment Request Points",
-						Points: totalPoints
-					}, {
-						Description: "Other Points",
-						Points: 0
-					}, {
-						Description: "Reveal BMA Points",
-						Points: revealSDMQuarterly
-					}, {
-						Description: "Grand Total",
-						Points: grandTotal
-					}, {
-						Description: "Points Consumed",
-						Points: grandTotal
-					}, {
-						Description: "Points Allowed",
-						Points: totalMonthlyPoints
-					}, {
-						Description: "Rollover Points",
-						Points: rolloverPoints
-					}]; */
 
 				// Create a model
 				var oModel = new sap.ui.model.json.JSONModel(obj);
@@ -1277,17 +1220,6 @@ sap.ui.define([
 				}
 			}
 
-			/*			// Array of month names 
-						var monthNames = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
-						// Create a new array 
-						var output = [];
-						// Convert month number to name 
-						for (var key in arrClosed) {
-							output.push({
-								Month: monthNames[key],
-								TotalPoints: arrClosed[key].TotalPoints
-							});
-						}*/
 
 			// Create a new object
 			var obj = {};
@@ -1330,13 +1262,6 @@ sap.ui.define([
 						}
 					}
 				}
-				/*yAxis: {
-					scale: {
-						fixedRange: true,
-						minValue: 0,
-						maxValue: 600
-					}
-				}*/
 			});
 
 			// Remove all feeds first 
@@ -1430,7 +1355,7 @@ sap.ui.define([
 			// Call method to set label visibility 
 			this.onShowData();
 			// Display table fragment 
-			this._showTableFragment("MonthlySummary");
+			this._showMonthlyFragment("MonthlySummary");
 			// Display footer fragment
 			this._showFooterFragment("QuarterFooter");
 
@@ -1446,14 +1371,28 @@ sap.ui.define([
 			reportModel.setSizeLimit(9999999999);
 			// Set model to the view
 			this.getView().setModel(reportModel, "ReportModel");
-			/*			// Remove table 
-						var oPage = this.getView().byId("idPanel");
-						oPage.removeAllContent();
-						// Remove footer 
-						var footer = this.getView().byId("footer");
-						footer.removeAllContent();*/
+		},
+		
+		_showMonthlyFragment: function (sFragmentName) {
+			var oPage = this.getView().byId("idPanel");
+
+			oPage.removeAllContent();
+
+			oPage.insertContent(this._getMonthlyFragment(sFragmentName));
 		},
 
+		_getMonthlyFragment: function (sFragmentName) {
+			var oFormFragment = this._formFragments[sFragmentName];
+
+			if (oFormFragment) {
+				return oFormFragment;
+			}
+			
+			oFormFragment = sap.ui.xmlfragment(this.getView().getId(), "lhsusext.view." + sFragmentName, this.getView().getController());
+
+			return this._formFragments[sFragmentName] = oFormFragment;
+		},
+		
 		handleMonthSelectionChange: function (oEvent) {
 			// Hide busy indicator
 			sap.ui.core.BusyIndicator.show();
@@ -1470,8 +1409,8 @@ sap.ui.define([
 				// Variable to store the total points 
 				var totalPoints = 0;
 				// Get id from selected year 
-				var selectedYear = this.getView().byId("idSelectedYear").getText();
-
+				var selectedYear = this.getView().byId("idYearMonthly").getText();
+			
 				// Iterate through array 
 				allData.forEach(function (obj) {
 					// Close Time column 

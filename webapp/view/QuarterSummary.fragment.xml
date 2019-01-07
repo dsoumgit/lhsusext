@@ -3,15 +3,15 @@
 	xmlns:core="sap.ui.core" xmlns:uni="sap.ui.unified.calendar">
 	<Panel height="auto" width="auto" class="sapUiResponsiveMargin">
 		<content>
-			<Table id="report" inset="false" items="{path: 'ReportModel>/DataCollection'}">
+			<Table inset="false" items="{path: 'ReportModel>/DataCollection'}">
 				<headerToolbar>
 					<Toolbar>
 						<Title text="Quarter Points Summary Report" level="H2"/>
 						<ToolbarSpacer/>
 						<Title text="Year:" level="H3"/>
-						<Text id="idSelectedYear" text="{path: 'ReportModel>/SelectedYear'}"/>
+						<Text id="idYearQuarterly" text="{path: 'ReportModel>/SelectedYear'}"/>
 						<Title text="Quarter:" level="H3"/>
-						<ComboBox id="comboQuarter" items="{path: '/Collection'}" placeholder="Select..." selectionChange="handleSelectionChange" width="200px">
+						<ComboBox id="comboQuarter" items="{path: '/Collection'}" placeholder="Select..." selectionChange="handleQuarterSelectionChange" width="200px">
 							<core:Item key="{Quarter}" text="{Key}"/>
 						</ComboBox>
 					</Toolbar>
