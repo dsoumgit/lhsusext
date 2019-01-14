@@ -142,21 +142,19 @@ sap.ui.define([
 
 				// Get viz frame id 
 				var oVizFrame = this.getView().byId("idVizFrame");
-				// Set the chart title 
-				var idVizFrame = this.getView().byId("idVizFrame");
 				// Format the data 		
 				Format.numericFormatter(ChartFormatter.getInstance());
 				var formatPattern = ChartFormatter.DefaultPattern;
 				// Create tool tip control
 				var oTooltip = new sap.viz.ui5.controls.VizTooltip({});
-				oTooltip.connect(idVizFrame.getVizUid());
+				oTooltip.connect(oVizFrame.getVizUid());
 				oTooltip.setFormatString(formatPattern.STANDARDFLOAT);
 				// Get pop over id for Essential 1 
 				var oPopover = this.getView().byId("idPopOver");
-				oPopover.connect(idVizFrame.getVizUid());
+				oPopover.connect(oVizFrame.getVizUid());
 				oPopover.setFormatString(ChartFormatter.DefaultPattern.Integer);
 				// Set title to the chart 
-				idVizFrame.setVizProperties({
+				oVizFrame.setVizProperties({
 					plotArea: {
 						colorPalette: ["rgb(88, 153, 218)", "rgb(0, 153, 0)", "rgb(255, 128, 0)",
 							"rgb(178, 102, 255)", "rgb(255, 153, 255)", "rgb(0, 255, 255)", "rgb(204, 0, 0)",
@@ -200,7 +198,6 @@ sap.ui.define([
 				oVizFrame.addFeed(feedValueAxis);
 				oVizFrame.addFeed(feedCategoryAxis);
 			}
-
 		},
 
 		groupBy: function (list) {
