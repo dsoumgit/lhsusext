@@ -897,7 +897,7 @@ sap.ui.define([
 			// Remove all feeds first 
 			oVizFrame.removeAllFeeds();
 			// Set viz type 
-			oVizFrame.setVizType("stacked_column");
+			oVizFrame.setVizType("column");
 			// Dataset
 			var oDataset = new sap.viz.ui5.data.FlattenedDataset({
 				dimensions: [{
