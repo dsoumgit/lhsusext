@@ -149,7 +149,7 @@
 																<viz.data:DimensionDefinition name="Month" value="{PointModel>Month}"/>
 															</viz.data:dimensions>
 															<viz.data:measures>
-																<viz.data:MeasureDefinition name="BMAPoints" value="{PointModel>BMAPoints}"/>
+																<!--<viz.data:MeasureDefinition name="BMAPoints" value="{PointModel>BMAPoints}"/>-->
 																<viz.data:MeasureDefinition name="ClosedRequests" value="{PointModel>ClosedRequests}"/>
 																<viz.data:MeasureDefinition name="Innovation" value="{PointModel>Innovation}"/>
 															</viz.data:measures>
@@ -157,7 +157,7 @@
 													</viz:dataset>
 													<viz:feeds>
 														<viz.feeds:FeedItem uid="valueAxis" type="Measure" values="ClosedRequests"/>
-														<viz.feeds:FeedItem uid="valueAxis" type="Measure" values="BMAPoints"/>
+														<!--<viz.feeds:FeedItem uid="valueAxis" type="Measure" values="BMAPoints"/>-->
 														<viz.feeds:FeedItem uid="valueAxis" type="Measure" values="Innovation"/>
 														<viz.feeds:FeedItem uid="categoryAxis" type="Dimension" values="Month"/>
 													</viz:feeds>

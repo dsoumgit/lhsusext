@@ -302,75 +302,93 @@ sap.ui.define([
 
 		// Monthly tickets
 		setTicketMonthly: function (arr) {
-			// Get current year 
-			var curYear = new Date().getFullYear();
-			// Copy an array 
-			var allData = arr.slice();
-			// Create new arrays
-			var countCreated = [];
-			var countClose = [];
-
-			// Iterate through array
-			for (var i = 0; i < allData.length; i++) {
-				// Select Created dates
-				var created = allData[i].Created;
-				// Convert to Date object
-				var createdDate = new Date(created);
-				// Get year
-				var yearCreated = createdDate.getFullYear();
-				// Get year
-				if (yearCreated === curYear) {
-
-					/********** Created *************/
-					// Select each month
-					var dateCreated = allData[i].Created;
-					// Conver to date 
-					var dateCreatedObj = new Date(dateCreated);
-					// Get month 
-					var monthCreated = dateCreatedObj.getMonth();
-					// Count number of each month
-					countCreated[monthCreated] = (countCreated[monthCreated] || 0) + 1;
+			// Copy the array 
+			var allRecords = arr.slice(); 
+			// Define a new object 
+			var resultCreated = {};
+			// Filter the current year 
+			allRecords.filter(function (obj) {
+				// Return the array objects of current year
+				return (new Date(obj.Created).getFullYear() === new Date().getFullYear());
+			}).forEach(function (elem) {
+				// Get Created date 
+				var createdMonth = new Date(elem.Created).getMonth();
+				// Create each month 
+				if (resultCreated[createdMonth] === undefined) {
+					resultCreated[createdMonth] = [elem];
+				} else {
+					resultCreated[createdMonth].push(elem);
 				}
+			});
 
-				/********** Close Time *************/
-				// Select Close Time dates
-				var closeTime = allData[i]["Close Time"];
-				// Convert to date 
-				var closeDate = new Date(closeTime);
-				// Get year 
-				var closeYear = closeDate.getFullYear();
-				// Get State
-				var state = allData[i].State;
-				if (closeYear === curYear && state === "closed successful") {
-					// Select each month
-					var dateClosed = allData[i]["Close Time"];
-					// Conver to date 
-					var dateClosedObj = new Date(dateClosed);
-					// Get month
-					var monthClosed = dateClosedObj.getMonth();
-					// Count number of each month
-					countClose[monthClosed] = (countClose[monthClosed] || 0) + 1;
-				}
-			}
-
-			var mappedResult = [];
-			// Array of months
-			var monthName = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
-			// Store a collection 
-			for (var j = 0; j < countCreated.length; j++) {
-				mappedResult.push({
-					Month: monthName[j],
-					CreatedRequests: countCreated[j] | 0,
-					ClosedRequests: countClose[j] | 0
+			// Create a new array to store the result 
+			var outputCreated = [];
+			//	var monthNames = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+			for (var key in resultCreated) {
+				outputCreated.push({
+					"Month": parseInt(key, 10),
+					"CreatedRequests": resultCreated[key].length
 				});
 			}
 
+			// Create a new object 
+			var resultClosed = {};
+			// Filter the Close Time and State 
+			allRecords.filter(function (obj) {
+				// Get State field 
+				var state = obj.State;
+				// Check the current year
+				return (new Date(obj["Close Time"]).getFullYear() === new Date().getFullYear() && state === "closed successful");
+			}).forEach(function (elem) {
+				// Get Close Time date 
+				var closedMonth = new Date(elem["Close Time"]).getMonth();
+
+				// Create each month 
+				if (resultClosed[closedMonth] === undefined) {
+					resultClosed[closedMonth] = [elem];
+				} else {
+					resultClosed[closedMonth].push(elem);
+				}
+			});
+
+			
+			// Create a new array to store the result 
+			var outputClosed = [];
+			for (var key in resultClosed) {
+				outputClosed.push({
+					"Month": parseInt(key, 10),
+					"ClosedRequests": resultClosed[key].length
+				});
+			}
+
+			/***
+			 * Merge two arrays with the same values ***
+			 */
+			// Copy array 1 
+			var output = outputCreated.slice();
+			// Loop through array 2 
+			outputClosed.forEach(function (elem) {
+				// find month and return the object that is found 
+				var found = output.find(function (i) {
+					return elem.Month === i.Month;
+				});
+
+				// Check if found
+				if (found) {
+					// add a new property to the current object 
+					found.ClosedRequests = elem.ClosedRequests;
+				} else {
+					// add it if not found 
+					output.push(elem);
+				}
+			});
+			
 			// Create a new object
 			var obj = {};
 			// Update the title 
-			obj.Title = "Points Consumption by Month";
+			obj.Title = "Overview of Open vs Closed Sustainment Request by Month";
 			// Store as a collection
-			obj.Collection = mappedResult;
+			obj.Collection = output;
 
 			// Create a model and set data 
 			var oModel = new sap.ui.model.json.JSONModel(obj);
@@ -379,16 +397,6 @@ sap.ui.define([
 
 			// Get vizframe id 
 			var oVizFrame = this.getView().byId("idVizFrame");
-			// Set viz prop
-			/*oVizFrame.setVizProperties({
-				yAxis: {
-					scale: {
-						fixedRange: true,
-						minValue: 0,
-						maxValue: 10
-					}
-				}
-			});*/
 			// Remove all feeds first 
 			oVizFrame.removeAllFeeds();
 			// Set viz type 
@@ -810,7 +818,7 @@ sap.ui.define([
 					}
 				}
 			}
-
+			
 			i = 0;
 			// Iterate through array
 			for (var i = 0; i < allData.length; i++) {
@@ -833,8 +841,12 @@ sap.ui.define([
 						// Get Quarter
 						var quarter = obj.Quarter;
 						if (quarter === closeQuarter) {
+							// Get BMA Points 
+							var bmaPoints = obj.BMAPoints; 
 							// add points 
 							obj.TotalPoints += allData[i].Points;
+							// add bma points 
+							obj.TotalPoints += bmaPoints; 
 						}
 					});
 
@@ -895,10 +907,10 @@ sap.ui.define([
 				measures: [{
 					name: "TotalPoints",
 					value: "{TotalPoints}"
-				}, {
+				}/*, {
 					name: "BMAPoints",
 					value: "{BMAPoints}"
-				}],
+				}*/],
 				data: {
 					path: "/Collection"
 				}
@@ -911,7 +923,7 @@ sap.ui.define([
 			var feedValueAxis = new sap.viz.ui5.controls.common.feeds.FeedItem({
 					"uid": "valueAxis",
 					"type": "Measure",
-					"values": ["TotalPoints", "BMAPoints"]
+					"values": ["TotalPoints"]
 				}),
 				feedCategoryAxis = new sap.viz.ui5.controls.common.feeds.FeedItem({
 					"uid": "categoryAxis",
@@ -989,7 +1001,6 @@ sap.ui.define([
 			reportModel.setSizeLimit(9999999999);
 			// Set model to the view
 			this.getView().setModel(reportModel, "ReportModel");
-
 		},
 
 		_showQuarterFragment: function (sFragmentName) {

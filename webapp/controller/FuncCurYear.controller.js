@@ -86,45 +86,80 @@ sap.ui.define([
 					}
 				}
 			}
+			
+			// Get viz frame id 
+			var oVizFrame = this.getView().byId("idVizFrame");
+			// Remove all feeds first 
+			oVizFrame.removeAllFeeds();
+			// Format the data 		
+			Format.numericFormatter(ChartFormatter.getInstance());
+			var formatPattern = ChartFormatter.DefaultPattern;
+			// Create tool tip control
+			var oTooltip = new sap.viz.ui5.controls.VizTooltip({});
+			oTooltip.connect(oVizFrame.getVizUid());
+			oTooltip.setFormatString(formatPattern.STANDARDFLOAT);
+			// Get pop over id for Essential 1 
+			var oPopover = this.getView().byId("idPopOver");
+			oPopover.connect(oVizFrame.getVizUid());
+			oPopover.setFormatString(ChartFormatter.DefaultPattern.Integer);
+			// Set title to the chart 
+			oVizFrame.setVizProperties({
+				plotArea: {
+					colorPalette: ["rgb(88, 153, 218)", "rgb(0, 153, 0)", "rgb(255, 128, 0)",
+						"rgb(178, 102, 255)", "rgb(255, 153, 255)", "rgb(0, 255, 255)", "rgb(204, 0, 0)",
+						"rgb(255, 255, 0)", "rgb(51, 0, 25)"
+					]
+				},
+				title: {
+					text: today.getFullYear()
+				}
+			});
 
-			// Create an array to store each month
-			var mappedResult = [];
-			var queueArr = [];
-			// Array of months
-			// above on line 73/74 we are adding 1 to Created Month to get the months from 1 to 12 digits
-			// here we are creating array of Months which would be created from 0 to 11.  To match the above logic
-			// add a dummy month in the beginning so it matches 1-12 count above
-			// later we would match these two array indexes to get the number of requests created total
-			var monthName = ["UND", "JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+			// Create a new json model
+			var oModel = new sap.ui.model.json.JSONModel();
+			// Create a new object
+			var obj = {};
+			// Check if empty object 
+			if (Object.keys(result).length === 0) {
+				// Store collection 
+				obj.Collection = null;
+				// Set data to the model
+				oModel.setData(obj);
+				// Set the model to the view 
+				this.getView().setModel(oModel);
+			} else {
+				// Create an array to store each month
+				var mappedResult = [];
+				// Array of months
+				// above on line 73/74 we are adding 1 to Created Month to get the months from 1 to 12 digits
+				// here we are creating array of Months which would be created from 0 to 11.  To match the above logic
+				// add a dummy month in the beginning so it matches 1-12 count above
+				// later we would match these two array indexes to get the number of requests created total
+				var monthName = ["UND", "JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
 
-			// Create unique names
-			var uniqueNames = [];
-			for (var key in result) {
+				// Create unique names
+				var uniqueNames = [];
+				for (var key in result) {
 
-				var groups = this.groupBy(result[key]);
-				// Create Month key and value 
-				groups["Month"] = monthName[key];
-				// Store groups to new array 
-				mappedResult.push(groups);
+					var groups = this.groupBy(result[key]);
+					// Create Month key and value 
+					groups["Month"] = monthName[key];
+					// Store groups to new array 
+					mappedResult.push(groups);
 
-				// Create dynamic queue 
-				result[key].forEach(function (obj) {
-					//	queueArr.push(obj);
-					// Check the element if it is not in array
-					if ($.inArray(obj, uniqueNames) === -1 || $.inArray(obj, uniqueNames) === "") {
-						// Add to the new array
-						uniqueNames.push(obj);
-					}
-				});
-			}
+					// Create dynamic queue 
+					result[key].forEach(function (obj) {
+						//	queueArr.push(obj);
+						// Check the element if it is not in array
+						if ($.inArray(obj, uniqueNames) === -1 || $.inArray(obj, uniqueNames) === "") {
+							// Add to the new array
+							uniqueNames.push(obj);
+						}
+					});
+				}
 
-			if (mappedResult.length !== 0) {
-				// Create a new object
-				var obj = {};
 				// Store collection 
 				obj.Collection = mappedResult;
-				// Create a new json model
-				var oModel = new sap.ui.model.json.JSONModel();
 				// Set data to the model
 				oModel.setData(obj);
 				// Set the model to the view 
@@ -139,32 +174,6 @@ sap.ui.define([
 						"value": "{" + uniqueNames[key] + "}"
 					});
 				}
-
-				// Get viz frame id 
-				var oVizFrame = this.getView().byId("idVizFrame");
-				// Format the data 		
-				Format.numericFormatter(ChartFormatter.getInstance());
-				var formatPattern = ChartFormatter.DefaultPattern;
-				// Create tool tip control
-				var oTooltip = new sap.viz.ui5.controls.VizTooltip({});
-				oTooltip.connect(oVizFrame.getVizUid());
-				oTooltip.setFormatString(formatPattern.STANDARDFLOAT);
-				// Get pop over id for Essential 1 
-				var oPopover = this.getView().byId("idPopOver");
-				oPopover.connect(oVizFrame.getVizUid());
-				oPopover.setFormatString(ChartFormatter.DefaultPattern.Integer);
-				// Set title to the chart 
-				oVizFrame.setVizProperties({
-					plotArea: {
-						colorPalette: ["rgb(88, 153, 218)", "rgb(0, 153, 0)", "rgb(255, 128, 0)",
-							"rgb(178, 102, 255)", "rgb(255, 153, 255)", "rgb(0, 255, 255)", "rgb(204, 0, 0)",
-							"rgb(255, 255, 0)", "rgb(51, 0, 25)"
-						]
-					},
-					title: {
-						text: today.getFullYear()
-					}
-				});
 
 				// Create dataset
 				var oDataset = new sap.viz.ui5.data.FlattenedDataset({
