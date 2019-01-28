@@ -1226,6 +1226,10 @@ sap.ui.define([
 						if (month === monthClosed) {
 							// Get points 
 							arrClosed[j].TotalPoints += allData[k].Points;
+							// Get BMAPoints
+							var bmaPoints = arrClosed[j].BMAPoints;
+							// Add bma points to the total 
+							arrClosed[j].TotalPoints += bmaPoints;
 						}
 					}
 				}
@@ -1278,7 +1282,7 @@ sap.ui.define([
 			// Remove all feeds first 
 			oVizFrame.removeAllFeeds();
 			// Set viz type
-			oVizFrame.setVizType("stacked_column");
+			oVizFrame.setVizType("column");
 			// Create dataset 
 			var oDataset = new sap.viz.ui5.data.FlattenedDataset({
 				dimensions: [{
@@ -1288,9 +1292,6 @@ sap.ui.define([
 				measures: [{
 					name: "TotalPoints",
 					value: "{TotalPoints}"
-				}, {
-					name: "BMAPoints",
-					value: "{BMAPoints}"
 				}],
 				data: {
 					path: "/Collection"
@@ -1305,7 +1306,7 @@ sap.ui.define([
 			var feedValueAxis = new sap.viz.ui5.controls.common.feeds.FeedItem({
 					"uid": "valueAxis",
 					"type": "Measure",
-					"values": ["TotalPoints", "BMAPoints"]
+					"values": ["TotalPoints"]
 				}),
 				feedCategoryAxis = new sap.viz.ui5.controls.common.feeds.FeedItem({
 					"uid": "categoryAxis",
