@@ -33,7 +33,7 @@
 													<viz:dataset>
 														<viz.data:FlattenedDataset data="{path: '/Collection', sorter: { path: 'Month'} }">
 															<viz.data:dimensions>
-																<viz.data:DimensionDefinition name="Month" value="{path: 'Month', formatter: 'lhsusext.util.formatter.formatMonth'}"/>
+																<viz.data:DimensionDefinition name="Month" value="{path: 'Month', formatter: '.formatter.formatMonth'}"/>
 															</viz.data:dimensions>
 															<viz.data:measures>
 																<viz.data:MeasureDefinition name="CreatedRequests" value="{CreatedRequests}"/>
@@ -86,7 +86,7 @@
 											<cells>
 												<Text text="{OldData>Ticket#}"/>
 												<Text text="{OldData>Title}"/>
-												<Text text="{path: 'OldData>Created', formatter: 'lhsusext.util.formatter.dateFormat'}"/>
+												<Text text="{OldData>Created}"/>
 												<Text text="{OldData>State}"/>
 												<Text text="{OldData>Customer User}"/>
 												<Text text="{OldData>Functional Area}"/>

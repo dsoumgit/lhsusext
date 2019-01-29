@@ -7,16 +7,15 @@
  *	the Queue column. 
  */
 
-jQuery.sap.require("lhsusext.util.formatter");
-
 sap.ui.define([
 	"lhsusext/controller/BaseController",
 	"sap/viz/ui5/format/ChartFormatter",
-	"sap/viz/ui5/api/env/Format"
+	"sap/viz/ui5/api/env/Format",
 ], function (BaseController, ChartFormatter, Format) {
 	"use strict";
 
 	return BaseController.extend("lhsusext.controller.FuncCurYear", {
+		
 		onInit: function () {
 			this.bus = sap.ui.component(sap.ui.core.Component.getOwnerIdFor(this.getView())).getEventBus();
 

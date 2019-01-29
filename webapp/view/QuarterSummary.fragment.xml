@@ -56,7 +56,7 @@
 						<cells>
 							<Text text="{ReportModel>Ticket#}"/>
 							<Text text="{ReportModel>Title}"/>
-							<Text text="{path: 'ReportModel>Close Time', sorter: {path: 'Close Time'}, formatter: 'lhsusext.util.formatter.dateFormat'}"/>
+							<Text text="{path: 'ReportModel>Close Time', sorter: {path: 'Close Time'}}"/>
 							<Text text="{ReportModel>State}"/>
 							<Text text="{ReportModel>Priority}"/>
 							<Text text="{ReportModel>Customer User}"/>

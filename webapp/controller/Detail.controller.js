@@ -21,18 +21,19 @@
  *		One bucket for all closed tickets that are not INNOVATION or SDM 
  */
 
-jQuery.sap.require("lhsusext.util.formatter");
-
 sap.ui.define([
 	"lhsusext/controller/BaseController",
 	"sap/ui/commons/Carousel",
 	"sap/viz/ui5/format/ChartFormatter",
-	"sap/viz/ui5/api/env/Format"
-], function (BaseController, Carousel, ChartFormatter, Format) {
+	"sap/viz/ui5/api/env/Format",
+	"lhsusext/model/formatter"	// include formatter 
+], function (BaseController, Carousel, ChartFormatter, Format, formatter) {
 	"use strict";
 
 	return BaseController.extend("lhsusext.controller.Detail", {
-
+		// formatter js 
+		formatter: formatter, 
+		
 		onInit: function () {
 			this.bus = sap.ui.component(sap.ui.core.Component.getOwnerIdFor(this.getView())).getEventBus();
 

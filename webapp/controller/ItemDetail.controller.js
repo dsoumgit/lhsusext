@@ -13,16 +13,19 @@
 /* global moment:true */
 jQuery.sap.require("sap.ui.core.format.DateFormat");
 jQuery.sap.require("sap.m.MessageBox");
-jQuery.sap.require("lhsusext.util.formatter");
 
 sap.ui.define([
 	"lhsusext/controller/BaseController",
 	"sap/viz/ui5/format/ChartFormatter",
-	"sap/viz/ui5/api/env/Format"
-], function (BaseController, ChartFormatter, Format) {
+	"sap/viz/ui5/api/env/Format",
+	"lhsusext/model/formatter" // include formatter js 
+], function (BaseController, ChartFormatter, Format, formatter) {
 	"use strict";
 
 	return BaseController.extend("lhsusext.controller.ItemDetail", {
+		// formatter js 
+		formatter: formatter,
+
 		onInit: function () {
 
 			// Get vizframe id 
@@ -58,6 +61,8 @@ sap.ui.define([
 			var dataModel = this.getOwnerComponent().getModel("Data");
 			// Get data 
 			var allData = dataModel.getData().AllData;
+			// Display busy indicator 
+			this.getView().setBusy(true); 
 			// Check the page name 
 			if (sName === "itemDetail") {
 				// Get entity path 
@@ -183,7 +188,7 @@ sap.ui.define([
 					output.push(obj);
 				}
 			});
-			
+
 			// Create a new object
 			var obj = {};
 			// Set the title 
@@ -247,6 +252,9 @@ sap.ui.define([
 			// Remove footer 
 			var footer = this.getView().byId("footer");
 			footer.removeAllContent();
+			
+			// Hide busy indicator 
+			this.getView().setBusy(false); 
 		},
 
 		getEachQuarter: function (arr) {
@@ -303,7 +311,7 @@ sap.ui.define([
 		// Monthly tickets
 		setTicketMonthly: function (arr) {
 			// Copy the array 
-			var allRecords = arr.slice(); 
+			var allRecords = arr.slice();
 			// Define a new object 
 			var resultCreated = {};
 			// Filter the current year 
@@ -351,7 +359,6 @@ sap.ui.define([
 				}
 			});
 
-			
 			// Create a new array to store the result 
 			var outputClosed = [];
 			for (var key in resultClosed) {
@@ -382,7 +389,7 @@ sap.ui.define([
 					output.push(elem);
 				}
 			});
-			
+
 			// Create a new object
 			var obj = {};
 			// Update the title 
@@ -448,6 +455,9 @@ sap.ui.define([
 			// Remove footer 
 			var footer = this.getView().byId("footer");
 			footer.removeAllContent();
+			
+			// Hide busy indicator 
+			this.getView().setBusy(false); 
 		},
 
 		// Weekly tickets 
@@ -502,7 +512,7 @@ sap.ui.define([
 					arrClosed.push(monthClosed);
 				}
 			}
-
+		
 			// Get weekly data for each date			
 			var weeklyCreated = that.getWeeklyDates(arrCreated);
 			var weeklyClosed = that.getWeeklyDates(arrClosed);
@@ -566,7 +576,7 @@ sap.ui.define([
 			output.sort(function (a, b) {
 				return numWk(a) - numWk(b);
 			});
-		
+
 			// If no data is found 
 			if (output.length !== 0) {
 				// Get vizframe id 
@@ -647,6 +657,9 @@ sap.ui.define([
 			// Remove footer 
 			var footer = this.getView().byId("footer");
 			footer.removeAllContent();
+			
+			// Hide busy indicator 
+			this.getView().setBusy(false); 
 		},
 
 		getWeeklyDates: function (arr) {
@@ -818,7 +831,7 @@ sap.ui.define([
 					}
 				}
 			}
-			
+
 			i = 0;
 			// Iterate through array
 			for (var i = 0; i < allData.length; i++) {
@@ -842,11 +855,11 @@ sap.ui.define([
 						var quarter = obj.Quarter;
 						if (quarter === closeQuarter) {
 							// Get BMA Points 
-							var bmaPoints = obj.BMAPoints; 
+							var bmaPoints = obj.BMAPoints;
 							// add points 
 							obj.TotalPoints += allData[i].Points;
 							// add bma points 
-							obj.TotalPoints += bmaPoints; 
+							obj.TotalPoints += bmaPoints;
 						}
 					});
 
@@ -901,16 +914,34 @@ sap.ui.define([
 			// Dataset
 			var oDataset = new sap.viz.ui5.data.FlattenedDataset({
 				dimensions: [{
-					name: "Quarter",
-					value: "{path: 'Quarter', formatter: 'lhsusext.util.formatter.formatQuarter'}"
+						name: "Quarter",
+					//	value: "{path: 'Quarter', formatter: '.formatter.formatQuarter'}"
+					value: {
+						parts: [{
+							path: "Quarter"
+						}],
+						formatter: function (Quarter) {
+							// Define quarter variable 
+							var quarter = "";
+							if (Quarter === 1) {
+								quarter = "Q1";
+							} else if (Quarter === 2) {
+								quarter = "Q2";
+							} else if (Quarter === 3) {
+								quarter = "Q3";
+							} else if (Quarter === 4) {
+								quarter = "Q4";
+							}
+							
+							// Return quarter 
+							return quarter; 
+						}
+					}
 				}],
 				measures: [{
 					name: "TotalPoints",
 					value: "{TotalPoints}"
-				}/*, {
-					name: "BMAPoints",
-					value: "{BMAPoints}"
-				}*/],
+				}],
 				data: {
 					path: "/Collection"
 				}
@@ -963,7 +994,7 @@ sap.ui.define([
 			output = output.sort(function (a, b) {
 				return (new Date(a["Close Time"]) - new Date(b["Close Time"]));
 			});
-			
+
 			// Calculate Reveal SDM points multiplying by 3 
 			var revealSDMQuarterly = sdmPoints * 3;
 			var totalMonthlyPoints = (sdmPoints + monthlyPoints) * 3;
@@ -1001,6 +1032,9 @@ sap.ui.define([
 			reportModel.setSizeLimit(9999999999);
 			// Set model to the view
 			this.getView().setModel(reportModel, "ReportModel");
+			
+			// Hide busy indicator 
+			this.getView().setBusy(false); 
 		},
 
 		_showQuarterFragment: function (sFragmentName) {
@@ -1017,7 +1051,7 @@ sap.ui.define([
 			if (oFormFragment) {
 				return oFormFragment;
 			}
-			
+
 			oFormFragment = sap.ui.xmlfragment(this.getView().getId(), "lhsusext.view." + sFragmentName, this.getView().getController());
 
 			return this._formFragments[sFragmentName] = oFormFragment;
@@ -1044,7 +1078,7 @@ sap.ui.define([
 
 			return this._formFragments[sFragmentName] = oFormFragment;
 		},
-		
+
 		handleQuarterSelectionChange: function (oEvent) {
 			// Hide busy indicator
 			sap.ui.core.BusyIndicator.show();
@@ -1062,7 +1096,7 @@ sap.ui.define([
 				var totalPoints = 0;
 				// Get id from selected year 
 				var selectedYear = this.getView().byId("idYearQuarterly").getText();
-		
+
 				// Iterate through array 
 				allData.forEach(function (obj) {
 					// Close Time column 
@@ -1235,7 +1269,6 @@ sap.ui.define([
 				}
 			}
 
-
 			// Create a new object
 			var obj = {};
 			// Set the title 
@@ -1383,8 +1416,11 @@ sap.ui.define([
 			reportModel.setSizeLimit(9999999999);
 			// Set model to the view
 			this.getView().setModel(reportModel, "ReportModel");
+			
+			// Hide busy indicator 
+			this.getView().setBusy(false); 
 		},
-		
+
 		_showMonthlyFragment: function (sFragmentName) {
 			var oPage = this.getView().byId("idPanel");
 
@@ -1399,12 +1435,12 @@ sap.ui.define([
 			if (oFormFragment) {
 				return oFormFragment;
 			}
-			
+
 			oFormFragment = sap.ui.xmlfragment(this.getView().getId(), "lhsusext.view." + sFragmentName, this.getView().getController());
 
 			return this._formFragments[sFragmentName] = oFormFragment;
 		},
-		
+
 		handleMonthSelectionChange: function (oEvent) {
 			// Hide busy indicator
 			sap.ui.core.BusyIndicator.show();
@@ -1422,7 +1458,7 @@ sap.ui.define([
 				var totalPoints = 0;
 				// Get id from selected year 
 				var selectedYear = this.getView().byId("idYearMonthly").getText();
-			
+
 				// Iterate through array 
 				allData.forEach(function (obj) {
 					// Close Time column 
