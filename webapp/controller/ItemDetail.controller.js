@@ -1005,7 +1005,7 @@ sap.ui.define([
 			newObj.DataCollection = output;
 			newObj.SelectedYear = currentYear;
 			newObj.CurrentQuarter = currentQuarter;
-			newObj.TotalPoints = totalPoints;
+			newObj.TotalPoints = totalPoints + revealSDMQuarterly;
 			newObj.RevealSDM = revealSDMQuarterly;
 			newObj.GrandTotal = grandTotal;
 			newObj.MonthlyPoints = totalMonthlyPoints;
@@ -1136,7 +1136,7 @@ sap.ui.define([
 				// Store as a collection
 				obj.DataCollection = output;
 				obj.SelectedYear = selectedYear;
-				obj.TotalPoints = totalPoints;
+				obj.TotalPoints = totalPoints + revealSDMQuarterly;
 				obj.RevealSDM = revealSDMQuarterly;
 				obj.GrandTotal = grandTotal;
 				obj.MonthlyPoints = (smdPoints + monthlyPoints) * 3;
@@ -1391,7 +1391,7 @@ sap.ui.define([
 			newObj.DataCollection = output;
 			newObj.SelectedYear = currentYear;
 			newObj.CurrentMonth = currentMonth;
-			newObj.TotalPoints = totalPoints;
+			newObj.TotalPoints = totalPoints + revealSDMMonthly;
 			newObj.RevealSDM = revealSDMMonthly;
 			newObj.GrandTotal = grandTotal;
 			newObj.MonthlyPoints = totalMonthlyPoints;
@@ -1498,7 +1498,7 @@ sap.ui.define([
 				// Store as a collection
 				obj.DataCollection = output;
 				obj.SelectedYear = selectedYear;
-				obj.TotalPoints = totalPoints;
+				obj.TotalPoints = totalPoints + revealSDMMonthly;
 				obj.RevealSDM = revealSDMMonthly;
 				obj.GrandTotal = grandTotal;
 				obj.MonthlyPoints = (sdmPoints + monthlyPoints);
