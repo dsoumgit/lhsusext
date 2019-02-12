@@ -202,6 +202,32 @@ sap.ui.define([
 
 			// Get vizframe id 
 			var oVizFrame = this.getView().byId("idVizFrame");
+			// Set viz properties 
+			oVizFrame.setVizProperties({
+				plotArea: {
+					dataLabel: {
+						showTotal: true
+					},
+					colorPalette: ["rgb(88, 153, 218)", "rgb(232, 116, 59)"],
+					referenceLine: {
+						line: {
+							valueAxis: [{
+								visible: false,
+								size: 3,
+								type: "solid",
+								color: "#FF0000",
+								label: {
+									visible: false
+								}
+							}]
+						}
+					},
+					primaryScale: {
+						fixedRange: false,
+						minValue: 0
+					}
+				}
+			});
 			// Remove all feeds first 
 			oVizFrame.removeAllFeeds();
 			// Set viz type
@@ -396,7 +422,7 @@ sap.ui.define([
 			obj.Title = "Overview of Open vs Closed Sustainment Request by Month";
 			// Store as a collection
 			obj.Collection = output;
-
+			
 			// Create a model and set data 
 			var oModel = new sap.ui.model.json.JSONModel(obj);
 			// Set model to the view
@@ -404,6 +430,32 @@ sap.ui.define([
 
 			// Get vizframe id 
 			var oVizFrame = this.getView().byId("idVizFrame");
+			// Set viz properties 
+			oVizFrame.setVizProperties({
+				plotArea: {
+					dataLabel: {
+						showTotal: true
+					},
+					colorPalette: ["rgb(88, 153, 218)", "rgb(232, 116, 59)"],
+					referenceLine: {
+						line: {
+							valueAxis: [{
+								visible: false,
+								size: 3,
+								type: "solid",
+								color: "#FF0000",
+								label: {
+									visible: false
+								}
+							}]
+						}
+					},
+					primaryScale: {
+						fixedRange: false,
+						minValue: 0
+					}
+				}
+			});
 			// Remove all feeds first 
 			oVizFrame.removeAllFeeds();
 			// Set viz type 
@@ -413,7 +465,46 @@ sap.ui.define([
 			var oDataset = new sap.viz.ui5.data.FlattenedDataset({
 				dimensions: [{
 					name: "Month",
-					value: "{Month}"
+					//	value: "{Month}"
+					// format month into wording
+					value: {
+						parts: [{
+							path: "Month"
+						}],
+						formatter: function (Month) {
+							// define month variable 
+							var month = ""; 
+							// check each month 
+							if (Month === 0) {
+								month = "JAN";
+							} else if (Month === 1) {
+								Month = "FEB";
+							} else if (Month === 2) {
+								month = "MAR";
+							} else if (Month === 3) {
+								month = "APR";
+							} else if (Month === 4) {
+								month = "MAY";
+							} else if (Month === 5) {
+								month = "JUN";
+							} else if (Month === 6) {
+								month = "JUL";
+							} else if (Month === 7) {
+								month = "AUG";
+							} else if (Month === 8) {
+								month = "SEP";
+							} else if (Month === 9) {
+								month = "OCT";
+							} else if (Month === 10) {
+								month = "NOV";
+							} else if (Month === 11) {
+								month = "DEC";
+							}
+							
+							// return month 
+							return month; 
+						}
+					}
 				}],
 				measures: [{
 					name: "CreatedRequests",
@@ -608,6 +699,32 @@ sap.ui.define([
 
 			// Get vizframe id 
 			var oVizFrame = this.getView().byId("idVizFrame");
+			// Set viz properties 
+			oVizFrame.setVizProperties({
+				plotArea: {
+					dataLabel: {
+						showTotal: true
+					},
+					colorPalette: ["rgb(88, 153, 218)", "rgb(232, 116, 59)"],
+					referenceLine: {
+						line: {
+							valueAxis: [{
+								visible: false,
+								size: 3,
+								type: "solid",
+								color: "#FF0000",
+								label: {
+									visible: false
+								}
+							}]
+						}
+					},
+					primaryScale: {
+						fixedRange: false,
+						minValue: 0
+					}
+				}
+			});
 			// Remove all feeds first 
 			oVizFrame.removeAllFeeds();
 			// Set viz type 
@@ -877,33 +994,33 @@ sap.ui.define([
 			var oModel = new sap.ui.model.json.JSONModel(obj);
 			// Set model to the view
 			this.getView().setModel(oModel);
-			
+
 			// Store total points array 
 			var result = [];
 			// filter by total points 
- 			arrClosed.filter(function (elem) {
- 				// save total points 
- 				result.push(elem.TotalPoints);	
- 			});
-			
+			arrClosed.filter(function (elem) {
+				// save total points 
+				result.push(elem.TotalPoints);
+			});
+
 			// return max number
- 			var maxNum = result.reduce(function (a, b) {
- 				return Math.max(a, b);
- 			});
- 			
- 			// Get Monthly Points 
- 			var monthlyPoints = this.getView().getModel("Global").getData().MonthlyPoints;
- 			// Total each quarter 
- 			var totalQuarter = (sdmPoints + monthlyPoints) * 3; 
- 			// define max value 
- 			var maxVal = ""; 
- 			// check if max number is greater than total quarter 
- 			if (maxNum < totalQuarter) {
- 				maxVal = totalQuarter; 
- 			} else {
- 				maxVal = maxNum; 
- 			}
- 			
+			var maxNum = result.reduce(function (a, b) {
+				return Math.max(a, b);
+			});
+
+			// Get Monthly Points 
+			var monthlyPoints = this.getView().getModel("Global").getData().MonthlyPoints;
+			// Total each quarter 
+			var totalQuarter = (sdmPoints + monthlyPoints) * 3;
+			// define max value 
+			var maxVal = "";
+			// check if max number is greater than total quarter 
+			if (maxNum < totalQuarter) {
+				maxVal = totalQuarter;
+			} else {
+				maxVal = maxNum;
+			}
+
 			// Get vizframe id 
 			var oVizFrame = this.getView().byId("idVizFrame");
 			// Set viz properties 
@@ -1312,32 +1429,32 @@ sap.ui.define([
 			oModel.setData(obj);
 			// Set model to the view
 			this.getView().setModel(oModel);
-			
+
 			// Store total points array 
 			var result = [];
 			// filter by total points 
- 			arrClosed.filter(function (elem) {
- 				// save total points 
- 				result.push(elem.TotalPoints);	
- 			});
-			
+			arrClosed.filter(function (elem) {
+				// save total points 
+				result.push(elem.TotalPoints);
+			});
+
 			// return max number
- 			var maxNum = result.reduce(function (a, b) {
- 				return Math.max(a, b);
- 			});
- 			
- 			// Get Monthly Points 
- 			var monthlyPoints = this.getView().getModel("Global").getData().MonthlyPoints;
- 			// Total each quarter 
- 			var totalQuarter = sdmPoints + monthlyPoints; 
- 			// define max value 
- 			var maxVal = ""; 
- 			// check if max number is greater than total quarter 
- 			if (maxNum < totalQuarter) {
- 				maxVal = totalQuarter; 
- 			} else {
- 				maxVal = maxNum; 
- 			}
+			var maxNum = result.reduce(function (a, b) {
+				return Math.max(a, b);
+			});
+
+			// Get Monthly Points 
+			var monthlyPoints = this.getView().getModel("Global").getData().MonthlyPoints;
+			// Total each quarter 
+			var totalQuarter = sdmPoints + monthlyPoints;
+			// define max value 
+			var maxVal = "";
+			// check if max number is greater than total quarter 
+			if (maxNum < totalQuarter) {
+				maxVal = totalQuarter;
+			} else {
+				maxVal = maxNum;
+			}
 			// Get vizframe id 
 			var oVizFrame = this.getView().byId("idVizFrame");
 			// Add reference line
