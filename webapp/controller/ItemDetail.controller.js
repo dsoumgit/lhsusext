@@ -877,11 +877,35 @@ sap.ui.define([
 			var oModel = new sap.ui.model.json.JSONModel(obj);
 			// Set model to the view
 			this.getView().setModel(oModel);
-
+			
+			// Store total points array 
+			var result = [];
+			// filter by total points 
+ 			arrClosed.filter(function (elem) {
+ 				// save total points 
+ 				result.push(elem.TotalPoints);	
+ 			});
+			
+			// return max number
+ 			var maxNum = result.reduce(function (a, b) {
+ 				return Math.max(a, b);
+ 			});
+ 			
+ 			// Get Monthly Points 
+ 			var monthlyPoints = this.getView().getModel("Global").getData().MonthlyPoints;
+ 			// Total each quarter 
+ 			var totalQuarter = (sdmPoints + monthlyPoints) * 3; 
+ 			// define max value 
+ 			var maxVal = ""; 
+ 			// check if max number is greater than total quarter 
+ 			if (maxNum < totalQuarter) {
+ 				maxVal = totalQuarter; 
+ 			} else {
+ 				maxVal = maxNum; 
+ 			}
+ 			
 			// Get vizframe id 
 			var oVizFrame = this.getView().byId("idVizFrame");
-			// Get Monthly Points 
-			var monthlyPoints = this.getView().getModel("Global").getData().MonthlyPoints;
 			// Set viz properties 
 			oVizFrame.setVizProperties({
 				plotArea: {
@@ -906,7 +930,7 @@ sap.ui.define([
 					},
 					primaryScale: {
 						fixedRange: true,
-						maxValue: 2000,
+						maxValue: maxVal,
 						minValue: 0
 					}
 				}
@@ -1288,11 +1312,34 @@ sap.ui.define([
 			oModel.setData(obj);
 			// Set model to the view
 			this.getView().setModel(oModel);
-
+			
+			// Store total points array 
+			var result = [];
+			// filter by total points 
+ 			arrClosed.filter(function (elem) {
+ 				// save total points 
+ 				result.push(elem.TotalPoints);	
+ 			});
+			
+			// return max number
+ 			var maxNum = result.reduce(function (a, b) {
+ 				return Math.max(a, b);
+ 			});
+ 			
+ 			// Get Monthly Points 
+ 			var monthlyPoints = this.getView().getModel("Global").getData().MonthlyPoints;
+ 			// Total each quarter 
+ 			var totalQuarter = sdmPoints + monthlyPoints; 
+ 			// define max value 
+ 			var maxVal = ""; 
+ 			// check if max number is greater than total quarter 
+ 			if (maxNum < totalQuarter) {
+ 				maxVal = totalQuarter; 
+ 			} else {
+ 				maxVal = maxNum; 
+ 			}
 			// Get vizframe id 
 			var oVizFrame = this.getView().byId("idVizFrame");
-			// Get Monthly Points from global file 
-			var monthlyPoints = this.getView().getModel("Global").getData().MonthlyPoints;
 			// Add reference line
 			oVizFrame.setVizProperties({
 				plotArea: {
@@ -1316,7 +1363,7 @@ sap.ui.define([
 					},
 					primaryScale: {
 						fixedRange: true,
-						maxValue: 2000,
+						maxValue: maxVal,
 						minValue: 0
 					}
 				}
