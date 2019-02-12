@@ -62,7 +62,7 @@ sap.ui.define([
 			// Get data 
 			var allData = dataModel.getData().AllData;
 			// Display busy indicator 
-			this.getView().setBusy(true); 
+			this.getView().setBusy(true);
 			// Check the page name 
 			if (sName === "itemDetail") {
 				// Get entity path 
@@ -252,9 +252,9 @@ sap.ui.define([
 			// Remove footer 
 			var footer = this.getView().byId("footer");
 			footer.removeAllContent();
-			
+
 			// Hide busy indicator 
-			this.getView().setBusy(false); 
+			this.getView().setBusy(false);
 		},
 
 		getEachQuarter: function (arr) {
@@ -455,9 +455,9 @@ sap.ui.define([
 			// Remove footer 
 			var footer = this.getView().byId("footer");
 			footer.removeAllContent();
-			
+
 			// Hide busy indicator 
-			this.getView().setBusy(false); 
+			this.getView().setBusy(false);
 		},
 
 		// Weekly tickets 
@@ -512,7 +512,7 @@ sap.ui.define([
 					arrClosed.push(monthClosed);
 				}
 			}
-		
+
 			// Get weekly data for each date			
 			var weeklyCreated = that.getWeeklyDates(arrCreated);
 			var weeklyClosed = that.getWeeklyDates(arrClosed);
@@ -657,9 +657,9 @@ sap.ui.define([
 			// Remove footer 
 			var footer = this.getView().byId("footer");
 			footer.removeAllContent();
-			
+
 			// Hide busy indicator 
-			this.getView().setBusy(false); 
+			this.getView().setBusy(false);
 		},
 
 		getWeeklyDates: function (arr) {
@@ -903,6 +903,11 @@ sap.ui.define([
 								}
 							}]
 						}
+					},
+					primaryScale: {
+						fixedRange: true,
+						maxValue: 2000,
+						minValue: 0
 					}
 				}
 			});
@@ -914,7 +919,7 @@ sap.ui.define([
 			// Dataset
 			var oDataset = new sap.viz.ui5.data.FlattenedDataset({
 				dimensions: [{
-						name: "Quarter",
+					name: "Quarter",
 					//	value: "{path: 'Quarter', formatter: '.formatter.formatQuarter'}"
 					value: {
 						parts: [{
@@ -932,9 +937,9 @@ sap.ui.define([
 							} else if (Quarter === 4) {
 								quarter = "Q4";
 							}
-							
+
 							// Return quarter 
-							return quarter; 
+							return quarter;
 						}
 					}
 				}],
@@ -1032,9 +1037,9 @@ sap.ui.define([
 			reportModel.setSizeLimit(9999999999);
 			// Set model to the view
 			this.getView().setModel(reportModel, "ReportModel");
-			
+
 			// Hide busy indicator 
-			this.getView().setBusy(false); 
+			this.getView().setBusy(false);
 		},
 
 		_showQuarterFragment: function (sFragmentName) {
@@ -1308,6 +1313,11 @@ sap.ui.define([
 								}
 							}]
 						}
+					},
+					primaryScale: {
+						fixedRange: true,
+						maxValue: 2000,
+						minValue: 0
 					}
 				}
 			});
@@ -1416,9 +1426,9 @@ sap.ui.define([
 			reportModel.setSizeLimit(9999999999);
 			// Set model to the view
 			this.getView().setModel(reportModel, "ReportModel");
-			
+
 			// Hide busy indicator 
-			this.getView().setBusy(false); 
+			this.getView().setBusy(false);
 		},
 
 		_showMonthlyFragment: function (sFragmentName) {
